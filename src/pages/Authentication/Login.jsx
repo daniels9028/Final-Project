@@ -4,7 +4,6 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { setToken } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -16,7 +15,7 @@ const Login = () => {
     try {
       const data = await LoginRequest(form);
 
-      setToken(data.token);
+      localStorage.setItem("token", data.token);
 
       setTimeout(() => {
         navigate("/");
