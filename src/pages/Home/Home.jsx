@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { Logout } from "../../services/Authentication";
 
 const Home = () => {
-  const { setToken, token } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
 
   const logout = async () => {
     try {
-      const data = await Logout(token);
+      const data = await Logout(token.token);
 
-      setToken(null);
+      localStorage.clear();
 
       setTimeout(() => {
         navigate("/login");
