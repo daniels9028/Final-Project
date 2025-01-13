@@ -33,4 +33,18 @@ export const RegisterRequest = async (dataRegister) => {
   }
 };
 
-export const Logout = () => {};
+export const Logout = async (token) => {
+  try {
+    const logout = await axios({
+      url: "api/v1/logout",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return logout;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
