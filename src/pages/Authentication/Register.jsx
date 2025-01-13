@@ -10,7 +10,7 @@ const Register = () => {
   const [form, setForm] = useState({
     name: "Miftah Farhan",
     username: "miftahfarhan",
-    email: "daniel@gmail1.com",
+    email: "daniel3@gmail1.com",
     password: "qwerty123",
     passwordRepeat: "qwerty123",
     phoneNumber: "08976041232",
@@ -24,9 +24,11 @@ const Register = () => {
 
   const register = async () => {
     try {
-      const data = await RegisterRequest({ ...form, file });
+      const register = await RegisterRequest({ ...form, file });
 
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
       console.log(error);
     }

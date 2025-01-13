@@ -17,7 +17,10 @@ const Login = () => {
       const data = await LoginRequest(form);
 
       setToken(data.token);
-      navigate("/");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
