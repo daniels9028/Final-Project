@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getLoggedUser, getUserById, updateProfile } from "../../services/User";
 import { useAuth } from "../../context/AuthContext";
+import {
+  followUser,
+  getFollowersByUserId,
+  getFollowingByUserId,
+  getMyFollowers,
+  getMyFollowing,
+  unfollowUser,
+} from "../../services/Follow";
 
 const MyProfile = () => {
   const { token } = useAuth();
@@ -52,15 +60,91 @@ const MyProfile = () => {
     }
   };
 
+  const follow = async () => {
+    try {
+      const request = await followUser({
+        userIdFollow: "43516236-8bd5-4c43-98ac-8661f3d5b272",
+      });
+
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const unfollow = async () => {
+    try {
+      const request = await unfollowUser(
+        "43516236-8bd5-4c43-98ac-8661f3d5b272"
+      );
+
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const myFollowing = async () => {
+    try {
+      const request = await getMyFollowing({ size: 10, page: 1 });
+
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const myFollowers = async () => {
+    try {
+      const request = await getMyFollowers({ size: 10, page: 1 });
+
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const followingByUserId = async () => {
+    try {
+      const request = await getFollowingByUserId(
+        { size: 10, page: 1 },
+        "43516236-8bd5-4c43-98ac-8661f3d5b272"
+      );
+
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const followersByUserId = async () => {
+    try {
+      const request = await getFollowersByUserId(
+        { size: 10, page: 1 },
+        "43516236-8bd5-4c43-98ac-8661f3d5b272"
+      );
+
+      console.log(request);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    profile();
+    // profile();
+    // myFollowing();
+    // myFollowers();
+    // followingByUserId();
+    // followersByUserId();
   }, []);
 
   return (
     <div>
       <input type="file" onChange={handleFileChange} required />
       <button onClick={update}>Update</button>
-      <button onClick={anotherUser}>Another User</button>
+      <button onClick={anotherUser}>Another User</button> <br />
+      <button onClick={follow}>Follow</button>
+      <button onClick={unfollow}>Unfollow</button>
     </div>
   );
 };
