@@ -4,7 +4,6 @@ const token = localStorage.getItem("token");
 
 export const createComment = async (data) => {
   try {
-    console.log(data);
     const comment = await axios({
       url: "api/v1/create-comment",
       method: "POST",
