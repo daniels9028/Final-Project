@@ -17,14 +17,15 @@ export const LoginRequest = async (data) => {
 
 export const RegisterRequest = async (dataRegister) => {
   try {
-    const { url } = await uploadImage(dataRegister.file);
+    // const { url } = await uploadImage(dataRegister.file);
 
-    const { file, ...data } = dataRegister;
+    // const { file, ...data } = dataRegister;
 
     const register = await axios({
       url: "api/v1/register",
       method: "POST",
-      data: { ...data, profilePictureUrl: url },
+      // data: { ...data, profilePictureUrl: url },
+      data: dataRegister,
     });
 
     return register.data;

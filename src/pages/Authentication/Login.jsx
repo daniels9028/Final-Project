@@ -59,9 +59,7 @@ const Login = () => {
       <div className="flex w-full max-w-5xl p-4 mx-auto bg-transparent">
         {/* Left Side */}
         <div className="flex-col justify-center hidden w-1/2 p-8 text-white md:flex">
-          <h1 className="mb-4 text-4xl font-bold">
-            SIGN IN TO YOUR ADVENTURE!
-          </h1>
+          <h1 className="mb-4 text-4xl font-bold">LOGIN TO YOUR ADVENTURE!</h1>
           <p className="text-lg">
             Join us for an exciting journey into the universe.
           </p>
@@ -70,10 +68,10 @@ const Login = () => {
         {/* Right Side */}
         <div className="w-full p-8 bg-white rounded-lg shadow-lg md:w-1/2">
           <h2 className="mb-4 text-3xl font-bold text-center text-gray-800">
-            SIGN IN
+            LOGIN
           </h2>
           <p className="mb-6 text-center text-gray-600">
-            Sign in with email address
+            Login with email address
           </p>
           {error && (
             <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
