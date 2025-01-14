@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home, Login, Page404, Register, MyProfile } from "./pages/index";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import DetailPost from "./pages/Post/DetailPost";
 
 const App = () => {
   return (
@@ -25,6 +26,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <MyProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/detail_post"
+            element={
+              <ProtectedRoute>
+                <DetailPost />
               </ProtectedRoute>
             }
           />
