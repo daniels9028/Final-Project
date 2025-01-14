@@ -1,72 +1,151 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LoginRequest } from "../../services/Authentication";
-import { useNavigate } from "react-router-dom";
-
-import { loginBackground } from "../../assets/index";
+import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
-    email: "daniel@gmail.com",
-    password: "qwerty123",
+    email: "",
+    password: "",
   });
 
-  const login = async () => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     try {
+      setError("");
+      setLoading(true);
+
       const data = await LoginRequest(form);
 
       localStorage.setItem("token", data.token);
 
+      setSuccess("Login was successfully");
+
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log(error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    document.title = "Login | Instagram";
+  }, []);
+
   return (
-    <div className="w-full min-h-screen bg-gray-100">
-      <div className="w-full flex lg:flex-row flex-col items-center justify-center py-6 px-20 gap-8 h-full">
-        <div className="flex flex-row justify-center lg:w-2/3 w-full">
-          <div className="flex flex-col justify-center">
-            <p className="font-bold text-[40px]">Sign In to Recharge Direct</p>
-            <p className="mt-20 font-semibold text-[20px]">
-              if you don't an account you can{" "}
+    <div
+      className="flex items-center justify-center min-h-screen bg-center bg-cover"
+      style={{
+        backgroundImage:
+          "url('https://static.vecteezy.com/system/resources/thumbnails/037/814/719/small_2x/ai-generated-autumn-leaves-in-the-forest-nature-background-photo.jpg')",
+      }}
+    >
+      <div className="flex w-full max-w-5xl p-4 mx-auto bg-transparent">
+        {/* Left Side */}
+        <div className="flex-col justify-center hidden w-1/2 p-8 text-white md:flex">
+          <h1 className="mb-4 text-4xl font-bold">
+            SIGN IN TO YOUR ADVENTURE!
+          </h1>
+          <p className="text-lg">
+            Join us for an exciting journey into the universe.
+          </p>
+        </div>
+
+        {/* Right Side */}
+        <div className="w-full p-8 bg-white rounded-lg shadow-lg md:w-1/2">
+          <h2 className="mb-4 text-3xl font-bold text-center text-gray-800">
+            SIGN IN
+          </h2>
+          <p className="mb-6 text-center text-gray-600">
+            Sign in with email address
+          </p>
+          {error && (
+            <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
+              {error}
+            </p>
+          )}
+
+          {success && (
+            <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
+              {success}
+            </p>
+          )}
+          <form className="space-y-6" onSubmit={handleLogin}>
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Input your email..."
+                onChange={handleChange}
+              />
+            </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="••••••••"
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-600 hover:text-indigo-500"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="w-full py-3 text-lg font-medium text-white rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : "Sign In"}
+            </button>
+          </form>
+          <Link
+            to="/register"
+            className="flex items-center justify-center mt-4"
+          >
+            <p>
+              Don't have account?{" "}
               <span className="text-blue-500 underline cursor-pointer">
-                Register here!
+                Register Here!
               </span>
             </p>
-          </div>
-          <img
-            src={loginBackground}
-            alt=""
-            className="object-cover w-[300px]"
-          />
+          </Link>
         </div>
-        <form className="flex flex-col justify-center lg:w-1/3 w-full">
-          <p className="font-bold text-black mb-2 text-xl">Welcome Back 👋</p>
-          <p className="text-gray-600 font-medium text-lg">
-            Today is a new day. It's your day. You shape it. Sign in to start
-            managing your projects.
-          </p>
-          <div className="flex flex-col justify-center mt-6 gap-6">
-            <input
-              type="text"
-              placeholder="Input your email..."
-              className="bg-[#EAF0F7] py-2 px-4 rounded-lg outline-none focus:border-blue-500 border-2 placeholder:italic"
-            />
-            <input
-              type="password"
-              placeholder="Input your password..."
-              className="bg-[#EAF0F7] py-2 px-4 rounded-lg outline-none focus:border-blue-500 border-2 placeholder:italic"
-            />
-            <button className="bg-blue-500 py-2 text-white rounded-lg font-semibold tracking-wide hover:bg-blue-600 shadow-lg">
-              Sign In
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );
