@@ -5,6 +5,7 @@ import { Home, Login, Page404, Register, MyProfile } from "./pages/index";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import DetailPost from "./pages/Post/DetailPost";
+import Story from "./pages/Story/Story";
 
 const App = () => {
   return (
@@ -34,6 +35,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <DetailPost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/story"
+            element={
+              <ProtectedRoute>
+                <Story />
               </ProtectedRoute>
             }
           />
