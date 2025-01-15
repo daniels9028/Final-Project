@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { LoginRequest } from "../../services/Authentication";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,15 +22,39 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validate = () => {
+    const newErrors = {};
+
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    }
+
+    if (!form.password) {
+      newErrors.password = "Password is required.";
+    } else if (form.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+
+    return newErrors;
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setError(validationErrors);
+      return;
+    }
+
     try {
-      setError("");
+      setError({});
       setLoading(true);
 
       const data = await LoginRequest(form);
 
+      setToken(data.token);
       localStorage.setItem("token", data.token);
 
       setSuccess("Login was successfully");
@@ -38,7 +64,11 @@ const Login = () => {
       }, 1000);
     } catch (error) {
       console.log(error);
-      setError(error.message);
+      setError(
+        error.message === "Wrong Password"
+          ? { message: "Username or password is wrong" }
+          : { message: error.message }
+      );
     } finally {
       setLoading(false);
     }
@@ -73,9 +103,9 @@ const Login = () => {
           <p className="mb-6 text-center text-gray-600">
             Login with email address
           </p>
-          {error && (
-            <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-              {error}
+          {error.message && (
+            <p className="px-4 py-2 mb-2 tracking-wide text-white bg-red-500 rounded-lg">
+              {error.message}
             </p>
           )}
 
@@ -99,6 +129,9 @@ const Login = () => {
                 placeholder="Input your email..."
                 onChange={handleChange}
               />
+              {error.email && (
+                <p className="text-red-500 text-sm">{error.email}</p>
+              )}
             </div>
             <div className="space-y-2">
               <label
@@ -123,6 +156,9 @@ const Login = () => {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+              {error.password && (
+                <p className="text-red-500 text-sm">{error.password}</p>
+              )}
             </div>
             <button
               type="submit"

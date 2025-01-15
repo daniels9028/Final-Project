@@ -28,7 +28,7 @@ const Home = () => {
 
   const logout = async () => {
     try {
-      const data = await Logout(token.token);
+      const data = await Logout(token);
 
       localStorage.clear();
 
