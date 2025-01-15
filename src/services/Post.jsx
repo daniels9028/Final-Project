@@ -1,9 +1,10 @@
 import { axiosInstance as axios } from "../axios/axios";
 import { uploadImage } from "./Upload";
-
-const token = localStorage.getItem("token");
+import { getToken } from "./token";
 
 export const createPost = async (dataPost) => {
+  const token = getToken();
+
   try {
     const { url } = await uploadImage(dataPost.file);
 
@@ -25,6 +26,8 @@ export const createPost = async (dataPost) => {
 };
 
 export const updatePost = async (dataPost, postId) => {
+  const token = getToken();
+
   try {
     const { url } = await uploadImage(dataPost.file);
 
@@ -46,6 +49,8 @@ export const updatePost = async (dataPost, postId) => {
 };
 
 export const deletePost = async (postId) => {
+  const token = getToken();
+
   try {
     const request = await axios({
       url: `api/v1/delete-post/${postId}`,
@@ -62,6 +67,8 @@ export const deletePost = async (postId) => {
 };
 
 export const getExplorePost = async (request) => {
+  const token = getToken();
+
   try {
     const explore = await axios({
       url: `api/v1/explore-post?size=${request.size}&page=${request.page}`,
@@ -78,6 +85,8 @@ export const getExplorePost = async (request) => {
 };
 
 export const getPostByUserId = async (request, userId) => {
+  const token = getToken();
+
   try {
     const userPost = await axios({
       url: `api/v1/users-post/${userId}?size=${request.size}&page=${request.page}`,
@@ -94,6 +103,8 @@ export const getPostByUserId = async (request, userId) => {
 };
 
 export const getPostById = async (postId) => {
+  const token = getToken();
+
   try {
     const postById = await axios({
       url: `api/v1/post/${postId}`,
@@ -110,6 +121,8 @@ export const getPostById = async (postId) => {
 };
 
 export const getMyFollowingPost = async (request) => {
+  const token = getToken();
+
   try {
     const followingPost = await axios({
       url: `api/v1/following-post?size=${request.size}&page=${request.page}`,

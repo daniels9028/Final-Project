@@ -1,8 +1,10 @@
 import { axiosInstance as axios } from "../axios/axios";
 
-const token = localStorage.getItem("token");
+import { getToken } from "./token";
 
 export const likePost = async (data) => {
+  const token = getToken();
+
   try {
     const like = await axios({
       url: "api/v1/like",
@@ -20,6 +22,8 @@ export const likePost = async (data) => {
 };
 
 export const unlikePost = async (data) => {
+  const token = getToken();
+
   try {
     const unlike = await axios({
       url: "api/v1/unlike",
