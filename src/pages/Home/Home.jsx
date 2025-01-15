@@ -80,16 +80,6 @@ const Home = () => {
     }
   };
 
-  const postById = async () => {
-    try {
-      const data = await getPostById("7c8a3a30-7191-4b6c-bcd9-fef3468801ae");
-
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const followingPost = async () => {
     try {
       const data = await getMyFollowingPost({ size: 10, page: 1 });
