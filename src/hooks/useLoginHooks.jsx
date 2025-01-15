@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const useLoginHooks = () => {
   const navigate = useNavigate();
-  const { setToken } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState({});
@@ -51,9 +51,12 @@ const useLoginHooks = () => {
       setError({});
       setLoading(true);
 
+      localStorage.clear();
+
       const data = await LoginRequest(form);
 
-      setToken(data.token);
+      setAuth({ ...auth, token: data.token });
+
       localStorage.setItem("token", data.token);
 
       setSuccess("Login was successfully");

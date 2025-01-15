@@ -3,12 +3,15 @@ import React, { createContext, useContext, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [auth, setAuth] = useState({
+    token: localStorage.getItem("token") || null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
+  });
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!auth.token;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setToken, token }}>
+    <AuthContext.Provider value={{ isAuthenticated, auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );

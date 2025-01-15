@@ -11,9 +11,12 @@ import {
   getPostByUserId,
   updatePost,
 } from "../../services/Post";
+import Navbar from "../../components/Navbar";
+import { getLoggedUser } from "../../services/User";
 
 const Home = () => {
-  const { token } = useAuth();
+  const { auth, setAuth } = useAuth();
+
   const navigate = useNavigate();
 
   const [file, setFile] = useState(null);
@@ -26,15 +29,27 @@ const Home = () => {
     setFile(e.target.files[0]);
   };
 
-  const logout = async () => {
+  const getProfileData = async () => {
     try {
-      const data = await Logout(token);
+      const dataProfile = await getLoggedUser(auth.token);
+
+      localStorage.setItem("user", JSON.stringify(dataProfile.data));
+
+      setAuth({ ...auth, user: dataProfile.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await Logout(auth.token);
 
       localStorage.clear();
 
       setTimeout(() => {
         navigate("/login");
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
@@ -121,15 +136,13 @@ const Home = () => {
     // postByUserId();
     // postById();
     // followingPost();
+    getProfileData();
+    document.title = "Home | Instagram";
   }, []);
 
   return (
     <div>
-      <button onClick={logout}>logout</button> <br />
-      <input type="file" onChange={handleFileChange} required />
-      <button onClick={create}>Create</button>
-      <button onClick={update}>Update</button>
-      <button onClick={destroyPost}>Delete</button>
+      <Navbar handleLogout={handleLogout} auth={auth} />
     </div>
   );
 };
