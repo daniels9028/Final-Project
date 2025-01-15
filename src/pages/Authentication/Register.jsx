@@ -7,7 +7,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({});
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -17,20 +17,55 @@ const Register = () => {
     email: "",
     password: "",
     passwordRepeat: "",
-    phoneNumber: "",
-    bio: "",
-    website: "",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validate = () => {
+    const newErrors = {};
+
+    if (!form.name.trim()) {
+      newErrors.name = "Name is required.";
+    }
+
+    if (!form.username.trim()) {
+      newErrors.username = "Username is required.";
+    }
+
+    if (!form.email) {
+      newErrors.email = "Email is required.";
+    }
+
+    if (!form.password) {
+      newErrors.password = "Password is required.";
+    } else if (form.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+
+    if (!form.passwordRepeat) {
+      newErrors.passwordRepeat = "Confirmation password is required.";
+    } else if (form.passwordRepeat.length < 6) {
+      newErrors.passwordRepeat =
+        "Confirmation Password must be at least 6 characters.";
+    }
+
+    return newErrors;
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setError(validationErrors);
+      return;
+    }
+
     try {
-      setError("");
+      setError({});
       setLoading(true);
 
       await RegisterRequest(form);
@@ -42,7 +77,7 @@ const Register = () => {
       }, 1000);
     } catch (error) {
       console.log(error);
-      setError(error.message);
+      setError({ message: error.message });
     } finally {
       setLoading(false);
     }
@@ -79,9 +114,9 @@ const Register = () => {
           <p className="mb-6 text-center text-gray-600">
             Register with your data
           </p>
-          {error && (
+          {error.message && (
             <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-              {error}
+              {error.message}
             </p>
           )}
 
@@ -106,6 +141,9 @@ const Register = () => {
                   placeholder="Input your name..."
                   onChange={handleChange}
                 />
+                {error.name && (
+                  <p className="text-red-500 text-sm">{error.name}</p>
+                )}
               </div>
               <div className="w-full space-y-2 lg:w-1/2">
                 <label
@@ -121,6 +159,9 @@ const Register = () => {
                   placeholder="Input your username..."
                   onChange={handleChange}
                 />
+                {error.username && (
+                  <p className="text-red-500 text-sm">{error.username}</p>
+                )}
               </div>
             </div>
             <div className="space-y-2">
@@ -137,6 +178,9 @@ const Register = () => {
                 placeholder="Input your email..."
                 onChange={handleChange}
               />
+              {error.email && (
+                <p className="text-red-500 text-sm">{error.email}</p>
+              )}
             </div>
             <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
               <div className="w-full space-y-2 lg:w-1/2">
@@ -162,6 +206,9 @@ const Register = () => {
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
                 </div>
+                {error.password && (
+                  <p className="text-red-500 text-sm">{error.password}</p>
+                )}
               </div>
               <div className="w-full space-y-2 lg:w-1/2">
                 <label
@@ -173,7 +220,7 @@ const Register = () => {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    name="password"
+                    name="passwordRepeat"
                     className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     placeholder="••••••••"
                     onChange={handleChange}
@@ -186,6 +233,9 @@ const Register = () => {
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
                 </div>
+                {error.passwordRepeat && (
+                  <p className="text-red-500 text-sm">{error.passwordRepeat}</p>
+                )}
               </div>
             </div>
             <button
@@ -193,7 +243,7 @@ const Register = () => {
               className="w-full py-3 text-lg font-medium text-white rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90"
               disabled={loading}
             >
-              {loading ? "Loading..." : "Sign In"}
+              {loading ? "Loading..." : "Register"}
             </button>
           </form>
           <Link to="/login" className="flex items-center justify-center mt-4">
