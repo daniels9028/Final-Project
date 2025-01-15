@@ -11,11 +11,19 @@ import {
   getPostByUserId,
   updatePost,
 } from "../../services/Post";
-import Navbar from "../../components/Navbar";
-import { getLoggedUser } from "../../services/User";
+
+import { Navbar, Posts } from "../../components/index";
 
 const Home = () => {
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
+
+  const [explorePost, setExplorePost] = useState([]);
+
+  const [explorePage, setExplorePage] = useState({
+    currentPage: 1,
+    totalItems: 0,
+    totalPages: 0,
+  });
 
   const navigate = useNavigate();
 
@@ -27,18 +35,6 @@ const Home = () => {
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-  };
-
-  const getProfileData = async () => {
-    try {
-      const dataProfile = await getLoggedUser(auth.token);
-
-      localStorage.setItem("user", JSON.stringify(dataProfile.data));
-
-      setAuth({ ...auth, user: dataProfile.data });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleLogout = async () => {
@@ -55,11 +51,17 @@ const Home = () => {
     }
   };
 
-  const explorePost = async () => {
+  const handleExplorePost = async () => {
     try {
-      const data = await getExplorePost({ size: 10, page: 1 });
+      const { data } = await getExplorePost({ size: 10, page: 1 });
 
-      console.log(data);
+      setExplorePost(data.posts);
+      setExplorePage({
+        ...explorePage,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -132,17 +134,18 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // explorePost();
+    handleExplorePost();
     // postByUserId();
     // postById();
     // followingPost();
-    getProfileData();
+    // getProfileData();
     document.title = "Home | Instagram";
   }, []);
 
   return (
     <div>
       <Navbar handleLogout={handleLogout} auth={auth} />
+      <Posts explorePost={explorePost} explorePage={explorePage} />
     </div>
   );
 };

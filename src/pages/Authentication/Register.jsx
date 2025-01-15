@@ -12,6 +12,7 @@ const Register = () => {
     handleChange,
     showPassword,
   } = useRegisterHooks();
+
   useEffect(() => {
     document.title = "Register | Instagram";
   }, []);

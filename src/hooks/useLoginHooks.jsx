@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { LoginRequest } from "../services/Authentication";
 import { useNavigate } from "react-router-dom";
+import { getLoggedUser } from "../services/User";
 
 const useLoginHooks = () => {
   const navigate = useNavigate();
@@ -55,9 +56,13 @@ const useLoginHooks = () => {
 
       const data = await LoginRequest(form);
 
-      setAuth({ ...auth, token: data.token });
+      const dataProfile = await getLoggedUser(data.token);
+
+      localStorage.setItem("user", JSON.stringify(dataProfile.data));
 
       localStorage.setItem("token", data.token);
+
+      setAuth({ ...auth, user: dataProfile.data, token: data.token });
 
       setSuccess("Login was successfully");
 

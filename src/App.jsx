@@ -1,11 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Home, Login, Page404, Register, MyProfile } from "./pages/index";
+import {
+  Home,
+  Login,
+  Page404,
+  Register,
+  MyProfile,
+  DetailPost,
+  Story,
+} from "./pages/index";
+
 import { AuthProvider } from "./context/AuthContext";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
-import DetailPost from "./pages/Post/DetailPost";
-import Story from "./pages/Story/Story";
 
 const App = () => {
   return (
