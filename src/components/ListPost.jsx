@@ -6,7 +6,7 @@ import Like from "./Like";
 
 const ListPost = ({ explore }) => {
   return (
-    <div className="flex flex-col w-1/2 pb-4 mb-8 overflow-hidden border rounded-lg shadow-lg bg-slate-300">
+    <div className="flex flex-col w-full pb-4 mb-8 overflow-hidden border rounded-lg shadow-lg lg:w-1/2 bg-slate-300">
       <div className="flex flex-row items-center justify-between px-4 py-2">
         <div className="flex flex-row items-center gap-2">
           <img

@@ -11,12 +11,12 @@ const Like = ({ explore }) => {
       <FaHeart
         size={28}
         color={like ? "red" : "gray"}
-        className="cursor-pointer"
+        className="transition-all cursor-pointer"
         onClick={() =>
           like ? handleUnlike(explore?.id) : handleLike(explore?.id)
         }
       />
-      <p>{totalLikes}</p>
+      <p className="font-bold transition-all">{totalLikes}</p>
     </>
   );
 };

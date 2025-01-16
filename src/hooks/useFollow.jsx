@@ -12,7 +12,7 @@ const useFollow = () => {
 
       setFollow((prev) => !prev);
     } catch (error) {
-      setFollow(true);
+      console.log(error);
     }
   };
 
