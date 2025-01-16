@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { profileBlank } from "../../assets";
 import Modal from "../../components/Modal";
+import { getPostByUserId } from "../../services/Post";
+import { Posts } from "../../components";
 
 const MyProfile = () => {
   const { id } = useParams();
@@ -33,6 +35,14 @@ const MyProfile = () => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [explorePost, setExplorePost] = useState([]);
+
+  const [explorePage, setExplorePage] = useState({
+    currentPage: 1,
+    totalItems: 0,
+    totalPages: 0,
+  });
 
   const [form, setForm] = useState({});
 
@@ -185,8 +195,25 @@ const MyProfile = () => {
     }
   };
 
+  const postByUserId = async () => {
+    try {
+      const { data } = await getPostByUserId({ size: 10, page: 1 }, id);
+
+      setExplorePost(data.posts);
+      setExplorePage({
+        ...explorePage,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     handleGetUserById();
+    postByUserId();
     // myFollowing();
     // myFollowers();
     // followingByUserId();
@@ -241,6 +268,7 @@ const MyProfile = () => {
           </div>
         </div>
       </section>
+      <Posts explorePost={explorePost} explorePage={explorePage} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal} title="Edit Profile">
         {error.message && (
