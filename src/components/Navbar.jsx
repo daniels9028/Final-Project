@@ -1,10 +1,27 @@
 import React from "react";
 import { profile } from "../assets";
 import { FaSignOutAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Logout } from "../services/Authentication";
 
-const Navbar = ({ handleLogout, auth }) => {
+const Navbar = ({ auth }) => {
   const { user } = auth;
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await Logout(auth.token);
+
+      localStorage.clear();
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <nav className="w-full fixed top-0 left-0 bg-white shadow-lg text-black h-20">
@@ -13,7 +30,10 @@ const Navbar = ({ handleLogout, auth }) => {
           Instagram
         </Link>
         <div className="flex flex-row items-center justify-center gap-20">
-          <div className="flex flex-row justify-center items-center gap-2 cursor-pointer">
+          <Link
+            className="flex flex-row justify-center items-center gap-2 cursor-pointer"
+            to={`/profile/${user.id}`}
+          >
             <img
               src={user?.profilePictureUrl || profile}
               alt=""
@@ -25,7 +45,7 @@ const Navbar = ({ handleLogout, auth }) => {
                 {user?.name}
               </p>
             </div>
-          </div>
+          </Link>
           <button
             className="bg-gray-400 rounded-full p-3 hover:bg-gray-500 transition-all"
             onClick={handleLogout}
