@@ -13,7 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { profileBlank } from "../../assets";
 import Modal from "../../components/Modal";
-import { getPostByUserId } from "../../services/Post";
+import { getMyFollowingPost, getPostByUserId } from "../../services/Post";
 import { Posts } from "../../components";
 
 const MyProfile = () => {
@@ -21,30 +21,62 @@ const MyProfile = () => {
 
   const [user, setUser] = useState({});
 
-  const navigate = useNavigate();
-
   const { auth } = useAuth();
 
   const [file, setFile] = useState(null);
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalUpdateOpen, setModalUpdateOpen] = useState(false);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModalUpdate = () => setModalUpdateOpen(true);
+  const closeModalUpdate = () => setModalUpdateOpen(false);
+
+  const [isModalFollowersOpen, setModalFollowersOpen] = useState(false);
+
+  const openModalFollowers = () => setModalFollowersOpen(true);
+  const closeModalFollowers = () => setModalFollowersOpen(false);
+
+  const [isModalFollowingOpen, setModalFollowingOpen] = useState(false);
+
+  const openModalFollowing = () => setModalFollowingOpen(true);
+  const closeModalFollowing = () => setModalFollowingOpen(false);
 
   const [error, setError] = useState({});
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [explorePost, setExplorePost] = useState([]);
+  const [myPost, setMyPost] = useState([]);
 
-  const [explorePage, setExplorePage] = useState({
+  const [myPostPage, setMyPostPage] = useState({
+    currentPage: 1,
+    totalItems: 0,
+    totalPages: 0,
+  });
+
+  const [myFollowingPost, setMyFollowingPost] = useState([]);
+
+  const [myFollowingPostPage, setMyFollowingPostPage] = useState({
     currentPage: 1,
     totalItems: 0,
     totalPages: 0,
   });
 
   const [form, setForm] = useState({});
+
+  const [followers, setFollowers] = useState([]);
+
+  const [followersPage, setFollowersPage] = useState({
+    currentPage: 1,
+    totalItems: 0,
+    totalPages: 0,
+  });
+
+  const [following, setFollowing] = useState([]);
+
+  const [followingPage, setFollowingPage] = useState({
+    currentPage: 1,
+    totalItems: 0,
+    totalPages: 0,
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -149,47 +181,65 @@ const MyProfile = () => {
     }
   };
 
-  const myFollowing = async () => {
+  const handleMyFollowing = async () => {
     try {
-      const request = await getMyFollowing({ size: 10, page: 1 });
+      const { data } = await getMyFollowing({ size: 10, page: 1 });
 
-      console.log(request);
+      setFollowing(data.users);
+      setFollowingPage({
+        ...followers,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const myFollowers = async () => {
+  const handleMyFollowers = async () => {
     try {
-      const request = await getMyFollowers({ size: 10, page: 1 });
+      const { data } = await getMyFollowers({ size: 10, page: 1 });
 
-      console.log(request);
+      setFollowers(data.users);
+      setFollowersPage({
+        ...followers,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const followingByUserId = async () => {
+  const handleFollowingByUserId = async () => {
     try {
-      const request = await getFollowingByUserId(
-        { size: 10, page: 1 },
-        "43516236-8bd5-4c43-98ac-8661f3d5b272"
-      );
+      const { data } = await getFollowingByUserId({ size: 10, page: 1 }, id);
 
-      console.log(request);
+      setFollowing(data.users);
+      setFollowingPage({
+        ...followers,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const followersByUserId = async () => {
+  const handleFollowersByUserId = async () => {
     try {
-      const request = await getFollowersByUserId(
-        { size: 10, page: 1 },
-        "43516236-8bd5-4c43-98ac-8661f3d5b272"
-      );
+      const { data } = await getFollowersByUserId({ size: 10, page: 1 }, id);
 
-      console.log(request);
+      setFollowers(data.users);
+      setFollowersPage({
+        ...followers,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -199,9 +249,25 @@ const MyProfile = () => {
     try {
       const { data } = await getPostByUserId({ size: 10, page: 1 }, id);
 
-      setExplorePost(data.posts);
-      setExplorePage({
-        ...explorePage,
+      setMyPost(data.posts);
+      setMyPostPage({
+        ...myPost,
+        currentPage: data.currentPage,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleMyFollowingPost = async () => {
+    try {
+      const { data } = await getMyFollowingPost({ size: 10, page: 1 });
+
+      setMyFollowingPost(data.posts);
+      setMyFollowingPostPage({
+        ...myFollowingPost,
         currentPage: data.currentPage,
         totalItems: data.totalItems,
         totalPages: data.totalPages,
@@ -214,11 +280,14 @@ const MyProfile = () => {
   useEffect(() => {
     handleGetUserById();
     postByUserId();
+    handleMyFollowingPost();
+    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
     // myFollowing();
     // myFollowers();
     // followingByUserId();
     // followersByUserId();
-  }, []);
+  }, [id]);
 
   return (
     <div>
@@ -227,7 +296,10 @@ const MyProfile = () => {
         <div className="flex flex-col items-center justify-center w-full px-12 mx-auto max-w-7xl">
           <div className="flex flex-row gap-40 p-4 justify-center items-center">
             <img
-              src={user?.profilePictureUrl || profileBlank}
+              src={user?.profilePictureUrl}
+              onError={(e) => {
+                e.target.src = profileBlank;
+              }}
               alt={user?.id}
               className="w-44 h-44 object-cover rounded-full border-2 border-gray-400 p-1 cursor-pointer transition-all"
             />
@@ -235,18 +307,26 @@ const MyProfile = () => {
               <div className="flex flex-row items-center gap-8">
                 <p className="font-bold text-xl">{user?.username}</p>
                 <button
-                  className="bg-gray-200 py-2 px-4 rounded-lg font-semibold"
-                  onClick={openModal}
+                  className={`bg-gray-200 py-2 px-4 rounded-lg font-semibold ${
+                    id !== auth.user.id && "hidden"
+                  }`}
+                  onClick={openModalUpdate}
                 >
                   Edit Profil
                 </button>
               </div>
               <div className="flex flex-row items-center gap-8">
-                <p className="font-bold text-xl cursor-pointer hover:text-gray-500 transition-all">
+                <p
+                  className="font-bold text-xl cursor-pointer hover:text-gray-500 transition-all"
+                  onClick={openModalFollowing}
+                >
                   {user?.totalFollowing}{" "}
                   <span className="font-normal text-base">following</span>
                 </p>
-                <p className="font-bold text-xl cursor-pointer hover:text-gray-500 transition-all">
+                <p
+                  className="font-bold text-xl cursor-pointer hover:text-gray-500 transition-all"
+                  onClick={openModalFollowers}
+                >
                   {user?.totalFollowers}{" "}
                   <span className="font-normal text-base">followers</span>
                 </p>
@@ -268,9 +348,25 @@ const MyProfile = () => {
           </div>
         </div>
       </section>
-      <Posts explorePost={explorePost} explorePage={explorePage} />
+      <Posts explorePost={myPost} explorePage={myPostPage} />
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} title="Edit Profile">
+      {id === auth.user.id && (
+        <>
+          <p className="-mb-12 text-center font-bold text-xl underline">
+            My Following Post
+          </p>
+          <Posts
+            explorePost={myFollowingPost}
+            explorePage={myFollowingPostPage}
+          />
+        </>
+      )}
+
+      <Modal
+        isOpen={isModalUpdateOpen}
+        onClose={closeModalUpdate}
+        title="Edit Profile"
+      >
         {error.message && (
           <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
             {error.message}
@@ -437,6 +533,76 @@ const MyProfile = () => {
             </button>
           </div>
         </form>
+      </Modal>
+
+      <Modal
+        isOpen={isModalFollowersOpen}
+        onClose={closeModalFollowers}
+        title="Followers"
+      >
+        {followers.map((follower) => (
+          <div
+            key={follower.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
+            <div className="flex flex-row items-center gap-4">
+              <img
+                src={follower?.profilePictureUrl}
+                alt={follower?.id}
+                className="rounded-full w-10 h-10 object-cover"
+                onError={(e) => {
+                  e.target.src = profileBlank;
+                }}
+              />
+              <div className="flex flex-col justify-center">
+                <p className="font-semibold tracking-wide">
+                  {follower?.username}
+                </p>
+                <p className="text-slate-500 tracking-wide font-semibold">
+                  {follower?.email}
+                </p>
+              </div>
+            </div>
+            <button className="bg-gray-200 py-2 px-4 rounded-lg font-semibold">
+              Hapus
+            </button>
+          </div>
+        ))}
+      </Modal>
+
+      <Modal
+        isOpen={isModalFollowingOpen}
+        onClose={closeModalFollowing}
+        title="Following"
+      >
+        {following.map((follow) => (
+          <div
+            key={follow.id}
+            className="flex flex-row items-center justify-between mb-4"
+          >
+            <div className="flex flex-row items-center gap-4">
+              <img
+                src={follow?.profilePictureUrl}
+                alt={follow?.id}
+                className="rounded-full w-10 h-10 object-cover"
+                onError={(e) => {
+                  e.target.src = profileBlank;
+                }}
+              />
+              <div className="flex flex-col justify-center">
+                <p className="font-semibold tracking-wide">
+                  {follow?.username}
+                </p>
+                <p className="text-slate-500 tracking-wide font-semibold">
+                  {follow?.email}
+                </p>
+              </div>
+            </div>
+            <button className="bg-gray-200 py-2 px-4 rounded-lg font-semibold">
+              Hapus
+            </button>
+          </div>
+        ))}
       </Modal>
     </div>
   );

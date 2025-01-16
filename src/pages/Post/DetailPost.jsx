@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { createComment, deleteComment } from "../../services/Comment";
-import { likePost, unlikePost } from "../../services/Like";
 
 const DetailPost = () => {
   const { token } = useAuth();
