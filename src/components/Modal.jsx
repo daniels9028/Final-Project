@@ -4,8 +4,8 @@ const Modal = ({ isOpen, onClose, children, title }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 overflow-y-auto">
-      <div className="bg-white rounded-xl shadow-xl w-1/2 min-h-screen">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white w-full max-w-lg mx-4 sm:mx-auto rounded-lg shadow-lg overflow-hidden">
         <div className="flex justify-between p-4">
           <p className="font-semibold text-xl">{title}</p>
           <button
@@ -15,7 +15,15 @@ const Modal = ({ isOpen, onClose, children, title }) => {
             ✖
           </button>
         </div>
-        <div className="p-4">{children}</div>
+        <div
+          className="p-4 max-h-96 overflow-y-auto"
+          style={{
+            scrollbarWidth: "thin", // Firefox
+            scrollbarColor: "rgba(156, 163, 175) rgba(243, 244, 246)", // Firefox colors
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import {
   createPost,
   deletePost,
@@ -45,19 +44,6 @@ const Home = () => {
         totalItems: data.totalItems,
         totalPages: data.totalPages,
       });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const postByUserId = async () => {
-    try {
-      const data = await getPostByUserId(
-        { size: 10, page: 1 },
-        "5b7a6783-2071-4e9f-9b8e-8e7fc4a981d4"
-      );
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +94,6 @@ const Home = () => {
 
   useEffect(() => {
     handleExplorePost();
-    // postByUserId();
     // postById();
     // followingPost();
     // getProfileData();
