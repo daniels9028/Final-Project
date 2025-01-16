@@ -15,6 +15,7 @@ import { profileBlank } from "../../assets";
 import Modal from "../../components/Modal";
 import { getMyFollowingPost, getPostByUserId } from "../../services/Post";
 import { Posts } from "../../components";
+import useFollow from "../../hooks/useFollow";
 
 const MyProfile = () => {
   const { id } = useParams();
@@ -43,8 +44,6 @@ const MyProfile = () => {
   const [error, setError] = useState({});
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const [follow, setFollow] = useState(false);
 
   const [myPost, setMyPost] = useState([]);
 
@@ -159,29 +158,6 @@ const MyProfile = () => {
     }
   };
 
-  const handleFollow = async () => {
-    try {
-      const request = await followUser({
-        userIdFollow: "43516236-8bd5-4c43-98ac-8661f3d5b272",
-      });
-
-      console.log(request);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleUnFollow = async (userId) => {
-    try {
-      const request = await unfollowUser(userId);
-
-      console.log(request);
-      setFollow((prev) => !prev);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleMyFollowing = async () => {
     try {
       const { data } = await getMyFollowing({ size: 10, page: 1 });
@@ -278,6 +254,8 @@ const MyProfile = () => {
     }
   };
 
+  const { handleFollow, handleUnFollow, follow } = useFollow();
+
   useEffect(() => {
     handleGetUserById();
     postByUserId();
@@ -288,6 +266,7 @@ const MyProfile = () => {
     // myFollowers();
     // followingByUserId();
     // followersByUserId();
+    handleFollow(id);
   }, [id]);
 
   useEffect(() => {
@@ -319,6 +298,18 @@ const MyProfile = () => {
                   onClick={openModalUpdate}
                 >
                   Edit Profil
+                </button>
+                <button
+                  className={`transition-all py-2 px-4 rounded-lg font-semibold ${
+                    id === auth.user.id && "hidden"
+                  } ${
+                    follow ? "bg-gray-300 text-black" : "bg-blue-500 text-white"
+                  }`}
+                  onClick={() =>
+                    follow ? handleUnFollow(id) : handleFollow(id)
+                  }
+                >
+                  {follow ? "Unfollow" : "Follow"}
                 </button>
               </div>
               <div className="flex flex-row items-center gap-8">
@@ -569,9 +560,11 @@ const MyProfile = () => {
                 </p>
               </div>
             </div>
-            <button className="bg-gray-200 py-2 px-4 rounded-lg font-semibold">
-              Diikuti
-            </button>
+            {id === auth.user.id && (
+              <button className="bg-gray-200 py-2 px-4 rounded-lg font-semibold">
+                Diikuti
+              </button>
+            )}
           </div>
         ))}
       </Modal>
@@ -604,12 +597,14 @@ const MyProfile = () => {
                 </p>
               </div>
             </div>
-            <button
-              className="bg-gray-200 py-2 px-4 rounded-lg font-semibold"
-              onClick={() => handleUnFollow(follow.id)}
-            >
-              Hapus
-            </button>
+            {id === auth.user.id && (
+              <button
+                className="bg-gray-200 py-2 px-4 rounded-lg font-semibold"
+                onClick={() => handleUnFollow(follow.id)}
+              >
+                Hapus
+              </button>
+            )}
           </div>
         ))}
       </Modal>

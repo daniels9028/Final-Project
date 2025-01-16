@@ -1,36 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { likePost, unlikePost } from "../services/Like";
+
+import useLike from "../hooks/useLike";
 
 const Like = ({ explore }) => {
-  const [like, setLike] = useState(explore?.isLike);
-  const [totalLikes, setTotalLikes] = useState(explore?.totalLikes);
-
-  const handleLike = async (postId) => {
-    try {
-      await likePost({
-        postId: postId,
-      });
-
-      setLike(true);
-      setTotalLikes(totalLikes + 1);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleUnlike = async (postId) => {
-    try {
-      await unlikePost({
-        postId: postId,
-      });
-
-      setLike(false);
-      setTotalLikes(totalLikes - 1);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { handleLike, handleUnlike, like, totalLikes } = useLike(explore);
 
   return (
     <>
