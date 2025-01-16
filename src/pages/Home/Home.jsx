@@ -49,16 +49,6 @@ const Home = () => {
     }
   };
 
-  const followingPost = async () => {
-    try {
-      const data = await getMyFollowingPost({ size: 10, page: 1 });
-
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const create = async () => {
     try {
       const data = await createPost({ ...form, file });

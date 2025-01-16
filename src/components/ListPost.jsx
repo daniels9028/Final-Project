@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { GoComment } from "react-icons/go";
-import { alternativeImageUrlPost, alternativeProfile } from "../assets";
+import { alternativeImageUrlPost, profileBlank } from "../assets";
 
 import Like from "./Like";
 
@@ -13,7 +13,7 @@ const ListPost = ({ explore }) => {
             src={explore?.user?.profilePictureUrl}
             alt={explore?.user?.id}
             onError={(e) => {
-              e.target.src = alternativeProfile;
+              e.target.src = profileBlank;
             }}
             className="object-cover w-10 h-10 rounded-full"
           />
