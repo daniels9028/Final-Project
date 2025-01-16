@@ -262,16 +262,13 @@ const MyProfile = () => {
     handleMyFollowingPost();
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
     id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
-    // myFollowing();
-    // myFollowers();
-    // followingByUserId();
-    // followersByUserId();
     handleFollow(id);
   }, [id]);
 
   useEffect(() => {
     handleGetUserById();
     id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
   }, [follow]);
 
   return (
