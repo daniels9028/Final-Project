@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Logout } from "../../services/Authentication";
 import {
   createPost,
   deletePost,
@@ -25,8 +24,6 @@ const Home = () => {
     totalPages: 0,
   });
 
-  const navigate = useNavigate();
-
   const [file, setFile] = useState(null);
 
   const [form, setForm] = useState({
@@ -35,20 +32,6 @@ const Home = () => {
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
-  };
-
-  const handleLogout = async () => {
-    try {
-      await Logout(auth.token);
-
-      localStorage.clear();
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 1000);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleExplorePost = async () => {
@@ -134,7 +117,7 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar handleLogout={handleLogout} auth={auth} />
+      <Navbar auth={auth} />
       <Posts explorePost={explorePost} explorePage={explorePage} />
     </div>
   );
