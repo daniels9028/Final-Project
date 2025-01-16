@@ -4,7 +4,6 @@ const token = localStorage.getItem("token");
 
 export const followUser = async (data) => {
   try {
-    console.log(data);
     const follow = await axios({
       url: `api/v1/follow`,
       method: "POST",
