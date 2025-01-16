@@ -44,6 +44,8 @@ const MyProfile = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [follow, setFollow] = useState(false);
+
   const [myPost, setMyPost] = useState([]);
 
   const [myPostPage, setMyPostPage] = useState({
@@ -157,7 +159,7 @@ const MyProfile = () => {
     }
   };
 
-  const follow = async () => {
+  const handleFollow = async () => {
     try {
       const request = await followUser({
         userIdFollow: "43516236-8bd5-4c43-98ac-8661f3d5b272",
@@ -169,13 +171,12 @@ const MyProfile = () => {
     }
   };
 
-  const unfollow = async () => {
+  const handleUnFollow = async (userId) => {
     try {
-      const request = await unfollowUser(
-        "43516236-8bd5-4c43-98ac-8661f3d5b272"
-      );
+      const request = await unfollowUser(userId);
 
       console.log(request);
+      setFollow((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -288,6 +289,11 @@ const MyProfile = () => {
     // followingByUserId();
     // followersByUserId();
   }, [id]);
+
+  useEffect(() => {
+    handleGetUserById();
+    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+  }, [follow]);
 
   return (
     <div>
@@ -564,7 +570,7 @@ const MyProfile = () => {
               </div>
             </div>
             <button className="bg-gray-200 py-2 px-4 rounded-lg font-semibold">
-              Hapus
+              Diikuti
             </button>
           </div>
         ))}
@@ -598,7 +604,10 @@ const MyProfile = () => {
                 </p>
               </div>
             </div>
-            <button className="bg-gray-200 py-2 px-4 rounded-lg font-semibold">
+            <button
+              className="bg-gray-200 py-2 px-4 rounded-lg font-semibold"
+              onClick={() => handleUnFollow(follow.id)}
+            >
               Hapus
             </button>
           </div>
