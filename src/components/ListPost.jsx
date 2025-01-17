@@ -173,12 +173,14 @@ const ListPost = ({ explore, handleDeletePost }) => {
                     {comment?.comment}
                   </p>
                 </div>
-                <div
-                  className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center cursor-pointer hover:bg-gray-500"
-                  onClick={() => handleDeleteComment(comment?.id)}
-                >
-                  <FaRegTrashAlt />
-                </div>
+                {comment?.user?.id === auth.user.id && (
+                  <div
+                    className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center cursor-pointer hover:bg-gray-500"
+                    onClick={() => handleDeleteComment(comment?.id)}
+                  >
+                    <FaRegTrashAlt />
+                  </div>
+                )}
               </div>
             ))}
           </div>

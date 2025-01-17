@@ -12,6 +12,7 @@ import ListFollowers from "./ListFollowers";
 import ListFollowing from "./ListFollowing";
 import UpdateProfileForm from "./UpdateProfileForm";
 import AddPost from "./AddPost";
+import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
 
 export {
   Button,
@@ -28,4 +29,5 @@ export {
   ListFollowing,
   UpdateProfileForm,
   AddPost,
+  ModalCreateUpdatePost,
 };
