@@ -17,9 +17,9 @@ const Home = () => {
     handleCreatePost,
     error,
     success,
-    isModalPostOpen,
-    openModalPost,
-    closeModalPost,
+    isModalCreatePostOpen,
+    openModalCreatePost,
+    closeModalCreatePost,
     loading,
   } = useCrudPost();
 
@@ -33,9 +33,9 @@ const Home = () => {
       <Navbar auth={auth} />
       <AddPost
         auth={auth}
-        isModalPostOpen={isModalPostOpen}
-        closeModalPost={closeModalPost}
-        openModalPost={openModalPost}
+        isModalCreatePostOpen={isModalCreatePostOpen}
+        closeModalCreatePost={closeModalCreatePost}
+        openModalCreatePost={openModalCreatePost}
         form={form}
         handleFileChange={handleFileChange}
         setForm={setForm}

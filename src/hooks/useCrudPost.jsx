@@ -6,17 +6,17 @@ const useCrudPost = () => {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [isModalPostOpen, setModalPostOpen] = useState(false);
+  const [isModalCreatePostOpen, setModalCreatePostOpen] = useState(false);
 
   const [isDelete, setIsDelete] = useState(false);
 
-  const openModalPost = () => {
-    setModalPostOpen(true);
+  const openModalCreatePost = () => {
+    setModalCreatePostOpen(true);
     setError({});
     setSuccess("");
   };
-  const closeModalPost = () => {
-    setModalPostOpen(false);
+  const closeModalCreatePost = () => {
+    setModalCreatePostOpen(false);
     setError({});
     setSuccess("");
   };
@@ -65,7 +65,7 @@ const useCrudPost = () => {
       setSuccess("Post created was successfully");
 
       setTimeout(() => {
-        closeModalPost();
+        closeModalCreatePost();
       }, 1000);
 
       setForm({ ...form, caption: "" });
@@ -110,9 +110,9 @@ const useCrudPost = () => {
     setForm,
     error,
     success,
-    isModalPostOpen,
-    openModalPost,
-    closeModalPost,
+    isModalCreatePostOpen,
+    openModalCreatePost,
+    closeModalCreatePost,
     loading,
     isDelete,
   };
