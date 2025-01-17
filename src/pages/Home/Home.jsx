@@ -11,16 +11,16 @@ const Home = () => {
   const { handleExplorePost, explorePost, explorePage } = useExplorePost();
 
   const {
-    form,
-    handleFileChange,
-    setForm,
+    formCrudPost,
+    handleFileChangeCrudPost,
+    setFormCrudPost,
     handleCreatePost,
-    error,
-    success,
-    isModalCreatePostOpen,
-    openModalCreatePost,
-    closeModalCreatePost,
-    loading,
+    errorCrudPost,
+    successCrudPost,
+    isModalCrudPostOpen,
+    openModalCrudPost,
+    closeModalCrudPost,
+    loadingCrudPost,
   } = useCrudPost();
 
   useEffect(() => {
@@ -33,16 +33,16 @@ const Home = () => {
       <Navbar auth={auth} />
       <AddPost
         auth={auth}
-        isModalCreatePostOpen={isModalCreatePostOpen}
-        closeModalCreatePost={closeModalCreatePost}
-        openModalCreatePost={openModalCreatePost}
-        form={form}
-        handleFileChange={handleFileChange}
-        setForm={setForm}
+        isModalCrudPostOpen={isModalCrudPostOpen}
+        closeModalCrudPost={closeModalCrudPost}
+        openModalCrudPost={openModalCrudPost}
+        formCrudPost={formCrudPost}
+        handleFileChangeCrudPost={handleFileChangeCrudPost}
+        setFormCrudPost={setFormCrudPost}
         handleCreatePost={handleCreatePost}
-        success={success}
-        error={error}
-        loading={loading}
+        successCrudPost={successCrudPost}
+        errorCrudPost={errorCrudPost}
+        loadingCrudPost={loadingCrudPost}
       />
       <Posts explorePost={explorePost} explorePage={explorePage} />
     </div>

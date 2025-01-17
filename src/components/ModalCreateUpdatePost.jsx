@@ -2,36 +2,36 @@ import React from "react";
 import Modal from "./Modal";
 
 const ModalCreateUpdatePost = ({
-  isModalCreatePostOpen,
-  closeModalCreatePost,
+  isModalCrudPostOpen,
+  closeModalCrudPost,
   handleCreatePost,
-  error,
-  success,
+  errorCrudPost,
+  successCrudPost,
   user,
-  form,
-  setForm,
-  handleFileChange,
-  loading,
+  formCrudPost,
+  setFormCrudPost,
+  handleFileChangeCrudPost,
+  loadingCrudPost,
 }) => {
   return (
     <Modal
-      isOpen={isModalCreatePostOpen}
-      onClose={closeModalCreatePost}
+      isOpen={isModalCrudPostOpen}
+      onClose={closeModalCrudPost}
       title="Buat Postingan"
     >
       <form
-        className="space-y-4 p-4 flex flex-col transition-all"
+        className="flex flex-col p-4 space-y-4 transition-all"
         onSubmit={handleCreatePost}
       >
-        {error.message && (
+        {errorCrudPost.message && (
           <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-            {error.message}
+            {errorCrudPost.message}
           </p>
         )}
 
-        {success && (
+        {successCrudPost && (
           <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
-            {success}
+            {successCrudPost}
           </p>
         )}
         <div className="w-full">
@@ -41,31 +41,35 @@ const ModalCreateUpdatePost = ({
             className="block w-full px-4 py-2 mt-1 border-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder={`Apa yang Anda pikirkan, ${user?.username}?`}
             rows="8"
-            value={form?.caption}
-            onChange={(e) => setForm({ ...form, caption: e.target.value })}
+            value={formCrudPost?.caption}
+            onChange={(e) =>
+              setFormCrudPost({ ...formCrudPost, caption: e.target.value })
+            }
           ></textarea>
-          {error.caption && (
-            <p className="text-sm text-red-500 mt-1">{error.caption}</p>
+          {errorCrudPost.caption && (
+            <p className="mt-1 text-sm text-red-500">{errorCrudPost.caption}</p>
           )}
         </div>
         <div className="w-full">
-          <div className="w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm cursor-pointer h-20 flex items-center justify-center">
+          <div className="flex items-center justify-center w-full h-20 mt-1 border border-gray-300 rounded-md shadow-sm cursor-pointer focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             <input
               type="file"
               name="imageUrl"
               className="cursor-pointer"
-              onChange={handleFileChange}
+              onChange={handleFileChangeCrudPost}
             ></input>
           </div>
-          {error.imageUrl && (
-            <p className="text-sm text-red-500 mt-1">{error.imageUrl}</p>
+          {errorCrudPost.imageUrl && (
+            <p className="mt-1 text-sm text-red-500">
+              {errorCrudPost.imageUrl}
+            </p>
           )}
         </div>
         <button
-          disabled={loading}
-          className="w-full bg-blue-500 text-white font-semibold tracking-wide py-2 rounded-lg hover:bg-blue-600 transition-all"
+          disabled={loadingCrudPost}
+          className="w-full py-2 font-semibold tracking-wide text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600"
         >
-          {loading ? "Loading..." : "Post"}
+          {loadingCrudPost ? "loadingCrudPost..." : "Post"}
         </button>
       </form>
     </Modal>
