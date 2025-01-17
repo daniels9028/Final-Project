@@ -1,8 +1,10 @@
 import { axiosInstance as axios } from "../axios/axios";
 
-const token = localStorage.getItem("token");
+import { getToken } from "./token";
 
 export const createComment = async (data) => {
+  const token = getToken();
+
   try {
     const comment = await axios({
       url: "api/v1/create-comment",
@@ -20,6 +22,8 @@ export const createComment = async (data) => {
 };
 
 export const deleteComment = async (commentId) => {
+  const token = getToken();
+
   try {
     const comment = await axios({
       url: `api/v1/delete-comment/${commentId}`,

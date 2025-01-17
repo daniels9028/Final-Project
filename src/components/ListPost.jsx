@@ -3,10 +3,24 @@ import { GoComment } from "react-icons/go";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 
 import Like from "./Like";
-import { useNavigateUser } from "../hooks";
+import { useComment, useNavigateUser, usePostById } from "../hooks";
 
 const ListPost = ({ explore }) => {
   const { handleNavigate } = useNavigateUser();
+
+  const {
+    handleAddComment,
+    handleDeleteComment,
+    form,
+    setForm,
+    submitComment,
+  } = useComment();
+
+  const { handleGetPostById, totalComment } = usePostById();
+
+  useEffect(() => {
+    handleGetPostById(explore?.id);
+  }, [submitComment]);
 
   return (
     <div className="flex flex-col w-full pb-4 mb-8 overflow-hidden border rounded-lg shadow-lg lg:w-1/2 bg-slate-300">
@@ -38,7 +52,12 @@ const ListPost = ({ explore }) => {
         <div className="flex flex-row items-center gap-2">
           <Like explore={explore} />
         </div>
-        <GoComment size={28} />
+        <div className="flex flex-row items-center gap-2">
+          <GoComment size={28} />
+          {totalComment !== 0 && (
+            <p className="font-bold transition-all">{totalComment}</p>
+          )}
+        </div>
       </div>
       <p className="px-4 py-2">
         <span
@@ -49,12 +68,28 @@ const ListPost = ({ explore }) => {
         </span>{" "}
         {explore?.caption}
       </p>
+      {totalComment !== 0 && (
+        <p className="px-4 pb-2 text-sm tracking-wide text-slate-500 font-medium hover:text-slate-600 transition-all cursor-pointer">
+          See all {totalComment} comments
+        </p>
+      )}
       <div className="px-4 py-2">
-        <input
-          type="text"
-          className="w-full h-10 px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500"
-          placeholder="Write a comment"
-        />
+        <div className="bg-gray-200 border-2 rounded-full outline-none flex flex-row justify-between px-4 focus:border-blue-500">
+          <input
+            type="text"
+            className="w-full h-10 px-2 bg-gray-200 border-2 rounded-full outline-none"
+            placeholder="Write a comment"
+            name="comment"
+            value={form.comment}
+            onChange={(e) => setForm({ ...form, comment: e.target.value })}
+          />
+          <button
+            className="text-gray-600 text-sm tracking-wider font-semibold"
+            onClick={() => handleAddComment(explore?.id)}
+          >
+            Kirim
+          </button>
+        </div>
       </div>
     </div>
   );
