@@ -16,7 +16,7 @@ const Modal = ({ isOpen, onClose, children, title }) => {
           </button>
         </div>
         <div
-          className="p-4 max-h-96 overflow-y-auto"
+          className="max-h-96 overflow-y-auto"
           style={{
             scrollbarWidth: "thin", // Firefox
             scrollbarColor: "rgba(156, 163, 175) rgba(243, 244, 246)", // Firefox colors

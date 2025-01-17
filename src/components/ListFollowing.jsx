@@ -9,7 +9,7 @@ const ListFollowing = ({ follow, handleNavigate, id, handleUnFollow }) => {
   return (
     <div
       key={follow.id}
-      className="flex flex-row items-center justify-between mb-4"
+      className="flex flex-row items-center justify-between mb-4 px-4 py-2"
     >
       <div className="flex flex-row items-center gap-4">
         <img

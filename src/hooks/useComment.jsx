@@ -11,7 +11,7 @@ const useComment = () => {
 
   const handleAddComment = async (postId) => {
     try {
-      const request = await createComment({ ...form, postId: postId });
+      await createComment({ ...form, postId: postId });
 
       setForm({ ...form, comment: "" });
       setSubmitComment(!submitComment);
@@ -20,12 +20,11 @@ const useComment = () => {
     }
   };
 
-  const handleDeleteComment = async () => {
+  const handleDeleteComment = async (commentId) => {
     try {
-      const request = await deleteComment(
-        "2ca62e58-1ccf-475b-b0f8-c6fe43b8c7b9"
-      );
-      console.log(request);
+      await deleteComment(commentId);
+
+      setSubmitComment(!submitComment);
     } catch (error) {
       console.log(error);
     }
