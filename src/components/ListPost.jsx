@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { GoComment } from "react-icons/go";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 
@@ -56,17 +56,17 @@ const ListPost = ({ explore, handleDeletePost }) => {
               onError={(e) => {
                 e.target.src = profileBlank;
               }}
-              className="object-cover w-10 h-10 rounded-full border-2 border-gray-400"
+              className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
             />
             <p className="font-bold">{explore?.user?.username}</p>
           </div>
           {explore.user.id === auth.user.id && (
             <div className="flex flex-row items-center gap-2">
-              <div className="bg-gray-200 p-2 rounded-full hover:bg-orange-400 transition-all cursor-pointer">
+              <div className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-orange-400">
                 <MdEdit size={20} />
               </div>
               <div
-                className="bg-gray-200 p-2 rounded-full hover:bg-red-500 transition-all cursor-pointer"
+                className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-red-500"
                 onClick={() => handleDeletePost(explore?.id)}
               >
                 <LuTrash size={20} />
@@ -107,14 +107,14 @@ const ListPost = ({ explore, handleDeletePost }) => {
         </p>
         {totalComment !== 0 && (
           <p
-            className="px-4 pb-2 text-sm tracking-wide text-slate-500 font-medium hover:text-slate-600 transition-all cursor-pointer"
+            className="px-4 pb-2 text-sm font-medium tracking-wide transition-all cursor-pointer text-slate-500 hover:text-slate-600"
             onClick={openModalPost}
           >
             See all {totalComment} comments
           </p>
         )}
         <div className="px-4 py-2">
-          <div className="bg-gray-200 border-2 rounded-full outline-none flex flex-row justify-between px-4 focus:border-blue-500">
+          <div className="flex flex-row justify-between px-4 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
             <input
               type="text"
               className="w-full h-10 px-2 bg-gray-200 border-2 rounded-full outline-none"
@@ -125,7 +125,7 @@ const ListPost = ({ explore, handleDeletePost }) => {
               onChange={(e) => setForm({ ...form, comment: e.target.value })}
             />
             <button
-              className="text-gray-600 text-sm tracking-wider font-semibold"
+              className="text-sm font-semibold tracking-wider text-gray-600"
               onClick={() => handleAddComment(explore?.id)}
             >
               Kirim
@@ -140,14 +140,14 @@ const ListPost = ({ explore, handleDeletePost }) => {
             <img
               src={explore?.user?.profilePictureUrl}
               alt={explore?.user?.id}
-              className="w-14 h-14 object-cover rounded-full border-2 border-gray-400"
+              className="object-cover border-2 border-gray-400 rounded-full w-14 h-14"
             />
             <div className="flex flex-row items-center gap-2">
-              <p className="font-semibold text-lg">{explore?.user?.username}</p>
+              <p className="text-lg font-semibold">{explore?.user?.username}</p>
               <p>{explore?.caption}</p>
             </div>
           </div>
-          <div className="border-y-2 border-gray-200 shadow-md py-10">
+          <div className="py-10 border-gray-200 shadow-md border-y-2">
             <img
               src={explore?.imageUrl}
               alt={explore?.id}
@@ -157,25 +157,25 @@ const ListPost = ({ explore, handleDeletePost }) => {
           <div className="flex flex-col justify-center gap-4 px-4 py-2 border-gray-300 ">
             {comments?.map((comment) => (
               <div
-                className="flex flex-row items-center gap-4 justify-between"
+                className="flex flex-row items-center justify-between gap-4"
                 key={comment?.id}
               >
                 <div className="flex flex-row items-center gap-4">
                   <img
                     src={comment?.user?.profilePictureUrl}
                     alt={comment?.user?.id}
-                    className="w-12 h-12 object-cover rounded-full border-2 border-gray-400"
+                    className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
                   />
-                  <p className="font-medium text-lg tracking-wide">
+                  <p className="text-lg font-medium tracking-wide">
                     {comment?.user?.username}
                   </p>
-                  <p className="text-base text-gray-800 tracking-wider">
+                  <p className="text-base tracking-wider text-gray-800">
                     {comment?.comment}
                   </p>
                 </div>
                 {comment?.user?.id === auth.user.id && (
                   <div
-                    className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center cursor-pointer hover:bg-gray-500"
+                    className="flex items-center justify-center w-10 h-10 bg-gray-400 rounded-full cursor-pointer hover:bg-gray-500"
                     onClick={() => handleDeleteComment(comment?.id)}
                   >
                     <FaRegTrashAlt />

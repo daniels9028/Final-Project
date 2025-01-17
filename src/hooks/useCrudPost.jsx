@@ -2,43 +2,43 @@ import React, { useState } from "react";
 import { createPost, deletePost, updatePost } from "../services/Post";
 
 const useCrudPost = () => {
-  const [error, setError] = useState({});
-  const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [errorCrudPost, setErrorCrudPost] = useState({});
+  const [successCrudPost, setSuccessCrudPost] = useState("");
+  const [loadingCrudPost, setLoadingCrudPost] = useState(false);
 
-  const [isModalCreatePostOpen, setModalCreatePostOpen] = useState(false);
+  const [isModalCrudPostOpen, setModalCrudPostOpen] = useState(false);
 
   const [isDeletePost, setIsDeletePost] = useState(false);
 
-  const openModalCreatePost = () => {
-    setModalCreatePostOpen(true);
-    setError({});
-    setSuccess("");
+  const openModalCrudPost = () => {
+    setModalCrudPostOpen(true);
+    setErrorCrudPost({});
+    setSuccessCrudPost("");
   };
-  const closeModalCreatePost = () => {
-    setModalCreatePostOpen(false);
-    setError({});
-    setSuccess("");
+  const closeModalCrudPost = () => {
+    setModalCrudPostOpen(false);
+    setErrorCrudPost({});
+    setSuccessCrudPost("");
   };
 
-  const [file, setFile] = useState(null);
+  const [fileCrudPost, setFileCrudPost] = useState(null);
 
-  const [form, setForm] = useState({
+  const [formCrudPost, setFormCrudPost] = useState({
     caption: "",
   });
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChangeCrudPost = (e) => {
+    setFileCrudPost(e.target.files[0]);
   };
 
   const validate = () => {
     const newErrors = {};
 
-    if (!form.caption.trim()) {
+    if (!formCrudPost.caption.trim()) {
       newErrors.caption = "Caption is required.";
     }
 
-    if (!file) {
+    if (!fileCrudPost) {
       newErrors.imageUrl = "Image is required.";
     }
 
@@ -51,36 +51,36 @@ const useCrudPost = () => {
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
-      setError(validationErrors);
+      setErrorCrudPost(validationErrors);
       return;
     }
 
     try {
-      setError({});
-      setSuccess("");
-      setLoading(true);
+      setErrorCrudPost({});
+      setSuccessCrudPost("");
+      setLoadingCrudPost(true);
 
-      await createPost({ ...form, file });
+      await createPost({ ...formCrudPost, file: fileCrudPost });
 
-      setSuccess("Post created was successfully");
+      setSuccessCrudPost("Post created was successfully");
 
       setTimeout(() => {
-        closeModalCreatePost();
+        closeModalCrudPost();
       }, 1000);
 
-      setForm({ ...form, caption: "" });
-      setFile(null);
+      setFormCrudPost({ ...formCrudPost, caption: "" });
+      setFileCrudPost(null);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      setLoadingCrudPost(false);
     }
   };
 
   const handleUpdatePost = async () => {
     try {
       const data = await updatePost(
-        { ...form, file },
+        { ...formCrudPost, file: fileCrudPost },
         "763d2432-12fa-43e5-960e-7d0640d095a1"
       );
 
@@ -104,16 +104,16 @@ const useCrudPost = () => {
     handleCreatePost,
     handleUpdatePost,
     handleDeletePost,
-    form,
-    file,
-    handleFileChange,
-    setForm,
-    error,
-    success,
-    isModalCreatePostOpen,
-    openModalCreatePost,
-    closeModalCreatePost,
-    loading,
+    formCrudPost,
+    fileCrudPost,
+    handleFileChangeCrudPost,
+    setFormCrudPost,
+    errorCrudPost,
+    successCrudPost,
+    isModalCrudPostOpen,
+    openModalCrudPost,
+    closeModalCrudPost,
+    loadingCrudPost,
     isDeletePost,
   };
 };

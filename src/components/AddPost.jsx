@@ -6,15 +6,15 @@ import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
 const AddPost = ({
   auth,
   closeModalCreatePost,
-  isModalCreatePostOpen,
-  openModalCreatePost,
+  isModalCrudPostOpen,
+  openModalCrudPost,
   handleCreatePost,
-  form,
-  handleFileChange,
-  setForm,
-  error,
-  success,
-  loading,
+  formCrudPost,
+  handleFileChangeCrudPost,
+  setFormCrudPost,
+  errorCrudPost,
+  successCrudPost,
+  loadingCrudPost,
 }) => {
   const { user } = auth;
 
@@ -22,7 +22,7 @@ const AddPost = ({
     <>
       <section className="mt-24 mb-10">
         <div className="flex flex-col items-center w-full px-6 mx-auto lg:px-12 max-w-7xl">
-          <div className="flex flex-col w-full p-4 overflow-hidden border rounded-lg shadow-lg lg:w-1/2 bg-white">
+          <div className="flex flex-col w-full p-4 overflow-hidden bg-white border rounded-lg shadow-lg lg:w-1/2">
             <div className="flex flex-row items-center gap-4">
               <img
                 src={user?.profilePictureUrl || profile}
@@ -30,8 +30,8 @@ const AddPost = ({
                 className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
               />
               <button
-                className="lg:text-base text-sm h-12 bg-slate-200 w-full text-left px-4 rounded-full text-gray-500 hover:bg-slate-300 transition-all"
-                onClick={openModalCreatePost}
+                className="w-full h-12 px-4 text-sm text-left text-gray-500 transition-all rounded-full lg:text-base bg-slate-200 hover:bg-slate-300"
+                onClick={openModalCrudPost}
               >
                 Apa yang Anda pikirkan, {user?.username}?
               </button>
@@ -41,16 +41,16 @@ const AddPost = ({
       </section>
 
       <ModalCreateUpdatePost
-        isModalCreatePostOpen={isModalCreatePostOpen}
+        isModalCrudPostOpen={isModalCrudPostOpen}
         closeModalCreatePost={closeModalCreatePost}
         handleCreatePost={handleCreatePost}
-        error={error}
-        success={success}
+        errorCrudPost={errorCrudPost}
+        successCrudPost={successCrudPost}
         user={user}
-        form={form}
-        setForm={setForm}
-        handleFileChange={handleFileChange}
-        loading={loading}
+        formCrudPost={formCrudPost}
+        setFormCrudPost={setFormCrudPost}
+        handleFileChangeCrudPost={handleFileChangeCrudPost}
+        loadingCrudPost={loadingCrudPost}
       />
     </>
   );
