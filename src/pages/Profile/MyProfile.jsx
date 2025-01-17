@@ -20,26 +20,24 @@ import {
   useFollowingPost,
   usePostByUserId,
   useNavigateUser,
+  useCrudPost,
 } from "../../hooks";
 
 const MyProfile = () => {
   const { id } = useParams();
 
-  const {
-    isModalUpdateOpen,
-    openModalUpdate,
-    closeModalUpdate,
-    user,
-    setUser,
-    setForm,
-    error,
-    success,
-    handleUpdateProfile,
-    form,
-    handleChange,
-    handleFileChange,
-    loading,
-  } = useUpdateProfile();
+  const { auth } = useAuth();
+
+  const { handleNavigate } = useNavigateUser();
+
+  const { handleFollow, handleUnFollow, follow } = useFollow();
+
+  const { myPost, myPostPage, postByUserId } = usePostByUserId(id);
+
+  const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
+    useFollowingPost();
+
+  const { handleDeletePost, isDelete } = useCrudPost();
 
   const {
     isModalFollowersOpen,
@@ -59,18 +57,21 @@ const MyProfile = () => {
     following,
   } = useFollowing(id);
 
-  const { handleFollow, handleUnFollow, follow } = useFollow();
-
-  const { myPost, myPostPage, postByUserId } = usePostByUserId(id);
-
-  const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
-    useFollowingPost();
-
-  const navigate = useNavigate();
-
-  const { auth } = useAuth();
-
-  const { handleNavigate } = useNavigateUser();
+  const {
+    isModalUpdateOpen,
+    openModalUpdate,
+    closeModalUpdate,
+    user,
+    setUser,
+    setForm,
+    error,
+    success,
+    handleUpdateProfile,
+    form,
+    handleChange,
+    handleFileChange,
+    loading,
+  } = useUpdateProfile();
 
   const handleGetUserById = async () => {
     try {
@@ -97,6 +98,10 @@ const MyProfile = () => {
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
   }, [follow]);
 
+  useEffect(() => {
+    postByUserId();
+  }, [isDelete]);
+
   return (
     <div>
       <Navbar auth={auth} />
@@ -113,7 +118,11 @@ const MyProfile = () => {
         handleUnFollow={handleUnFollow}
       />
 
-      <Posts explorePost={myPost} explorePage={myPostPage} />
+      <Posts
+        explorePost={myPost}
+        explorePage={myPostPage}
+        handleDeletePost={handleDeletePost}
+      />
 
       {id === auth.user.id && (
         <>
@@ -123,6 +132,7 @@ const MyProfile = () => {
           <Posts
             explorePost={myFollowingPost}
             explorePage={myFollowingPostPage}
+            handleDeletePost={handleDeletePost}
           />
         </>
       )}

@@ -14,7 +14,7 @@ const ProfileHeader = ({
   handleUnFollow,
 }) => {
   return (
-    <section className="mt-24">
+    <section className="my-24">
       <div className="flex flex-col items-center justify-center w-full px-12 mx-auto max-w-7xl">
         <div className="flex flex-col items-center justify-center gap-10 p-4 lg:flex-row lg:gap-40">
           <img
