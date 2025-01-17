@@ -37,7 +37,7 @@ const MyProfile = () => {
   const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
     useFollowingPost();
 
-  const { handleDeletePost, isDelete } = useCrudPost();
+  const { handleDeletePost, isDeletePost } = useCrudPost();
 
   const {
     isModalFollowersOpen,
@@ -58,26 +58,27 @@ const MyProfile = () => {
   } = useFollowing(id);
 
   const {
-    isModalUpdateOpen,
-    openModalUpdate,
-    closeModalUpdate,
+    isModalUpdateProfileOpen,
+    openModalUpdateProfile,
+    closeModalUpdateProfile,
     user,
     setUser,
-    setForm,
-    error,
-    success,
+    setFormUpdateProfile,
+    errorUpdateProfile,
+    successUpdateProfile,
     handleUpdateProfile,
-    form,
-    handleChange,
-    handleFileChange,
-    loading,
+    formUpdateProfile,
+    handleChangeUpdateProfile,
+    handleFileChangeUpdateProfile,
+    loadingUpdateProfile,
   } = useUpdateProfile();
 
   const handleGetUserById = async () => {
     try {
       const dataUser = await getUserById(id);
+
       setUser(dataUser.data);
-      setForm(dataUser.data);
+      setFormUpdateProfile(dataUser.data);
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +101,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     postByUserId();
-  }, [isDelete]);
+  }, [isDeletePost]);
 
   return (
     <div>
@@ -110,13 +111,17 @@ const MyProfile = () => {
         user={user}
         id={id}
         auth={auth}
-        openModalUpdate={openModalUpdate}
+        openModalUpdateProfile={openModalUpdateProfile}
         follow={follow}
         openModalFollowing={openModalFollowing}
         openModalFollowers={openModalFollowers}
         handleFollow={handleFollow}
         handleUnFollow={handleUnFollow}
       />
+
+      <p className="mb-10 text-2xl tracking-wider font-bold text-center">
+        My Post
+      </p>
 
       <Posts
         explorePost={myPost}
@@ -138,18 +143,18 @@ const MyProfile = () => {
       )}
 
       <Modal
-        isOpen={isModalUpdateOpen}
-        onClose={closeModalUpdate}
+        isOpen={isModalUpdateProfileOpen}
+        onClose={closeModalUpdateProfile}
         title="Edit Profile"
       >
         <UpdateProfileForm
-          error={error}
-          success={success}
+          errorUpdateProfile={errorUpdateProfile}
+          successUpdateProfile={successUpdateProfile}
           handleUpdateProfile={handleUpdateProfile}
-          form={form}
-          handleChange={handleChange}
-          handleFileChange={handleFileChange}
-          loading={loading}
+          formUpdateProfile={formUpdateProfile}
+          handleChangeUpdateProfile={handleChangeUpdateProfile}
+          handleFileChangeUpdateProfile={handleFileChangeUpdateProfile}
+          loadingUpdateProfile={loadingUpdateProfile}
         />
       </Modal>
 

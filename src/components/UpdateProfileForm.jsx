@@ -1,29 +1,31 @@
 import React from "react";
-import useUpdateProfile from "../hooks/useUpdateProfile";
 
 const UpdateProfileForm = ({
-  error,
-  success,
+  errorUpdateProfile,
+  successUpdateProfile,
   handleUpdateProfile,
-  form,
-  handleChange,
+  formUpdateProfile,
+  handleChangeUpdateProfile,
   handleFileChange,
-  loading,
+  loadingUpdateProfile,
 }) => {
   return (
     <>
-      {error.message && (
+      {errorUpdateProfile.message && (
         <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-          {error.message}
+          {errorUpdateProfile.message}
         </p>
       )}
 
-      {success && (
+      {successUpdateProfile && (
         <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
-          {success}
+          {successUpdateProfile}
         </p>
       )}
-      <form className="space-y-4 p-4" onSubmit={handleUpdateProfile}>
+      <formUpdateProfile
+        className="space-y-4 p-4"
+        onSubmit={handleUpdateProfile}
+      >
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
           <div className="w-full space-y-2 lg:w-1/2">
             <label
@@ -37,10 +39,12 @@ const UpdateProfileForm = ({
               name="name"
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your name..."
-              value={form?.name}
-              onChange={handleChange}
+              value={formUpdateProfile?.name}
+              onChange={handleChangeUpdateProfile}
             />
-            {error.name && <p className="text-sm text-red-500">{error.name}</p>}
+            {errorUpdateProfile.name && (
+              <p className="text-sm text-red-500">{errorUpdateProfile.name}</p>
+            )}
           </div>
           <div className="w-full space-y-2 lg:w-1/2">
             <label
@@ -54,11 +58,13 @@ const UpdateProfileForm = ({
               name="username"
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your username..."
-              value={form?.username}
-              onChange={handleChange}
+              value={formUpdateProfile?.username}
+              onChange={handleChangeUpdateProfile}
             />
-            {error.username && (
-              <p className="text-sm text-red-500">{error.username}</p>
+            {errorUpdateProfile.username && (
+              <p className="text-sm text-red-500">
+                {errorUpdateProfile.username}
+              </p>
             )}
           </div>
         </div>
@@ -75,11 +81,11 @@ const UpdateProfileForm = ({
               name="email"
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your email..."
-              value={form?.email}
-              onChange={handleChange}
+              value={formUpdateProfile?.email}
+              onChange={handleChangeUpdateProfile}
             />
-            {error.email && (
-              <p className="text-sm text-red-500">{error.email}</p>
+            {errorUpdateProfile.email && (
+              <p className="text-sm text-red-500">{errorUpdateProfile.email}</p>
             )}
           </div>
         </div>
@@ -94,12 +100,14 @@ const UpdateProfileForm = ({
             <textarea
               type="text"
               name="bio"
-              value={form?.bio}
+              value={formUpdateProfile?.bio}
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your bio..."
-              onChange={handleChange}
+              onChange={handleChangeUpdateProfile}
             ></textarea>
-            {error.bio && <p className="text-sm text-red-500">{error.bio}</p>}
+            {errorUpdateProfile.bio && (
+              <p className="text-sm text-red-500">{errorUpdateProfile.bio}</p>
+            )}
           </div>
         </div>
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
@@ -117,8 +125,10 @@ const UpdateProfileForm = ({
               placeholder="Input your website..."
               onChange={handleFileChange}
             />
-            {error.profilePictureUrl && (
-              <p className="text-sm text-red-500">{error.profilePictureUrl}</p>
+            {errorUpdateProfile.profilePictureUrl && (
+              <p className="text-sm text-red-500">
+                {errorUpdateProfile.profilePictureUrl}
+              </p>
             )}
           </div>
         </div>
@@ -133,13 +143,15 @@ const UpdateProfileForm = ({
             <input
               type="text"
               name="website"
-              value={form?.website}
+              value={formUpdateProfile?.website}
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your website..."
-              onChange={handleChange}
+              onChange={handleChangeUpdateProfile}
             />
-            {error.website && (
-              <p className="text-sm text-red-500">{error.website}</p>
+            {errorUpdateProfile.website && (
+              <p className="text-sm text-red-500">
+                {errorUpdateProfile.website}
+              </p>
             )}
           </div>
         </div>
@@ -154,13 +166,15 @@ const UpdateProfileForm = ({
             <input
               type="number"
               name="phoneNumber"
-              value={form?.phoneNumber}
+              value={formUpdateProfile?.phoneNumber}
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your phoneNumber..."
-              onChange={handleChange}
+              onChange={handleChangeUpdateProfile}
             />
-            {error.phoneNumber && (
-              <p className="text-sm text-red-500">{error.phoneNumber}</p>
+            {errorUpdateProfile.phoneNumber && (
+              <p className="text-sm text-red-500">
+                {errorUpdateProfile.phoneNumber}
+              </p>
             )}
           </div>
         </div>
@@ -168,12 +182,12 @@ const UpdateProfileForm = ({
           <button
             type="submit"
             className="w-32 py-2 text-lg font-medium text-white bg-orange-500 rounded-md hover:bg-orange-700"
-            disabled={loading}
+            disabled={loadingUpdateProfile}
           >
-            {loading ? "Loading..." : "Update"}
+            {loadingUpdateProfile ? "loadingUpdateProfile..." : "Update"}
           </button>
         </div>
-      </form>
+      </formUpdateProfile>
     </>
   );
 };

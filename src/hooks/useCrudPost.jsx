@@ -8,7 +8,7 @@ const useCrudPost = () => {
 
   const [isModalCreatePostOpen, setModalCreatePostOpen] = useState(false);
 
-  const [isDelete, setIsDelete] = useState(false);
+  const [isDeletePost, setIsDeletePost] = useState(false);
 
   const openModalCreatePost = () => {
     setModalCreatePostOpen(true);
@@ -94,7 +94,7 @@ const useCrudPost = () => {
     try {
       await deletePost(postId);
 
-      setIsDelete((prev) => !prev);
+      setIsDeletePost((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -114,7 +114,7 @@ const useCrudPost = () => {
     openModalCreatePost,
     closeModalCreatePost,
     loading,
-    isDelete,
+    isDeletePost,
   };
 };
 
