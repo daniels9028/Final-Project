@@ -10,6 +10,7 @@ import useUpdateProfile from "./useUpdateProfile";
 import useNavigateUser from "./useNavigateUser";
 import useComment from "./useComment";
 import useCrudPost from "./useCrudPost";
+import usePostById from "./usePostById";
 
 export {
   useFollow,
@@ -24,4 +25,5 @@ export {
   useNavigateUser,
   useComment,
   useCrudPost,
+  usePostById,
 };

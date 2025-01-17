@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { createComment, deleteComment } from "../services/Comment";
 
 const useComment = () => {
+  const [submitComment, setSubmitComment] = useState(false);
+
   const [form, setForm] = useState({
-    postId: "9a7f4133-2111-43b4-9d26-271e25b78679",
-    comment: "Pengen juga jadinya",
+    comment: "",
   });
 
-  const handleAddComment = async () => {
+  const handleAddComment = async (postId) => {
     try {
-      const request = await createComment(form);
-      console.log(request);
+      const request = await createComment({ ...form, postId: postId });
+
+      setForm({ ...form, comment: "" });
+      setSubmitComment(!submitComment);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +31,13 @@ const useComment = () => {
     }
   };
 
-  return { handleAddComment, handleDeleteComment };
+  return {
+    handleAddComment,
+    handleDeleteComment,
+    form,
+    setForm,
+    submitComment,
+  };
 };
 
 export default useComment;
