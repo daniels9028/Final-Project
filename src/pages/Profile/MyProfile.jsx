@@ -19,6 +19,7 @@ import {
   useUpdateProfile,
   useFollowingPost,
   usePostByUserId,
+  useNavigateUser,
 } from "../../hooks";
 
 const MyProfile = () => {
@@ -47,7 +48,7 @@ const MyProfile = () => {
     openModalFollowers,
     closeModalFollowers,
     followers,
-  } = useFollowers();
+  } = useFollowers(id);
 
   const {
     isModalFollowingOpen,
@@ -56,7 +57,9 @@ const MyProfile = () => {
     openModalFollowing,
     closeModalFollowing,
     following,
-  } = useFollowing();
+  } = useFollowing(id);
+
+  const { handleFollow, handleUnFollow, follow } = useFollow();
 
   const { myPost, myPostPage, postByUserId } = usePostByUserId(id);
 
@@ -67,15 +70,7 @@ const MyProfile = () => {
 
   const { auth } = useAuth();
 
-  const handleNavigate = (userId) => {
-    window.open(
-      `${window.location.origin}/profile/${userId}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
-  };
-
-  const { handleFollow, handleUnFollow, follow } = useFollow();
+  const { handleNavigate } = useNavigateUser();
 
   const handleGetUserById = async () => {
     try {
@@ -114,6 +109,8 @@ const MyProfile = () => {
         follow={follow}
         openModalFollowing={openModalFollowing}
         openModalFollowers={openModalFollowers}
+        handleFollow={handleFollow}
+        handleUnFollow={handleUnFollow}
       />
 
       <Posts explorePost={myPost} explorePage={myPostPage} />
@@ -171,6 +168,7 @@ const MyProfile = () => {
             follow={follow}
             key={follow?.id}
             handleNavigate={handleNavigate}
+            handleUnFollow={handleUnFollow}
             id={id}
           />
         ))}

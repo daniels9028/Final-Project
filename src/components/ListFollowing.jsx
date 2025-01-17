@@ -1,9 +1,11 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { profileBlank } from "../assets";
+import { useFollow } from "../hooks";
 
-const ListFollowing = ({ follow, handleNavigate, id }) => {
+const ListFollowing = ({ follow, handleNavigate, id, handleUnFollow }) => {
   const { auth } = useAuth();
+
   return (
     <div
       key={follow.id}

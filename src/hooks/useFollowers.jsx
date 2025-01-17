@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getFollowersByUserId, getMyFollowers } from "../services/Follow";
 
-const useFollowers = () => {
+const useFollowers = (id) => {
   const [isModalFollowersOpen, setModalFollowersOpen] = useState(false);
 
   const openModalFollowers = () => setModalFollowersOpen(true);

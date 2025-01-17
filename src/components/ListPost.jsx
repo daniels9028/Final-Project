@@ -3,12 +3,18 @@ import { GoComment } from "react-icons/go";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 
 import Like from "./Like";
+import { useNavigateUser } from "../hooks";
 
 const ListPost = ({ explore }) => {
+  const { handleNavigate } = useNavigateUser();
+
   return (
     <div className="flex flex-col w-full pb-4 mb-8 overflow-hidden border rounded-lg shadow-lg lg:w-1/2 bg-slate-300">
       <div className="flex flex-row items-center justify-between px-4 py-2">
-        <div className="flex flex-row items-center gap-2">
+        <div
+          className="flex flex-row items-center gap-2 cursor-pointer"
+          onClick={() => handleNavigate(explore?.user?.id)}
+        >
           <img
             src={explore?.user?.profilePictureUrl}
             alt={explore?.user?.id}
@@ -17,7 +23,7 @@ const ListPost = ({ explore }) => {
             }}
             className="object-cover w-10 h-10 rounded-full"
           />
-          <p className="font-bold cursor-pointer">{explore?.user?.username}</p>
+          <p className="font-bold">{explore?.user?.username}</p>
         </div>
       </div>
       <img
@@ -35,7 +41,10 @@ const ListPost = ({ explore }) => {
         <GoComment size={28} />
       </div>
       <p className="px-4 py-2">
-        <span className="font-bold cursor-pointer">
+        <span
+          className="font-bold cursor-pointer"
+          onClick={() => handleNavigate(explore?.user?.id)}
+        >
           {explore?.user?.username}
         </span>{" "}
         {explore?.caption}
