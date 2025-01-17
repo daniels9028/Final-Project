@@ -6,26 +6,23 @@ const UpdateProfileForm = ({
   handleUpdateProfile,
   formUpdateProfile,
   handleChangeUpdateProfile,
-  handleFileChange,
+  handleFileChangeUpdateProfile,
   loadingUpdateProfile,
 }) => {
   return (
     <>
-      {errorUpdateProfile.message && (
-        <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-          {errorUpdateProfile.message}
-        </p>
-      )}
+      <form className="p-4 space-y-4" onSubmit={handleUpdateProfile}>
+        {errorUpdateProfile.message && (
+          <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
+            {errorUpdateProfile.message}
+          </p>
+        )}
 
-      {successUpdateProfile && (
-        <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
-          {successUpdateProfile}
-        </p>
-      )}
-      <formUpdateProfile
-        className="space-y-4 p-4"
-        onSubmit={handleUpdateProfile}
-      >
+        {successUpdateProfile && (
+          <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
+            {successUpdateProfile}
+          </p>
+        )}
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
           <div className="w-full space-y-2 lg:w-1/2">
             <label
@@ -123,7 +120,7 @@ const UpdateProfileForm = ({
               name="profilePictureUrl"
               className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               placeholder="Input your website..."
-              onChange={handleFileChange}
+              onChange={handleFileChangeUpdateProfile}
             />
             {errorUpdateProfile.profilePictureUrl && (
               <p className="text-sm text-red-500">
@@ -187,7 +184,7 @@ const UpdateProfileForm = ({
             {loadingUpdateProfile ? "loadingUpdateProfile..." : "Update"}
           </button>
         </div>
-      </formUpdateProfile>
+      </form>
     </>
   );
 };
