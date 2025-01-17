@@ -6,9 +6,14 @@ import Like from "./Like";
 import { useComment, useNavigateUser, usePostById } from "../hooks";
 import { Modal } from "../components";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import { LuTrash } from "react-icons/lu";
+import { useAuth } from "../context/AuthContext";
 
-const ListPost = ({ explore }) => {
+const ListPost = ({ explore, handleDeletePost }) => {
   const { handleNavigate } = useNavigateUser();
+
+  const { auth } = useAuth();
 
   const {
     handleAddComment,
@@ -42,7 +47,7 @@ const ListPost = ({ explore }) => {
       <div className="flex flex-col w-full pb-4 mb-8 overflow-hidden border rounded-lg shadow-lg lg:w-1/2 bg-slate-300">
         <div className="flex flex-row items-center justify-between px-4 py-2">
           <div
-            className="flex flex-row items-center gap-2 cursor-pointer"
+            className="flex flex-row items-center gap-4 cursor-pointer"
             onClick={() => handleNavigate(explore?.user?.id)}
           >
             <img
@@ -51,10 +56,23 @@ const ListPost = ({ explore }) => {
               onError={(e) => {
                 e.target.src = profileBlank;
               }}
-              className="object-cover w-10 h-10 rounded-full"
+              className="object-cover w-10 h-10 rounded-full border-2 border-gray-400"
             />
             <p className="font-bold">{explore?.user?.username}</p>
           </div>
+          {explore.user.id === auth.user.id && (
+            <div className="flex flex-row items-center gap-2">
+              <div className="bg-gray-200 p-2 rounded-full hover:bg-orange-400 transition-all cursor-pointer">
+                <MdEdit size={20} />
+              </div>
+              <div
+                className="bg-gray-200 p-2 rounded-full hover:bg-red-500 transition-all cursor-pointer"
+                onClick={() => handleDeletePost(explore?.id)}
+              >
+                <LuTrash size={20} />
+              </div>
+            </div>
+          )}
         </div>
         <img
           src={explore?.imageUrl}

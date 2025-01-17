@@ -8,6 +8,8 @@ const useCrudPost = () => {
 
   const [isModalPostOpen, setModalPostOpen] = useState(false);
 
+  const [isDelete, setIsDelete] = useState(false);
+
   const openModalPost = () => {
     setModalPostOpen(true);
     setError({});
@@ -88,11 +90,11 @@ const useCrudPost = () => {
     }
   };
 
-  const handleDeletePost = async () => {
+  const handleDeletePost = async (postId) => {
     try {
-      const data = await deletePost("763d2432-12fa-43e5-960e-7d0640d095a1");
+      await deletePost(postId);
 
-      console.log(data);
+      setIsDelete((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +114,7 @@ const useCrudPost = () => {
     openModalPost,
     closeModalPost,
     loading,
+    isDelete,
   };
 };
 
