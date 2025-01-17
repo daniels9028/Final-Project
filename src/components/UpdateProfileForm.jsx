@@ -23,7 +23,7 @@ const UpdateProfileForm = ({
           {success}
         </p>
       )}
-      <form className="space-y-4" onSubmit={handleUpdateProfile}>
+      <form className="space-y-4 p-4" onSubmit={handleUpdateProfile}>
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
           <div className="w-full space-y-2 lg:w-1/2">
             <label
