@@ -1,4 +1,6 @@
 import React from "react";
+import { profileBlank } from "../assets";
+import { useFollow } from "../hooks";
 
 const ProfileHeader = ({
   user,
@@ -8,6 +10,8 @@ const ProfileHeader = ({
   follow,
   openModalFollowing,
   openModalFollowers,
+  handleFollow,
+  handleUnFollow,
 }) => {
   return (
     <section className="mt-24">

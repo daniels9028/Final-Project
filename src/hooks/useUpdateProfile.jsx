@@ -95,7 +95,6 @@ const useUpdateProfile = () => {
     file,
     user,
     handleUpdateProfile,
-    form,
     handleChange,
     handleFileChange,
     setUser,

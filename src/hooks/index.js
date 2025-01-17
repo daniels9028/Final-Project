@@ -7,6 +7,7 @@ import useLoginHooks from "./useLoginHooks";
 import usePostByUserId from "./usePostByUserId";
 import useRegisterHooks from "./useRegisterHooks";
 import useUpdateProfile from "./useUpdateProfile";
+import useNavigateUser from "./useNavigateUser";
 
 export {
   useFollow,
@@ -18,4 +19,5 @@ export {
   usePostByUserId,
   useRegisterHooks,
   useUpdateProfile,
+  useNavigateUser,
 };
