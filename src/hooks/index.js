@@ -8,6 +8,8 @@ import usePostByUserId from "./usePostByUserId";
 import useRegisterHooks from "./useRegisterHooks";
 import useUpdateProfile from "./useUpdateProfile";
 import useNavigateUser from "./useNavigateUser";
+import useComment from "./useComment";
+import useCrudPost from "./useCrudPost";
 
 export {
   useFollow,
@@ -20,4 +22,6 @@ export {
   useRegisterHooks,
   useUpdateProfile,
   useNavigateUser,
+  useComment,
+  useCrudPost,
 };
