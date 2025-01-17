@@ -11,6 +11,7 @@ import ProfileHeader from "./ProfileHeader";
 import ListFollowers from "./ListFollowers";
 import ListFollowing from "./ListFollowing";
 import UpdateProfileForm from "./UpdateProfileForm";
+import AddPost from "./AddPost";
 
 export {
   Button,
@@ -26,4 +27,5 @@ export {
   ListFollowers,
   ListFollowing,
   UpdateProfileForm,
+  AddPost,
 };
