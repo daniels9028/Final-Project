@@ -30,27 +30,27 @@ const useUpdateProfile = () => {
   const validate = () => {
     const newErrors = {};
 
-    if (!form.name.trim()) {
+    if (!formUpdateProfile.name.trim()) {
       newErrors.name = "Name is required.";
     }
 
-    if (!form.username.trim()) {
+    if (!formUpdateProfile.username.trim()) {
       newErrors.username = "Username is required.";
     }
 
-    if (!form.bio) {
+    if (!formUpdateProfile.bio) {
       newErrors.bio = "Bio is required.";
     }
 
-    if (!form.website) {
+    if (!formUpdateProfile.website) {
       newErrors.website = "Website is required.";
     }
 
-    if (!form.phoneNumber) {
+    if (!formUpdateProfile.phoneNumber) {
       newErrors.phoneNumber = "Phone Number is required.";
     }
 
-    if (!file) {
+    if (!fileUpdateProfile) {
       newErrors.profilePictureUrl = "Profile Picture is required.";
     }
 
@@ -63,16 +63,16 @@ const useUpdateProfile = () => {
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
-      setError(validationErrors);
+      setErrorUpdateProfile(validationErrors);
       return;
     }
-
+    console.log({ ...formUpdateProfile, fileUpdateProfile });
     try {
       setErrorUpdateProfile({});
       setSuccessUpdateProfile("");
       setLoadingUpdateProfile(true);
 
-      await updateProfile({ ...formUpdateProfile, fileUpdateProfile });
+      await updateProfile({ ...formUpdateProfile, file: fileUpdateProfile });
 
       setSuccessUpdateProfile("Update profile was successfully");
 

@@ -6,7 +6,7 @@ const ProfileHeader = ({
   user,
   id,
   auth,
-  openModalUpdate,
+  openModalUpdateProfile,
   follow,
   openModalFollowing,
   openModalFollowers,
@@ -32,7 +32,7 @@ const ProfileHeader = ({
                 className={`bg-gray-200 py-2 px-4 rounded-lg font-semibold ${
                   id !== auth.user.id && "hidden"
                 }`}
-                onClick={openModalUpdate}
+                onClick={openModalUpdateProfile}
               >
                 Edit Profil
               </button>
