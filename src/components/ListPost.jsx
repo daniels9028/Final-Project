@@ -10,7 +10,7 @@ import { MdEdit } from "react-icons/md";
 import { LuTrash } from "react-icons/lu";
 import { useAuth } from "../context/AuthContext";
 
-const ListPost = ({ explore, handleDeletePost }) => {
+const ListPost = ({ explore, handleDeletePost, openModalCrudPost }) => {
   const { handleNavigate } = useNavigateUser();
 
   const { auth } = useAuth();
@@ -62,7 +62,10 @@ const ListPost = ({ explore, handleDeletePost }) => {
           </div>
           {explore.user.id === auth.user.id && (
             <div className="flex flex-row items-center gap-2">
-              <div className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-orange-400">
+              <div
+                className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-orange-400"
+                onClick={openModalCrudPost}
+              >
                 <MdEdit size={20} />
               </div>
               <div

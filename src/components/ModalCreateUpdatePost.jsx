@@ -12,12 +12,13 @@ const ModalCreateUpdatePost = ({
   setFormCrudPost,
   handleFileChangeCrudPost,
   loadingCrudPost,
+  title,
 }) => {
   return (
     <Modal
       isOpen={isModalCrudPostOpen}
       onClose={closeModalCrudPost}
-      title="Buat Postingan"
+      title={title}
     >
       <form
         className="flex flex-col p-4 space-y-4 transition-all"
