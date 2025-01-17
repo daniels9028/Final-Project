@@ -126,7 +126,7 @@ const MyProfile = () => {
 
       {id === auth.user.id && (
         <>
-          <p className="-mb-12 text-xl font-bold text-center underline">
+          <p className="mb-10 text-2xl tracking-wider font-bold text-center">
             My Following Post
           </p>
           <Posts
