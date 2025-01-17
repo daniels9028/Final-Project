@@ -2,23 +2,76 @@ import React, { useState } from "react";
 import { createPost, deletePost, updatePost } from "../services/Post";
 
 const useCrudPost = () => {
+  const [error, setError] = useState({});
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [isModalPostOpen, setModalPostOpen] = useState(false);
+
+  const openModalPost = () => {
+    setModalPostOpen(true);
+    setError({});
+    setSuccess("");
+  };
+  const closeModalPost = () => {
+    setModalPostOpen(false);
+    setError({});
+    setSuccess("");
+  };
+
   const [file, setFile] = useState(null);
 
   const [form, setForm] = useState({
-    caption: "Pengen ayam",
+    caption: "",
   });
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleCreatePost = async () => {
-    try {
-      const data = await createPost({ ...form, file });
+  const validate = () => {
+    const newErrors = {};
 
-      console.log(data);
+    if (!form.caption.trim()) {
+      newErrors.caption = "Caption is required.";
+    }
+
+    if (!file) {
+      newErrors.imageUrl = "Image is required.";
+    }
+
+    return newErrors;
+  };
+
+  const handleCreatePost = async (e) => {
+    e.preventDefault();
+
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setError(validationErrors);
+      return;
+    }
+
+    try {
+      setError({});
+      setSuccess("");
+      setLoading(true);
+
+      await createPost({ ...form, file });
+
+      setSuccess("Post created was successfully");
+
+      setTimeout(() => {
+        closeModalPost();
+      }, 1000);
+
+      setForm({ ...form, caption: "" });
+      setFile(null);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,7 +98,21 @@ const useCrudPost = () => {
     }
   };
 
-  return { handleCreatePost, handleUpdatePost, handleDeletePost };
+  return {
+    handleCreatePost,
+    handleUpdatePost,
+    handleDeletePost,
+    form,
+    file,
+    handleFileChange,
+    setForm,
+    error,
+    success,
+    isModalPostOpen,
+    openModalPost,
+    closeModalPost,
+    loading,
+  };
 };
 
 export default useCrudPost;

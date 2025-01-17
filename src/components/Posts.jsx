@@ -3,7 +3,7 @@ import ListPost from "./ListPost";
 
 const Posts = ({ explorePost, explorePage }) => {
   return (
-    <section className="mt-24">
+    <section>
       <div className="flex flex-col items-center w-full px-6 mx-auto lg:px-12 max-w-7xl">
         {explorePost?.map(
           (explore) =>
