@@ -5,7 +5,7 @@ import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
 
 const AddPost = ({
   auth,
-  closeModalCreatePost,
+  closeModalCrudPost,
   isModalCrudPostOpen,
   openModalCrudPost,
   handleCreatePost,
@@ -42,7 +42,7 @@ const AddPost = ({
 
       <ModalCreateUpdatePost
         isModalCrudPostOpen={isModalCrudPostOpen}
-        closeModalCreatePost={closeModalCreatePost}
+        closeModalCrudPost={closeModalCrudPost}
         handleCreatePost={handleCreatePost}
         errorCrudPost={errorCrudPost}
         successCrudPost={successCrudPost}
@@ -51,6 +51,7 @@ const AddPost = ({
         setFormCrudPost={setFormCrudPost}
         handleFileChangeCrudPost={handleFileChangeCrudPost}
         loadingCrudPost={loadingCrudPost}
+        title="Buat Postingan"
       />
     </>
   );

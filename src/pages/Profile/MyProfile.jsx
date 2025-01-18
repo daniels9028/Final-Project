@@ -10,6 +10,7 @@ import {
   ListFollowers,
   ListFollowing,
   UpdateProfileForm,
+  ModalCreateUpdatePost,
 } from "../../components";
 
 import {
@@ -36,8 +37,6 @@ const MyProfile = () => {
 
   const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
     useFollowingPost();
-
-  const { handleDeletePost, isDeletePost } = useCrudPost();
 
   const {
     isModalFollowersOpen,
@@ -72,6 +71,21 @@ const MyProfile = () => {
     handleFileChangeUpdateProfile,
     loadingUpdateProfile,
   } = useUpdateProfile();
+
+  const {
+    formCrudPost,
+    handleFileChangeCrudPost,
+    setFormCrudPost,
+    handleCreatePost,
+    errorCrudPost,
+    successCrudPost,
+    isModalCrudPostOpen,
+    openModalCrudPost,
+    closeModalCrudPost,
+    loadingCrudPost,
+    handleDeletePost,
+    isDeletePost,
+  } = useCrudPost();
 
   const handleGetUserById = async () => {
     try {
@@ -119,7 +133,7 @@ const MyProfile = () => {
         handleUnFollow={handleUnFollow}
       />
 
-      <p className="mb-10 text-2xl tracking-wider font-bold text-center">
+      <p className="mb-10 text-2xl font-bold tracking-wider text-center">
         My Post
       </p>
 
@@ -127,11 +141,12 @@ const MyProfile = () => {
         explorePost={myPost}
         explorePage={myPostPage}
         handleDeletePost={handleDeletePost}
+        openModalCrudPost={openModalCrudPost}
       />
 
       {id === auth.user.id && (
         <>
-          <p className="mb-10 text-2xl tracking-wider font-bold text-center">
+          <p className="mb-10 text-2xl font-bold tracking-wider text-center">
             My Following Post
           </p>
           <Posts
@@ -188,6 +203,20 @@ const MyProfile = () => {
           />
         ))}
       </Modal>
+
+      <ModalCreateUpdatePost
+        isModalCrudPostOpen={isModalCrudPostOpen}
+        closeModalCrudPost={closeModalCrudPost}
+        handleCreatePost={handleCreatePost}
+        errorCrudPost={errorCrudPost}
+        successCrudPost={successCrudPost}
+        user={user}
+        formCrudPost={formCrudPost}
+        setFormCrudPost={setFormCrudPost}
+        handleFileChangeCrudPost={handleFileChangeCrudPost}
+        loadingCrudPost={loadingCrudPost}
+        title="Edit Postingan"
+      />
     </div>
   );
 };
