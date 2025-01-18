@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { getUserById, updateProfile } from "../services/User";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const useUpdateProfile = () => {
+  const { auth, setAuth } = useAuth();
+
+  const navigate = useNavigate();
+
   const [formUpdateProfile, setFormUpdateProfile] = useState({});
   const [fileUpdateProfile, setFileUpdateProfile] = useState(null);
 
@@ -38,6 +44,10 @@ const useUpdateProfile = () => {
       newErrors.username = "Username is required.";
     }
 
+    if (!formUpdateProfile.email.trim()) {
+      newErrors.email = "Email is required.";
+    }
+
     if (!formUpdateProfile.bio) {
       newErrors.bio = "Bio is required.";
     }
@@ -66,7 +76,7 @@ const useUpdateProfile = () => {
       setErrorUpdateProfile(validationErrors);
       return;
     }
-    console.log({ ...formUpdateProfile, fileUpdateProfile });
+
     try {
       setErrorUpdateProfile({});
       setSuccessUpdateProfile("");
@@ -76,8 +86,12 @@ const useUpdateProfile = () => {
 
       setSuccessUpdateProfile("Update profile was successfully");
 
+      setAuth({ ...auth, token: "", user: "" });
+
+      localStorage.clear();
+
       setTimeout(() => {
-        window.location.reload();
+        navigate("/login");
       }, 1000);
     } catch (error) {
       console.log(error);

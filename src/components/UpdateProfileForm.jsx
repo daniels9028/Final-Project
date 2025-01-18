@@ -181,7 +181,7 @@ const UpdateProfileForm = ({
             className="w-32 py-2 text-lg font-medium text-white bg-orange-500 rounded-md hover:bg-orange-700"
             disabled={loadingUpdateProfile}
           >
-            {loadingUpdateProfile ? "loadingUpdateProfile..." : "Update"}
+            {loadingUpdateProfile ? "loading..." : "Update"}
           </button>
         </div>
       </form>

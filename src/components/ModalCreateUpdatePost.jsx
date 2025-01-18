@@ -70,7 +70,7 @@ const ModalCreateUpdatePost = ({
           disabled={loadingCrudPost}
           className="w-full py-2 font-semibold tracking-wide text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600"
         >
-          {loadingCrudPost ? "loadingCrudPost..." : "Post"}
+          {loadingCrudPost ? "loading..." : "Post"}
         </button>
       </form>
     </Modal>
