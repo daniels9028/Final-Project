@@ -11,7 +11,7 @@ const AddPost = ({
   handleCreatePost,
   formCrudPost,
   handleFileChangeCrudPost,
-  setFormCrudPost,
+  handleChangeCrudPost,
   errorCrudPost,
   successCrudPost,
   loadingCrudPost,
@@ -48,7 +48,7 @@ const AddPost = ({
         successCrudPost={successCrudPost}
         user={user}
         formCrudPost={formCrudPost}
-        setFormCrudPost={setFormCrudPost}
+        handleChangeCrudPost={handleChangeCrudPost}
         handleFileChangeCrudPost={handleFileChangeCrudPost}
         loadingCrudPost={loadingCrudPost}
         title="Buat Postingan"

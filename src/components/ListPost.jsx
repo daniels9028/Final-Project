@@ -3,17 +3,38 @@ import { GoComment } from "react-icons/go";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 
 import Like from "./Like";
-import { useComment, useNavigateUser, usePostById } from "../hooks";
-import { Modal } from "../components";
+import {
+  useComment,
+  useCrudPost,
+  useNavigateUser,
+  usePostById,
+} from "../hooks";
+import { Modal, ModalCreateUpdatePost } from "../components";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { LuTrash } from "react-icons/lu";
 import { useAuth } from "../context/AuthContext";
 
-const ListPost = ({ explore, handleDeletePost, openModalCrudPost }) => {
+const ListPost = ({
+  explore,
+  handleDeletePost,
+  formCrudPost,
+  handleChangeCrudPost,
+  handleUpdatePost,
+  errorCrudPost,
+  successCrudPost,
+  loadingCrudPost,
+  fileCrudPost,
+  handleFileChangeCrudPost,
+  isModalCrudPostOpen,
+  openModalCrudPost,
+  closeModalCrudPost,
+}) => {
   const { handleNavigate } = useNavigateUser();
 
   const { auth } = useAuth();
+
+  const { user } = auth;
 
   const {
     handleAddComment,
@@ -23,7 +44,22 @@ const ListPost = ({ explore, handleDeletePost, openModalCrudPost }) => {
     submitComment,
   } = useComment();
 
+  // const {
+  //   // formCrudPost,
+  //   // handleChangeCrudPost,
+  //   // errorCrudPost,
+  //   // successCrudPost,
+  //   // handleFileChangeCrudPost,
+  //   // isModalCrudPostOpen,
+  //   // openModalCrudPost,
+  //   // closeModalCrudPost,
+  //   // loadingCrudPost,
+  //   // handleUpdatePost,
+  //   // fileCrudPost,
+  // } = useCrudPost();
+
   const {
+    postById,
     handleGetPostById,
     totalComment,
     isModalPostOpen,
@@ -189,6 +225,23 @@ const ListPost = ({ explore, handleDeletePost, openModalCrudPost }) => {
           </div>
         </div>
       </Modal>
+
+      <ModalCreateUpdatePost
+        isModalCrudPostOpen={isModalCrudPostOpen}
+        closeModalCrudPost={closeModalCrudPost}
+        handleUpdatePost={handleUpdatePost}
+        errorCrudPost={errorCrudPost}
+        successCrudPost={successCrudPost}
+        user={user}
+        formCrudPost={formCrudPost}
+        handleChangeCrudPost={handleChangeCrudPost}
+        handleFileChangeCrudPost={handleFileChangeCrudPost}
+        loadingCrudPost={loadingCrudPost}
+        postById={postById}
+        fileCrudPost={fileCrudPost}
+        postId={explore?.id}
+        title="Edit Postingan"
+      />
     </>
   );
 };

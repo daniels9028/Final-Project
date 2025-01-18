@@ -5,7 +5,17 @@ const Posts = ({
   explorePost,
   explorePage,
   handleDeletePost,
+  formCrudPost,
+  handleChangeCrudPost,
+  handleUpdatePost,
+  errorCrudPost,
+  successCrudPost,
+  loadingCrudPost,
+  fileCrudPost,
+  handleFileChangeCrudPost,
+  isModalCrudPostOpen,
   openModalCrudPost,
+  closeModalCrudPost,
 }) => {
   return (
     <section>
@@ -17,7 +27,17 @@ const Posts = ({
                 key={explore.id}
                 explore={explore}
                 handleDeletePost={handleDeletePost}
+                formCrudPost={formCrudPost}
+                handleChangeCrudPost={handleChangeCrudPost}
+                handleUpdatePost={handleUpdatePost}
+                errorCrudPost={errorCrudPost}
+                successCrudPost={successCrudPost}
+                loadingCrudPost={loadingCrudPost}
+                fileCrudPost={fileCrudPost}
+                handleFileChangeCrudPost={handleFileChangeCrudPost}
+                isModalCrudPostOpen={isModalCrudPostOpen}
                 openModalCrudPost={openModalCrudPost}
+                closeModalCrudPost={closeModalCrudPost}
               />
             )
         )}

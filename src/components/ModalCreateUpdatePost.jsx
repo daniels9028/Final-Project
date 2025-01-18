@@ -5,14 +5,17 @@ const ModalCreateUpdatePost = ({
   isModalCrudPostOpen,
   closeModalCrudPost,
   handleCreatePost,
+  handleUpdatePost,
   errorCrudPost,
   successCrudPost,
   user,
   formCrudPost,
-  setFormCrudPost,
+  handleChangeCrudPost,
   handleFileChangeCrudPost,
   loadingCrudPost,
   title,
+  postById,
+  postId,
 }) => {
   return (
     <Modal
@@ -22,11 +25,15 @@ const ModalCreateUpdatePost = ({
     >
       <form
         className="flex flex-col p-4 space-y-4 transition-all"
-        onSubmit={handleCreatePost}
+        onSubmit={(e) =>
+          title === "Edit Postingan"
+            ? handleUpdatePost(e, postId)
+            : handleCreatePost(e)
+        }
       >
-        {errorCrudPost.message && (
+        {errorCrudPost?.message && (
           <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-            {errorCrudPost.message}
+            {errorCrudPost?.message}
           </p>
         )}
 
@@ -42,13 +49,18 @@ const ModalCreateUpdatePost = ({
             className="block w-full px-4 py-2 mt-1 border-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder={`Apa yang Anda pikirkan, ${user?.username}?`}
             rows="8"
-            value={formCrudPost?.caption}
-            onChange={(e) =>
-              setFormCrudPost({ ...formCrudPost, caption: e.target.value })
+            value={
+              formCrudPost?.caption
+              // === ""
+              //   ? postById?.caption
+              //   : formCrudPost?.caption
             }
+            onChange={handleChangeCrudPost}
           ></textarea>
-          {errorCrudPost.caption && (
-            <p className="mt-1 text-sm text-red-500">{errorCrudPost.caption}</p>
+          {errorCrudPost?.caption && (
+            <p className="mt-1 text-sm text-red-500">
+              {errorCrudPost?.caption}
+            </p>
           )}
         </div>
         <div className="w-full">
@@ -60,9 +72,9 @@ const ModalCreateUpdatePost = ({
               onChange={handleFileChangeCrudPost}
             ></input>
           </div>
-          {errorCrudPost.imageUrl && (
+          {errorCrudPost?.imageUrl && (
             <p className="mt-1 text-sm text-red-500">
-              {errorCrudPost.imageUrl}
+              {errorCrudPost?.imageUrl}
             </p>
           )}
         </div>

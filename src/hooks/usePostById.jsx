@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { getPostById } from "../services/Post";
 
 const usePostById = () => {
+  const [postById, setPostById] = useState({
+    caption: "",
+    imageUrl: "",
+  });
+
   const [comments, setComments] = useState();
   const [totalComment, setTotalComment] = useState(0);
 
@@ -14,6 +19,11 @@ const usePostById = () => {
     try {
       const { data } = await getPostById(postId);
 
+      setPostById({
+        ...postById,
+        caption: data.caption,
+        imageUrl: data.imageUrl,
+      });
       setComments(data.comments);
       setTotalComment(data.comments.length);
     } catch (error) {
@@ -28,6 +38,7 @@ const usePostById = () => {
     openModalPost,
     closeModalPost,
     comments,
+    postById,
   };
 };
 

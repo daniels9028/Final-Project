@@ -13,7 +13,7 @@ const Home = () => {
   const {
     formCrudPost,
     handleFileChangeCrudPost,
-    setFormCrudPost,
+    handleChangeCrudPost,
     handleCreatePost,
     errorCrudPost,
     successCrudPost,
@@ -28,6 +28,10 @@ const Home = () => {
     document.title = "Home | Instagram";
   }, []);
 
+  useEffect(() => {
+    handleExplorePost();
+  }, [isModalCrudPostOpen]);
+
   return (
     <div>
       <Navbar auth={auth} />
@@ -38,7 +42,7 @@ const Home = () => {
         openModalCrudPost={openModalCrudPost}
         formCrudPost={formCrudPost}
         handleFileChangeCrudPost={handleFileChangeCrudPost}
-        setFormCrudPost={setFormCrudPost}
+        handleChangeCrudPost={handleChangeCrudPost}
         handleCreatePost={handleCreatePost}
         successCrudPost={successCrudPost}
         errorCrudPost={errorCrudPost}

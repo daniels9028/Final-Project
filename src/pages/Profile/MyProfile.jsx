@@ -72,19 +72,23 @@ const MyProfile = () => {
     loadingUpdateProfile,
   } = useUpdateProfile();
 
+  const {} = useCrudPost();
+
   const {
+    handleDeletePost,
+    isDeletePost,
+    isUpdatePost,
     formCrudPost,
-    handleFileChangeCrudPost,
-    setFormCrudPost,
-    handleCreatePost,
+    handleChangeCrudPost,
+    handleUpdatePost,
     errorCrudPost,
     successCrudPost,
+    loadingCrudPost,
+    fileCrudPost,
+    handleFileChangeCrudPost,
     isModalCrudPostOpen,
     openModalCrudPost,
     closeModalCrudPost,
-    loadingCrudPost,
-    handleDeletePost,
-    isDeletePost,
   } = useCrudPost();
 
   const handleGetUserById = async () => {
@@ -115,7 +119,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     postByUserId();
-  }, [isDeletePost]);
+  }, [isDeletePost, isUpdatePost]);
 
   return (
     <div>
@@ -141,7 +145,17 @@ const MyProfile = () => {
         explorePost={myPost}
         explorePage={myPostPage}
         handleDeletePost={handleDeletePost}
+        formCrudPost={formCrudPost}
+        handleChangeCrudPost={handleChangeCrudPost}
+        handleUpdatePost={handleUpdatePost}
+        errorCrudPost={errorCrudPost}
+        successCrudPost={successCrudPost}
+        loadingCrudPost={loadingCrudPost}
+        fileCrudPost={fileCrudPost}
+        handleFileChangeCrudPost={handleFileChangeCrudPost}
+        isModalCrudPostOpen={isModalCrudPostOpen}
         openModalCrudPost={openModalCrudPost}
+        closeModalCrudPost={closeModalCrudPost}
       />
 
       {id === auth.user.id && (
@@ -203,20 +217,6 @@ const MyProfile = () => {
           />
         ))}
       </Modal>
-
-      <ModalCreateUpdatePost
-        isModalCrudPostOpen={isModalCrudPostOpen}
-        closeModalCrudPost={closeModalCrudPost}
-        handleCreatePost={handleCreatePost}
-        errorCrudPost={errorCrudPost}
-        successCrudPost={successCrudPost}
-        user={user}
-        formCrudPost={formCrudPost}
-        setFormCrudPost={setFormCrudPost}
-        handleFileChangeCrudPost={handleFileChangeCrudPost}
-        loadingCrudPost={loadingCrudPost}
-        title="Edit Postingan"
-      />
     </div>
   );
 };
