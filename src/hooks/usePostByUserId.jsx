@@ -14,7 +14,6 @@ const usePostByUserId = (id) => {
     try {
       const { data } = await getPostByUserId({ size: 10, page: 1 }, id);
 
-      console.log(data.posts);
       setMyPost(data.posts);
       setMyPostPage({
         ...myPost,

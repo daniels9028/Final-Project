@@ -12,6 +12,12 @@ const useCrudPost = () => {
 
   const [isUpdatePost, setIsUpdatePost] = useState(false);
 
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handleSelectPost = (post) => {
+    setSelectedPost(post); // Pass selected post to the child component
+  };
+
   const openModalCrudPost = () => {
     setModalCrudPostOpen(true);
     setErrorCrudPost({});
@@ -146,6 +152,8 @@ const useCrudPost = () => {
     isDeletePost,
     isUpdatePost,
     fileCrudPost,
+    selectedPost,
+    handleSelectPost,
   };
 };
 
