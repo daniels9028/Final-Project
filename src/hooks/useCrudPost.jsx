@@ -10,6 +10,8 @@ const useCrudPost = () => {
 
   const [isDeletePost, setIsDeletePost] = useState(false);
 
+  const [isUpdatePost, setIsUpdatePost] = useState(false);
+
   const openModalCrudPost = () => {
     setModalCrudPostOpen(true);
     setErrorCrudPost({});
@@ -26,6 +28,13 @@ const useCrudPost = () => {
   const [formCrudPost, setFormCrudPost] = useState({
     caption: "",
   });
+
+  const handleChangeCrudPost = (e) => {
+    setFormCrudPost({
+      ...formCrudPost,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleFileChangeCrudPost = (e) => {
     setFileCrudPost(e.target.files[0]);
@@ -77,16 +86,36 @@ const useCrudPost = () => {
     }
   };
 
-  const handleUpdatePost = async () => {
-    try {
-      const data = await updatePost(
-        { ...formCrudPost, file: fileCrudPost },
-        "763d2432-12fa-43e5-960e-7d0640d095a1"
-      );
+  const handleUpdatePost = async (e, postId) => {
+    e.preventDefault();
 
-      console.log(data);
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrorCrudPost(validationErrors);
+      return;
+    }
+
+    try {
+      setErrorCrudPost({});
+      setSuccessCrudPost("");
+      setLoadingCrudPost(true);
+
+      await updatePost({ ...formCrudPost, file: fileCrudPost }, postId);
+
+      setSuccessCrudPost("Post updated was successfully");
+
+      setTimeout(() => {
+        closeModalCrudPost();
+
+        setFormCrudPost({ ...formCrudPost, caption: "" });
+        setFileCrudPost(null);
+        setIsUpdatePost((prev) => !prev);
+      }, 1000);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingCrudPost(false);
     }
   };
 
@@ -107,7 +136,7 @@ const useCrudPost = () => {
     formCrudPost,
     fileCrudPost,
     handleFileChangeCrudPost,
-    setFormCrudPost,
+    handleChangeCrudPost,
     errorCrudPost,
     successCrudPost,
     isModalCrudPostOpen,
@@ -115,6 +144,8 @@ const useCrudPost = () => {
     closeModalCrudPost,
     loadingCrudPost,
     isDeletePost,
+    isUpdatePost,
+    fileCrudPost,
   };
 };
 
