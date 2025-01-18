@@ -89,6 +89,8 @@ const MyProfile = () => {
     isModalCrudPostOpen,
     openModalCrudPost,
     closeModalCrudPost,
+    selectedPost,
+    handleSelectPost,
   } = useCrudPost();
 
   const handleGetUserById = async () => {
@@ -156,6 +158,8 @@ const MyProfile = () => {
         isModalCrudPostOpen={isModalCrudPostOpen}
         openModalCrudPost={openModalCrudPost}
         closeModalCrudPost={closeModalCrudPost}
+        selectedPost={selectedPost}
+        handleSelectPost={handleSelectPost}
       />
 
       {id === auth.user.id && (

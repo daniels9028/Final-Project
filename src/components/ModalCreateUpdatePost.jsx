@@ -13,9 +13,8 @@ const ModalCreateUpdatePost = ({
   handleChangeCrudPost,
   handleFileChangeCrudPost,
   loadingCrudPost,
+  selectedPost,
   title,
-  postById,
-  postId,
 }) => {
   return (
     <Modal
@@ -27,7 +26,7 @@ const ModalCreateUpdatePost = ({
         className="flex flex-col p-4 space-y-4 transition-all"
         onSubmit={(e) =>
           title === "Edit Postingan"
-            ? handleUpdatePost(e, postId)
+            ? handleUpdatePost(e, selectedPost.id)
             : handleCreatePost(e)
         }
       >
@@ -50,10 +49,9 @@ const ModalCreateUpdatePost = ({
             placeholder={`Apa yang Anda pikirkan, ${user?.username}?`}
             rows="8"
             value={
-              formCrudPost?.caption
-              // === ""
-              //   ? postById?.caption
-              //   : formCrudPost?.caption
+              formCrudPost?.caption === ""
+                ? selectedPost?.caption
+                : formCrudPost?.caption
             }
             onChange={handleChangeCrudPost}
           ></textarea>

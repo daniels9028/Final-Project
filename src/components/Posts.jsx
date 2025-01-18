@@ -16,6 +16,8 @@ const Posts = ({
   isModalCrudPostOpen,
   openModalCrudPost,
   closeModalCrudPost,
+  selectedPost,
+  handleSelectPost,
 }) => {
   return (
     <section>
@@ -38,6 +40,8 @@ const Posts = ({
                 isModalCrudPostOpen={isModalCrudPostOpen}
                 openModalCrudPost={openModalCrudPost}
                 closeModalCrudPost={closeModalCrudPost}
+                selectedPost={selectedPost}
+                handleSelectPost={handleSelectPost}
               />
             )
         )}

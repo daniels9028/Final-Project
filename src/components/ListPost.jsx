@@ -29,6 +29,8 @@ const ListPost = ({
   isModalCrudPostOpen,
   openModalCrudPost,
   closeModalCrudPost,
+  selectedPost,
+  handleSelectPost,
 }) => {
   const { handleNavigate } = useNavigateUser();
 
@@ -100,7 +102,10 @@ const ListPost = ({
             <div className="flex flex-row items-center gap-2">
               <div
                 className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-orange-400"
-                onClick={openModalCrudPost}
+                onClick={() => {
+                  openModalCrudPost();
+                  handleSelectPost(explore);
+                }}
               >
                 <MdEdit size={20} />
               </div>
@@ -237,9 +242,8 @@ const ListPost = ({
         handleChangeCrudPost={handleChangeCrudPost}
         handleFileChangeCrudPost={handleFileChangeCrudPost}
         loadingCrudPost={loadingCrudPost}
-        postById={postById}
         fileCrudPost={fileCrudPost}
-        postId={explore?.id}
+        selectedPost={selectedPost}
         title="Edit Postingan"
       />
     </>
