@@ -61,7 +61,6 @@ const ListPost = ({
   // } = useCrudPost();
 
   const {
-    postById,
     handleGetPostById,
     totalComment,
     isModalPostOpen,
@@ -183,6 +182,9 @@ const ListPost = ({
           <div className="flex flex-row items-center gap-4 px-4 py-2">
             <img
               src={explore?.user?.profilePictureUrl}
+              onError={(e) => {
+                e.target.src = profileBlank;
+              }}
               alt={explore?.user?.id}
               className="object-cover border-2 border-gray-400 rounded-full w-14 h-14"
             />
@@ -191,9 +193,12 @@ const ListPost = ({
               <p>{explore?.caption}</p>
             </div>
           </div>
-          <div className="py-10 border-gray-200 shadow-md border-y-2">
+          <div className="border-gray-200 shadow-lg border-y-2">
             <img
               src={explore?.imageUrl}
+              onError={(e) => {
+                e.target.src = alternativeImageUrlPost;
+              }}
               alt={explore?.id}
               className="w-full object-cover h-[300px] "
             />

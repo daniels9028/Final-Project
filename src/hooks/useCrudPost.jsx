@@ -151,7 +151,6 @@ const useCrudPost = () => {
     loadingCrudPost,
     isDeletePost,
     isUpdatePost,
-    fileCrudPost,
     selectedPost,
     handleSelectPost,
   };
