@@ -35,8 +35,11 @@ const Navbar = ({ auth }) => {
             to={`/profile/${user.id}`}
           >
             <img
-              src={user?.profilePictureUrl || profile}
-              alt=""
+              src={user?.profilePictureUrl}
+              alt={user?.id}
+              onError={(e) => {
+                e.target.src = profile;
+              }}
               className="object-cover w-12 h-12 border-2 border-gray-200 rounded-full"
             />
             <div>

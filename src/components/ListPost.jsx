@@ -3,12 +3,7 @@ import { GoComment } from "react-icons/go";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 
 import Like from "./Like";
-import {
-  useComment,
-  useCrudPost,
-  useNavigateUser,
-  usePostById,
-} from "../hooks";
+import { useComment, useNavigateUser, usePostById } from "../hooks";
 import { Modal, ModalCreateUpdatePost } from "../components";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";

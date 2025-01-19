@@ -13,6 +13,8 @@ import ListFollowing from "./ListFollowing";
 import UpdateProfileForm from "./UpdateProfileForm";
 import AddPost from "./AddPost";
 import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
+import DetailStory from "./DetailStory";
+import ModalFormStory from "./ModalFormStory";
 
 export {
   Button,
@@ -30,4 +32,6 @@ export {
   UpdateProfileForm,
   AddPost,
   ModalCreateUpdatePost,
+  DetailStory,
+  ModalFormStory,
 };
