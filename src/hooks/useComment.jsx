@@ -14,7 +14,7 @@ const useComment = () => {
       await createComment({ ...form, postId: postId });
 
       setForm({ ...form, comment: "" });
-      setSubmitComment(!submitComment);
+      setSubmitComment((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -24,7 +24,7 @@ const useComment = () => {
     try {
       await deleteComment(commentId);
 
-      setSubmitComment(!submitComment);
+      setSubmitComment((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
