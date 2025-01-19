@@ -20,7 +20,7 @@ const AddPost = ({
 
   return (
     <>
-      <section className="mt-24 mb-10">
+      <section className="my-10">
         <div className="flex flex-col items-center w-full px-6 mx-auto lg:px-12 max-w-7xl">
           <div className="flex flex-col w-full p-4 overflow-hidden bg-white border rounded-lg shadow-lg lg:w-1/2">
             <div className="flex flex-row items-center gap-4">

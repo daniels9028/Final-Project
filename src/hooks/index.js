@@ -11,6 +11,7 @@ import useNavigateUser from "./useNavigateUser";
 import useComment from "./useComment";
 import useCrudPost from "./useCrudPost";
 import usePostById from "./usePostById";
+import useStory from "./useStory";
 
 export {
   useFollow,
@@ -26,4 +27,5 @@ export {
   useComment,
   useCrudPost,
   usePostById,
+  useStory,
 };
