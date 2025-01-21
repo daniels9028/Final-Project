@@ -10,6 +10,8 @@ const useCrudPost = () => {
 
   const [isDeletePost, setIsDeletePost] = useState(false);
 
+  const [isCreatePost, setIsCreatePost] = useState(false);
+
   const [isUpdatePost, setIsUpdatePost] = useState(false);
 
   const [selectedPost, setSelectedPost] = useState(null);
@@ -85,6 +87,7 @@ const useCrudPost = () => {
 
       setFormCrudPost({ ...formCrudPost, caption: "" });
       setFileCrudPost(null);
+      setIsCreatePost((prev) => !prev);
     } catch (error) {
       console.log(error);
     } finally {
@@ -151,6 +154,7 @@ const useCrudPost = () => {
     loadingCrudPost,
     isDeletePost,
     isUpdatePost,
+    isCreatePost,
     selectedPost,
     handleSelectPost,
   };
