@@ -14,7 +14,7 @@ const ProfileHeader = ({
   handleUnFollow,
 }) => {
   return (
-    <section className="my-24">
+    <section className="my-20">
       <div className="flex flex-col items-center justify-center w-full px-12 mx-auto max-w-7xl">
         <div className="flex flex-col items-center justify-center gap-10 p-4 lg:flex-row lg:gap-40">
           <img
@@ -27,9 +27,11 @@ const ProfileHeader = ({
           />
           <div className="flex flex-col justify-start gap-4">
             <div className="flex flex-row items-center gap-8">
-              <p className="text-xl font-bold">{user?.username}</p>
+              <p className="text-xl font-bold text-white tracking-wider">
+                {user?.username}
+              </p>
               <button
-                className={`bg-gray-200 py-2 px-4 rounded-lg font-semibold ${
+                className={`bg-white hover:bg-slate-300 transition-colors py-2 px-4 rounded-lg font-semibold text-nowrap ${
                   id !== auth.user.id && "hidden"
                 }`}
                 onClick={openModalUpdateProfile}
@@ -49,23 +51,25 @@ const ProfileHeader = ({
             </div>
             <div className="flex flex-row items-center gap-8">
               <p
-                className="text-xl font-bold transition-all cursor-pointer hover:text-gray-500"
+                className="text-xl transition-all cursor-pointer hover:text-gray-500 text-white font-medium"
                 onClick={openModalFollowing}
               >
-                {user?.totalFollowing}{" "}
-                <span className="text-base font-normal">following</span>
+                {user?.totalFollowing}
+                <span className="text-base font-normal"> Mengikuti</span>
               </p>
               <p
-                className="text-xl font-bold transition-all cursor-pointer hover:text-gray-500"
+                className="text-xl transition-all cursor-pointer hover:text-gray-500 text-white font-medium"
                 onClick={openModalFollowers}
               >
-                {user?.totalFollowers}{" "}
-                <span className="text-base font-normal">followers</span>
+                {user?.totalFollowers}
+                <span className="text-base font-normal"> Pengikut</span>
               </p>
             </div>
             <div className="flex flex-col gap-2">
-              <p className="text-lg font-bold capitalize">{user?.name}</p>
-              <p className="font-medium tracking-wide text-gray-500">
+              <p className="text-lg font-semibold text-white capitalize">
+                {user?.name}
+              </p>
+              <p className="font-medium tracking-wide text-gray-200">
                 {user?.bio || "-"}
               </p>
               <a
