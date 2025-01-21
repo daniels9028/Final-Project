@@ -3,6 +3,7 @@ import profile from "../assets/profile.jpg";
 import alternativeImageUrlPost from "../assets/posts.jpg";
 import alternativeProfile from "../assets/alternativeProfile.jpeg";
 import profileBlank from "../assets/profileBlank.webp";
+import vista from "../assets/vista.png";
 
 export {
   loginBackground,
@@ -10,4 +11,5 @@ export {
   alternativeImageUrlPost,
   alternativeProfile,
   profileBlank,
+  vista,
 };
