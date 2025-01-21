@@ -124,7 +124,13 @@ const MyProfile = () => {
   }, [isDeletePost, isUpdatePost]);
 
   return (
-    <div>
+    <div
+      className="object-cover bg-center min-h-screen"
+      style={{
+        backgroundImage:
+          "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQHUlzTwr5iUkqUPitO1eTLPM7m8Np5GDgw&s')",
+      }}
+    >
       <Navbar auth={auth} />
 
       <ProfileHeader
@@ -139,8 +145,8 @@ const MyProfile = () => {
         handleUnFollow={handleUnFollow}
       />
 
-      <p className="mb-10 text-2xl font-bold tracking-wider text-center">
-        My Post
+      <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
+        Postingan Anda
       </p>
 
       <Posts
@@ -164,8 +170,8 @@ const MyProfile = () => {
 
       {id === auth.user.id && (
         <>
-          <p className="mb-10 text-2xl font-bold tracking-wider text-center">
-            My Following Post
+          <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
+            Postingan yang Anda ikuti
           </p>
           <Posts
             explorePost={myFollowingPost}

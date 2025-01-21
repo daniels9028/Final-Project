@@ -59,7 +59,13 @@ const Home = () => {
   }, [isFormStory]);
 
   return (
-    <div>
+    <div
+      className="object-cover bg-center min-h-screen"
+      style={{
+        backgroundImage:
+          "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQHUlzTwr5iUkqUPitO1eTLPM7m8Np5GDgw&s')",
+      }}
+    >
       <Navbar auth={auth} />
 
       <Story

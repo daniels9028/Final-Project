@@ -3,8 +3,9 @@ import { alternativeImageUrlPost } from "../assets";
 
 const DetailStory = ({ stories }) => {
   const { id, imageUrl } = stories;
+
   return (
-    <div className="min-w-[150px] min-h-[200px] shadow-lg border rounded-lg bg-white flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 overflow-hidden">
+    <div className="min-w-[150px] min-h-[200px] shadow-lg border-2 border-gray-300 rounded-xl bg-white flex items-center justify-center cursor-pointer hover:scale-110 transition-all duration-300 overflow-hidden">
       <img
         src={imageUrl}
         onError={(e) => {

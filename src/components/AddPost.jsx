@@ -21,16 +21,16 @@ const AddPost = ({
   return (
     <>
       <section className="my-10">
-        <div className="flex flex-col items-center w-full px-6 mx-auto lg:px-12 max-w-7xl">
-          <div className="flex flex-col w-full p-4 overflow-hidden bg-white border rounded-lg shadow-lg lg:w-1/2">
-            <div className="flex flex-row items-center gap-4">
+        <div className="flex justify-center items-center w-full px-6 mx-auto lg:px-12 max-w-7xl">
+          <div className="w-full p-4 overflow-hidden bg-white border rounded-xl shadow-xl lg:w-1/2">
+            <div className="flex flex-row items-center justify-center gap-4">
               <img
                 src={user?.profilePictureUrl || profile}
                 alt=""
                 className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
               />
               <button
-                className="w-full h-12 px-4 text-sm text-left text-gray-500 transition-all rounded-full lg:text-base bg-slate-200 hover:bg-slate-300"
+                className="w-full h-12 px-4 text-left text-gray-500 transition-all rounded-full bg-slate-200 hover:bg-slate-300 lg:text-base text-xs"
                 onClick={openModalCrudPost}
               >
                 Apa yang Anda pikirkan, {user?.username}?
