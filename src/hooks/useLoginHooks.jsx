@@ -81,7 +81,15 @@ const useLoginHooks = () => {
     }
   };
 
-  return { error, success, handleLogin, handleChange, showPassword, loading };
+  return {
+    error,
+    success,
+    handleLogin,
+    handleChange,
+    showPassword,
+    loading,
+    setShowPassword,
+  };
 };
 
 export default useLoginHooks;

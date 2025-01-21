@@ -11,10 +11,11 @@ const Register = () => {
     handleRegister,
     handleChange,
     showPassword,
+    setShowPassword,
   } = useRegisterHooks();
 
   useEffect(() => {
-    document.title = "Register | Instagram";
+    document.title = "Sign Up | Instagram";
   }, []);
 
   return (
@@ -29,7 +30,7 @@ const Register = () => {
         {/* Left Side */}
         <div className="flex-col justify-center hidden w-1/2 p-8 text-white md:flex">
           <h1 className="mb-4 text-4xl font-bold">
-            REGISTER TO YOUR ADVENTURE!
+            SIGN UP TO YOUR ADVENTURE!
           </h1>
           <p className="text-lg">
             Join us for an exciting journey into the universe.
@@ -39,10 +40,10 @@ const Register = () => {
         {/* Right Side */}
         <div className="w-full p-8 bg-white rounded-lg shadow-lg md:w-1/2">
           <h2 className="mb-4 text-3xl font-bold text-center text-gray-800">
-            REGISTER
+            SIGN UP
           </h2>
           <p className="mb-6 text-center text-gray-600">
-            Register with your data
+            Sign Up with your email
           </p>
           {error.message && (
             <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
@@ -180,7 +181,7 @@ const Register = () => {
             <p>
               Already have account?{" "}
               <span className="text-blue-500 underline cursor-pointer">
-                Login Here!
+                Sign In Here!
               </span>
             </p>
           </Link>

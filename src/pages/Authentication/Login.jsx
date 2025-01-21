@@ -5,11 +5,18 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import useLoginHooks from "../../hooks/useLoginHooks";
 
 const Login = () => {
-  const { error, success, handleLogin, handleChange, showPassword, loading } =
-    useLoginHooks();
+  const {
+    error,
+    success,
+    handleLogin,
+    handleChange,
+    showPassword,
+    loading,
+    setShowPassword,
+  } = useLoginHooks();
 
   useEffect(() => {
-    document.title = "Login | Instagram";
+    document.title = "Sign In | Instagram";
   }, []);
 
   return (
@@ -23,19 +30,21 @@ const Login = () => {
       <div className="flex w-full max-w-5xl p-4 mx-auto bg-transparent">
         {/* Left Side */}
         <div className="flex-col justify-center hidden w-1/2 p-8 text-white md:flex">
-          <h1 className="mb-4 text-4xl font-bold">LOGIN TO YOUR ADVENTURE!</h1>
+          <h1 className="mb-4 text-4xl font-bold">
+            SIGN IN TO YOUR ADVENTURE!
+          </h1>
           <p className="text-lg">
             Join us for an exciting journey into the universe.
           </p>
         </div>
 
         {/* Right Side */}
-        <div className="w-full p-8 bg-white rounded-lg shadow-lg md:w-1/2">
+        <div className="w-full p-8 bg-white rounded-xl border border-slate-200 shadow-2xl md:w-1/2">
           <h2 className="mb-4 text-3xl font-bold text-center text-gray-800">
-            LOGIN
+            SIGN IN
           </h2>
           <p className="mb-6 text-center text-gray-600">
-            Login with email address
+            Sign In with email address
           </p>
           {error.message && (
             <p className="px-4 py-2 mb-2 tracking-wide text-white bg-red-500 rounded-lg">

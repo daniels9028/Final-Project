@@ -89,6 +89,7 @@ const useRegisterHooks = () => {
     handleRegister,
     handleChange,
     showPassword,
+    setShowPassword,
   };
 };
 
