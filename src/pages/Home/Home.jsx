@@ -21,6 +21,7 @@ const Home = () => {
     openModalCrudPost,
     closeModalCrudPost,
     loadingCrudPost,
+    isCreatePost,
   } = useCrudPost();
 
   const {
@@ -51,7 +52,7 @@ const Home = () => {
 
   useEffect(() => {
     handleExplorePost();
-  }, [isModalCrudPostOpen]);
+  }, [isCreatePost]);
 
   useEffect(() => {
     handleGetMyStories();
