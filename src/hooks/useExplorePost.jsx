@@ -23,7 +23,24 @@ const useExplorePost = () => {
     }
   };
 
-  return { explorePost, explorePage, handleExplorePost, setExplorePage };
+  const handleScrollExplore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setExplorePage((prev) => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
+    }
+  };
+
+  return {
+    explorePost,
+    explorePage,
+    handleExplorePost,
+    handleScrollExplore,
+  };
 };
 
 export default useExplorePost;

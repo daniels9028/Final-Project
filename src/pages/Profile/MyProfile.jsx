@@ -33,7 +33,8 @@ const MyProfile = () => {
 
   const { handleFollow, handleUnFollow, follow } = useFollow();
 
-  const { myPost, myPostPage, postByUserId } = usePostByUserId(id);
+  const { myPost, myPostPage, postByUserId, handleScrollMyPost } =
+    usePostByUserId(id);
 
   const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
     useFollowingPost();
@@ -72,8 +73,6 @@ const MyProfile = () => {
     loadingUpdateProfile,
   } = useUpdateProfile();
 
-  const {} = useCrudPost();
-
   const {
     handleDeletePost,
     isDeletePost,
@@ -106,26 +105,40 @@ const MyProfile = () => {
 
   useEffect(() => {
     handleGetUserById();
-    postByUserId();
-    handleMyFollowingPost();
+    // postByUserId();
+    // handleMyFollowingPost();
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
     id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
     // handleFollow(id);
   }, [id]);
 
   useEffect(() => {
-    handleGetUserById();
-    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
-    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+    if (follow) {
+      handleGetUserById();
+      id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+      id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+    }
   }, [follow]);
 
   useEffect(() => {
-    postByUserId();
+    if (isDeletePost || isUpdatePost) {
+      postByUserId();
+    }
   }, [isDeletePost, isUpdatePost]);
+
+  useEffect(() => {
+    postByUserId();
+  }, [myPostPage.currentPage]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollMyPost);
+
+    return () => window.removeEventListener("scroll", handleScrollMyPost);
+  }, []);
 
   return (
     <div
-      className="object-cover bg-center min-h-screen"
+      className="object-cover min-h-screen bg-center"
       style={{
         backgroundImage:
           "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQHUlzTwr5iUkqUPitO1eTLPM7m8Np5GDgw&s')",
@@ -168,7 +181,7 @@ const MyProfile = () => {
         handleSelectPost={handleSelectPost}
       />
 
-      {id === auth.user.id && (
+      {/* {id === auth.user.id && (
         <>
           <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
             Postingan yang Anda ikuti
@@ -179,7 +192,7 @@ const MyProfile = () => {
             handleDeletePost={handleDeletePost}
           />
         </>
-      )}
+      )} */}
 
       <Modal
         isOpen={isModalUpdateProfileOpen}
