@@ -12,21 +12,30 @@ const usePostByUserId = (id) => {
 
   const postByUserId = async () => {
     try {
-      const { data } = await getPostByUserId({ size: 10, page: 1 }, id);
+      const { data } = await getPostByUserId(
+        { size: 10, page: myPostPage.currentPage },
+        id
+      );
 
-      setMyPost(data.posts);
-      setMyPostPage({
-        ...myPost,
-        currentPage: data.currentPage,
-        totalItems: data.totalItems,
-        totalPages: data.totalPages,
-      });
+      setMyPost((prev) => [...prev, ...data.posts]);
     } catch (error) {
       console.log(error);
     }
   };
 
-  return { myPost, myPostPage, postByUserId };
+  const handleScrollMyPost = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setMyPostPage((prev) => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
+    }
+  };
+
+  return { myPost, myPostPage, postByUserId, handleScrollMyPost };
 };
 
 export default usePostByUserId;
