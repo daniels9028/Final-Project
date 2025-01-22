@@ -12,21 +12,18 @@ const useExplorePost = () => {
 
   const handleExplorePost = async () => {
     try {
-      const { data } = await getExplorePost({ size: 10, page: 1 });
-
-      setExplorePost(data.posts);
-      setExplorePage({
-        ...explorePage,
-        currentPage: data.currentPage,
-        totalItems: data.totalItems,
-        totalPages: data.totalPages,
+      const { data } = await getExplorePost({
+        size: 10,
+        page: explorePage.currentPage,
       });
+
+      setExplorePost((prev) => [...prev, ...data.posts]);
     } catch (error) {
       console.log(error);
     }
   };
 
-  return { explorePost, explorePage, handleExplorePost };
+  return { explorePost, explorePage, handleExplorePost, setExplorePage };
 };
 
 export default useExplorePost;
