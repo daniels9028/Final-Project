@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GoComment } from "react-icons/go";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 
@@ -9,6 +9,8 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { LuTrash } from "react-icons/lu";
 import { useAuth } from "../context/AuthContext";
+import { BsThreeDots } from "react-icons/bs";
+import { motion } from "framer-motion";
 
 const ListPost = ({
   explore,
@@ -33,6 +35,23 @@ const ListPost = ({
 
   const { user } = auth;
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const variants = {
+    open: {
+      opacity: 1,
+      y: 0,
+    },
+    closed: {
+      opacity: 0,
+      y: "-100",
+    },
+  };
+
   const {
     handleAddComment,
     handleDeleteComment,
@@ -40,20 +59,6 @@ const ListPost = ({
     setForm,
     submitComment,
   } = useComment();
-
-  // const {
-  //   // formCrudPost,
-  //   // handleChangeCrudPost,
-  //   // errorCrudPost,
-  //   // successCrudPost,
-  //   // handleFileChangeCrudPost,
-  //   // isModalCrudPostOpen,
-  //   // openModalCrudPost,
-  //   // closeModalCrudPost,
-  //   // loadingCrudPost,
-  //   // handleUpdatePost,
-  //   // fileCrudPost,
-  // } = useCrudPost();
 
   const {
     handleGetPostById,
@@ -76,8 +81,14 @@ const ListPost = ({
 
   return (
     <>
-      <div className="flex flex-col w-full mb-8 overflow-hidden rounded-xl shadow-sm shadow-white lg:w-1/2 bg-white">
-        <div className="flex flex-row items-center justify-between px-4 py-3">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 1 }}
+        className="flex flex-col w-full mb-8 overflow-hidden bg-white shadow-inner rounded-xl shadow-white lg:w-1/2"
+      >
+        <div className="relative flex flex-row items-center justify-between px-4 py-3 border-b-2">
           <div
             className="flex flex-row items-center gap-4 cursor-pointer"
             onClick={() => handleNavigate(explore?.user?.id)}
@@ -94,24 +105,62 @@ const ListPost = ({
               {explore?.user?.username}
             </p>
           </div>
+
           {explore.user.id === auth.user.id && (
-            <div className="flex flex-row items-center gap-2">
-              <div
-                className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-orange-400"
-                onClick={() => {
-                  openModalCrudPost();
-                  handleSelectPost(explore);
-                }}
-              >
-                <MdEdit size={20} />
+            <>
+              <div className="flex flex-row items-center gap-2">
+                <BsThreeDots
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={toggleMenu}
+                />
               </div>
-              <div
-                className="p-2 transition-all bg-gray-200 rounded-full cursor-pointer hover:bg-red-500"
-                onClick={() => handleDeletePost(explore?.id)}
+
+              {/* {isMenuOpen && (
+                <div className="absolute z-40 flex flex-col justify-center h-40 gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14">
+                  <div
+                    className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
+                    onClick={() => {
+                      openModalCrudPost();
+                      handleSelectPost(explore);
+                    }}
+                  >
+                    <MdEdit size={16} />
+                    Edit Postingan
+                  </div>
+                  <div
+                    className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
+                    onClick={() => handleDeletePost(explore?.id)}
+                  >
+                    <LuTrash size={16} />
+                    Hapus Postingan
+                  </div>
+                </div>
+              )} */}
+              <motion.div
+                animate={isMenuOpen ? "open" : "closed"}
+                variants={variants}
+                className="absolute z-40 flex flex-col justify-center h-40 gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
               >
-                <LuTrash size={20} />
-              </div>
-            </div>
+                <div
+                  className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
+                  onClick={() => {
+                    openModalCrudPost();
+                    handleSelectPost(explore);
+                  }}
+                >
+                  <MdEdit size={16} />
+                  Edit Postingan
+                </div>
+                <div
+                  className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
+                  onClick={() => handleDeletePost(explore?.id)}
+                >
+                  <LuTrash size={16} />
+                  Hapus Postingan
+                </div>
+              </motion.div>
+            </>
           )}
         </div>
 
@@ -141,7 +190,7 @@ const ListPost = ({
 
         <p className="px-4 py-2 tracking-wider">
           <span
-            className="font-semibold cursor-pointer tracking-widest"
+            className="font-semibold tracking-widest cursor-pointer"
             onClick={() => handleNavigate(explore?.user?.id)}
           >
             {explore?.user?.username}
@@ -158,7 +207,7 @@ const ListPost = ({
           </p>
         )}
 
-        <div className="px-4 pb-8 pt-4 flex flex-row items-center w-full gap-3">
+        <div className="flex flex-row items-center w-full gap-3 px-4 pt-4 pb-8">
           <img
             src={user?.profilePictureUrl}
             alt={user?.id}
@@ -170,7 +219,7 @@ const ListPost = ({
           <div className="flex flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
             <input
               type="text"
-              className="w-full h-10 px-2 bg-gray-200 border-2 rounded-full outline-none text-sm"
+              className="w-full h-10 px-2 text-sm bg-gray-200 border-2 rounded-full outline-none"
               placeholder="Tambahkan komentar..."
               name="comment"
               value={form.comment}
@@ -185,7 +234,7 @@ const ListPost = ({
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <Modal isOpen={isModalPostOpen} onClose={closeModalPost} title="Post">
         <div className="flex flex-col justify-center gap-4">
