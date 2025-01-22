@@ -8,7 +8,8 @@ import { useCrudPost, useStory } from "../../hooks";
 const Home = () => {
   const { auth } = useAuth();
 
-  const { handleExplorePost, explorePost, explorePage } = useExplorePost();
+  const { handleExplorePost, explorePost, explorePage, setExplorePage } =
+    useExplorePost();
 
   const {
     formCrudPost,
@@ -44,19 +45,41 @@ const Home = () => {
   } = useStory();
 
   useEffect(() => {
-    handleExplorePost();
+    // handleExplorePost();
     handleGetMyStories();
     handleGetMyFollowingStories();
     document.title = "Home | Vista";
   }, []);
 
-  useEffect(() => {
-    handleExplorePost();
-  }, [isCreatePost]);
+  // useEffect(() => {
+  //   handleExplorePost();
+  // }, [isCreatePost]);
 
   useEffect(() => {
     handleGetMyStories();
   }, [isFormStory]);
+
+  useEffect(() => {
+    handleExplorePost();
+  }, [explorePage.currentPage]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setExplorePage((prev) => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div

@@ -85,7 +85,7 @@ const ListPost = ({
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, delay: 1 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
         className="flex flex-col w-full mb-8 overflow-hidden bg-white shadow-inner rounded-xl shadow-white lg:w-1/2"
       >
         <div className="relative flex flex-row items-center justify-between px-4 py-3 border-b-2">
