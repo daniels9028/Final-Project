@@ -47,7 +47,7 @@ const Home = () => {
     handleExplorePost();
     handleGetMyStories();
     handleGetMyFollowingStories();
-    document.title = "Home | Instagram";
+    document.title = "Home | Vista";
   }, []);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Home = () => {
 
   return (
     <div
-      className="object-cover bg-center min-h-screen"
+      className="object-cover min-h-screen bg-center"
       style={{
         backgroundImage:
           "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQHUlzTwr5iUkqUPitO1eTLPM7m8Np5GDgw&s')",
