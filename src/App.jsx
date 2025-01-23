@@ -7,7 +7,6 @@ import {
   Page404,
   Register,
   MyProfile,
-  DetailPost,
   Story,
 } from "./pages/index";
 
@@ -35,14 +34,6 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <MyProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/detail_post"
-            element={
-              <ProtectedRoute>
-                <DetailPost />
               </ProtectedRoute>
             }
           />

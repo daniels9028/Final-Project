@@ -15,6 +15,7 @@ import AddPost from "./AddPost";
 import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
 import DetailStory from "./DetailStory";
 import ModalFormStory from "./ModalFormStory";
+import DetailPost from "./DetailPost";
 
 export {
   Button,
@@ -34,4 +35,5 @@ export {
   ModalCreateUpdatePost,
   DetailStory,
   ModalFormStory,
+  DetailPost,
 };
