@@ -8,8 +8,14 @@ import { useCrudPost, useStory } from "../../hooks";
 const Home = () => {
   const { auth } = useAuth();
 
-  const { handleExplorePost, explorePost, explorePage, handleScrollExplore } =
-    useExplorePost();
+  const {
+    handleExplorePost,
+    explorePost,
+    explorePage,
+    handleScrollExplore,
+    loadingExplorePost,
+    hasMoreExplorePost,
+  } = useExplorePost();
 
   const {
     formCrudPost,
@@ -60,15 +66,14 @@ const Home = () => {
   }, [isFormStory]);
 
   useEffect(() => {
-    console.log("1");
     handleExplorePost();
-  }, [explorePage.currentPage]);
+  }, [explorePage]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScrollExplore);
 
     return () => window.removeEventListener("scroll", handleScrollExplore);
-  }, []);
+  }, [loadingExplorePost, hasMoreExplorePost]);
 
   return (
     <div
@@ -111,7 +116,18 @@ const Home = () => {
         loadingCrudPost={loadingCrudPost}
       />
 
-      <Posts explorePost={explorePost} explorePage={explorePage} />
+      <Posts explorePost={explorePost} />
+
+      {loadingExplorePost && (
+        <p className="text-2xl font-bold tracking-wider text-center text-white">
+          Loading...
+        </p>
+      )}
+      {!hasMoreExplorePost && (
+        <p className="text-2xl font-bold tracking-wider text-center text-white">
+          No more posts
+        </p>
+      )}
     </div>
   );
 };

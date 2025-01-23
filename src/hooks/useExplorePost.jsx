@@ -4,34 +4,40 @@ import { getExplorePost } from "../services/Post";
 const useExplorePost = () => {
   const [explorePost, setExplorePost] = useState([]);
 
-  const [explorePage, setExplorePage] = useState({
-    currentPage: 1,
-    totalItems: 0,
-    totalPages: 0,
-  });
+  const [explorePage, setExplorePage] = useState(1);
+
+  const [loadingExplorePost, setLoadingExplorePost] = useState(false);
+  const [hasMoreExplorePost, setHasMoreExplorePost] = useState(true);
 
   const handleExplorePost = async () => {
+    setLoadingExplorePost(true);
+
     try {
       const { data } = await getExplorePost({
         size: 10,
-        page: explorePage.currentPage,
+        page: explorePage,
       });
 
-      setExplorePost((prev) => [...prev, ...data.posts]);
+      if (data.posts.length === 0) {
+        setHasMoreExplorePost(false);
+      } else {
+        setExplorePost((prev) => [...prev, ...data.posts]);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingExplorePost(false);
     }
   };
 
   const handleScrollExplore = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop + 1 >=
-      document.documentElement.scrollHeight
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 100 &&
+      hasMoreExplorePost &&
+      !loadingExplorePost
     ) {
-      setExplorePage((prev) => ({
-        ...prev,
-        currentPage: prev.currentPage + 1,
-      }));
+      setExplorePage((prevPage) => prevPage + 1);
     }
   };
 
@@ -40,6 +46,8 @@ const useExplorePost = () => {
     explorePage,
     handleExplorePost,
     handleScrollExplore,
+    loadingExplorePost,
+    hasMoreExplorePost,
   };
 };
 

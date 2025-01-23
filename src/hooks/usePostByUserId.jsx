@@ -6,27 +6,37 @@ const usePostByUserId = (id) => {
 
   const [myPostPage, setMyPostPage] = useState({
     currentPage: 1,
-    totalItems: 0,
-    totalPages: 0,
   });
 
+  const [loadingMyPost, setLoadingMyPost] = useState(false);
+  const [hasMoreMyPost, setHasMoreMyPost] = useState(true);
+
   const postByUserId = async () => {
+    setLoadingMyPost(true);
     try {
       const { data } = await getPostByUserId(
         { size: 10, page: myPostPage.currentPage },
         id
       );
 
-      setMyPost((prev) => [...prev, ...data.posts]);
+      if (data.posts.length === 0) {
+        setHasMoreMyPost(false);
+      } else {
+        setMyPost((prev) => [...prev, ...data.posts]);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingMyPost(false);
     }
   };
 
   const handleScrollMyPost = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop + 1 >=
-      document.documentElement.scrollHeight
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 100 &&
+      hasMoreMyPost &&
+      !loadingMyPost
     ) {
       setMyPostPage((prev) => ({
         ...prev,
@@ -35,7 +45,14 @@ const usePostByUserId = (id) => {
     }
   };
 
-  return { myPost, myPostPage, postByUserId, handleScrollMyPost };
+  return {
+    myPost,
+    myPostPage,
+    postByUserId,
+    handleScrollMyPost,
+    loadingMyPost,
+    hasMoreMyPost,
+  };
 };
 
 export default usePostByUserId;
