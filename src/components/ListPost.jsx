@@ -4,7 +4,7 @@ import { alternativeImageUrlPost, profileBlank } from "../assets";
 
 import Like from "./Like";
 import { useComment, useNavigateUser, usePostById } from "../hooks";
-import { Modal, ModalCreateUpdatePost } from "../components";
+import { DetailPost, Modal, ModalCreateUpdatePost } from "../components";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { LuTrash } from "react-icons/lu";
@@ -236,7 +236,7 @@ const ListPost = ({
         </div>
       </motion.div>
 
-      <Modal isOpen={isModalPostOpen} onClose={closeModalPost} title="Post">
+      {/* <Modal isOpen={isModalPostOpen} onClose={closeModalPost} title="Post">
         <div className="flex flex-col justify-center gap-4">
           <div className="flex flex-row items-center gap-4 px-4 py-2">
             <img
@@ -293,7 +293,20 @@ const ListPost = ({
             ))}
           </div>
         </div>
-      </Modal>
+      </Modal> */}
+
+      <DetailPost
+        isOpen={isModalPostOpen}
+        onClose={closeModalPost}
+        explore={explore}
+        comments={comments}
+        auth={auth}
+        totalComment={totalComment}
+        form={form}
+        setForm={setForm}
+        handleKeyDown={handleKeyDown}
+        handleAddComment={handleAddComment}
+      />
 
       <ModalCreateUpdatePost
         isModalCrudPostOpen={isModalCrudPostOpen}
