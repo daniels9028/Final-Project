@@ -33,8 +33,14 @@ const MyProfile = () => {
 
   const { handleFollow, handleUnFollow, follow } = useFollow();
 
-  const { myPost, myPostPage, postByUserId, handleScrollMyPost } =
-    usePostByUserId(id);
+  const {
+    myPost,
+    myPostPage,
+    postByUserId,
+    handleScrollMyPost,
+    loadingMyPost,
+    hasMoreMyPost,
+  } = usePostByUserId(id);
 
   const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
     useFollowingPost();
@@ -134,7 +140,7 @@ const MyProfile = () => {
     window.addEventListener("scroll", handleScrollMyPost);
 
     return () => window.removeEventListener("scroll", handleScrollMyPost);
-  }, []);
+  }, [loadingMyPost, hasMoreMyPost]);
 
   return (
     <div
@@ -193,6 +199,17 @@ const MyProfile = () => {
           />
         </>
       )} */}
+
+      {loadingMyPost && (
+        <p className="text-2xl font-bold tracking-wider text-center text-white">
+          Loading...
+        </p>
+      )}
+      {!hasMoreMyPost && (
+        <p className="text-2xl font-bold tracking-wider text-center text-white">
+          No more posts
+        </p>
+      )}
 
       <Modal
         isOpen={isModalUpdateProfileOpen}
