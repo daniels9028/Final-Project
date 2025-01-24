@@ -306,6 +306,7 @@ const ListPost = ({
         setForm={setForm}
         handleKeyDown={handleKeyDown}
         handleAddComment={handleAddComment}
+        handleDeleteComment={handleDeleteComment}
       />
 
       <ModalCreateUpdatePost
