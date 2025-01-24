@@ -15,6 +15,7 @@ const DetailPost = ({
   setForm,
   handleKeyDown,
   handleAddComment,
+  handleDeleteComment,
 }) => {
   if (!isOpen) return null;
 
@@ -22,46 +23,69 @@ const DetailPost = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-3xl mx-4 overflow-hidden h-[90vh] bg-white rounded-lg shadow-lg sm:mx-auto">
-        <div className="flex justify-end p-4 border-b border-gray-300">
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-800 focus:outline-none"
-          >
-            ✖
-          </button>
-        </div>
-        <div className="h-full w-full flex flex-row">
-          <div className="w-1/2">
+      <div className="absolute top-4 right-4">
+        <button onClick={onClose} className="text-2xl text-white">
+          ✖
+        </button>
+      </div>
+
+      <div className="w-full lg:max-w-3xl max-w-lg overflow-hidden bg-white h-[80vh] rounded-lg shadow-lg mx-4">
+        <div className="flex flex-row w-full h-full">
+          <div className="hidden w-full lg:w-1/2 lg:flex">
             <img
               src={explore?.imageUrl}
               onError={(e) => {
                 e.target.src = alternativeImageUrlPost;
               }}
               alt={explore?.id}
-              className="h-full object-cover"
+              className="h-full bg-cover"
             />
           </div>
-          <div className="w-1/2 relative">
-            <div className="overflow-y-auto no-scrollbar p-4 h-full">
-              <div className="flex flex-row items-center space-x-4">
+
+          <div className="relative w-full h-full lg:w-1/2">
+            <div className="flex flex-row items-center p-4 space-x-4 border-b">
+              <img
+                src={explore?.user?.profilePictureUrl}
+                onError={(e) => {
+                  e.target.src = profileBlank;
+                }}
+                alt={explore?.user?.id}
+                className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
+              />
+              <div className="flex flex-col justify-center">
+                <p className="font-medium tracking-wider">
+                  {explore?.user?.username}
+                </p>
+              </div>
+            </div>
+
+            <div className="h-full overflow-y-auto no-scrollbar">
+              <img
+                src={explore?.imageUrl}
+                onError={(e) => {
+                  e.target.src = alternativeImageUrlPost;
+                }}
+                alt={explore?.id}
+                className="block h-full p-0 bg-cover lg:hidden"
+              />
+              <div className="flex flex-row items-center p-4 space-x-4">
                 <img
                   src={explore?.user?.profilePictureUrl}
                   onError={(e) => {
                     e.target.src = profileBlank;
                   }}
                   alt={explore?.user?.id}
-                  className="object-cover border-2 border-gray-400 rounded-full w-12 h-12"
+                  className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
                 />
                 <div className="flex flex-col justify-center">
-                  <p className="font-medium tracking-wider">
-                    {explore?.user?.username}
+                  <p className="font-medium tracking-wider text-wrap">
+                    {explore?.user?.username}{" "}
+                    <span className="font-light">{explore?.caption}</span>
                   </p>
-                  <p className="font-light tracking-wide">{explore?.caption}</p>
                 </div>
               </div>
 
-              <div className="mt-10 space-y-6">
+              <div className="p-4 mt-10 mb-48 space-y-6 lg:mb-48">
                 {comments?.map((comment) => (
                   <div
                     className="flex flex-row justify-between"
@@ -77,14 +101,14 @@ const DetailPost = ({
                         <p className="font-medium tracking-wide">
                           {comment?.user?.username}
                         </p>
-                        <p className="text-base tracking-wider text-gray-800 text-wrap">
+                        <p className="text-sm tracking-wider text-gray-800 text-wrap">
                           {comment?.comment}
                         </p>
                       </div>
                     </div>
                     {comment?.user?.id === auth.user.id && (
                       <div
-                        className="flex items-center justify-center w-8 h-8 border-2 border-gray-300 p-2 rounded-full cursor-pointer hover:bg-red-500"
+                        className="flex items-center justify-center w-8 h-8 p-2 border-2 border-gray-300 rounded-full cursor-pointer hover:bg-red-500"
                         onClick={() => handleDeleteComment(comment?.id)}
                       >
                         <FaRegTrashAlt />
@@ -95,7 +119,7 @@ const DetailPost = ({
               </div>
             </div>
 
-            <div className="absolute bottom-0 left-0 bg-white h-44 z-50 w-full border-t shadow-lg p-4">
+            <div className="absolute bottom-0 left-0 z-50 w-full p-4 bg-white border-t shadow-lg">
               <div className="flex flex-row items-center gap-4">
                 <div className="flex flex-row items-center gap-2 cursor-pointer">
                   <Like explore={explore} />
