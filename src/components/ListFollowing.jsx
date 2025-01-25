@@ -9,11 +9,11 @@ const ListFollowing = ({ follow, handleNavigate, id, handleUnFollow }) => {
   return (
     <div
       key={follow.id}
-      className="flex flex-row items-center justify-between mb-4 px-4 py-2"
+      className="flex flex-row items-center justify-between px-4 py-2 mb-4"
     >
       <div className="flex flex-row items-center gap-4">
         <img
-          src={follow?.profilePictureUrl}
+          src={follow?.profilePictureUrl || profileBlank}
           alt={follow?.id}
           className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
           onClick={() => handleNavigate(follow?.id)}

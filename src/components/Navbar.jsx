@@ -50,15 +50,15 @@ const Navbar = ({ auth }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full h-20 text-black bg-white shadow-lg z-50">
+    <nav className="fixed top-0 left-0 z-50 w-full h-20 text-black bg-white shadow-lg">
       <div className="flex items-center justify-between h-full px-6 mx-auto max-w-7xl lg:px-12">
-        <div className="flex flex-row items-center justify-center gap-2 z-50">
-          <img src={vista} className="w-14 h-14 object-cover" />
+        <div className="z-50 flex flex-row items-center justify-center gap-2">
+          <img src={vista} className="object-cover w-14 h-14" />
           <Link className="text-2xl font-bold tracking-widest" to="/">
             Vista
           </Link>
         </div>
-        <div className="hidden lg:flex flex-row items-center justify-center gap-10">
+        <div className="flex-row items-center justify-center hidden gap-10 lg:flex">
           <Link
             className="flex flex-row items-center justify-center gap-2 cursor-pointer"
             to={`/profile/${user.id}`}
@@ -86,7 +86,7 @@ const Navbar = ({ auth }) => {
           </button>
         </div>
         <div
-          className="flex lg:hidden text-3xl cursor-pointer z-50 transition-all"
+          className="z-50 flex text-3xl transition-all cursor-pointer lg:hidden"
           onClick={toggleMenu}
         >
           {isMenuOpen ? <IoClose /> : <GiHamburgerMenu />}
@@ -101,6 +101,7 @@ const Navbar = ({ auth }) => {
             <Link
               className="flex flex-col items-center justify-center gap-4 cursor-pointer"
               to={`/profile/${user.id}`}
+              onClick={toggleMenu}
             >
               <img
                 src={user?.profilePictureUrl}

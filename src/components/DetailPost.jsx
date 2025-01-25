@@ -1,8 +1,8 @@
 import React from "react";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { GoComment } from "react-icons/go";
 import Like from "./Like";
+import ListComment from "./ListComment";
 
 const DetailPost = ({
   isOpen,
@@ -16,6 +16,7 @@ const DetailPost = ({
   handleKeyDown,
   handleAddComment,
   handleDeleteComment,
+  handleNavigate,
 }) => {
   if (!isOpen) return null;
 
@@ -75,11 +76,17 @@ const DetailPost = ({
                     e.target.src = profileBlank;
                   }}
                   alt={explore?.user?.id}
-                  className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
+                  onClick={() => handleNavigate(explore?.user?.id)}
+                  className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
                 />
                 <div className="flex flex-col justify-center">
                   <p className="font-medium tracking-wider text-wrap">
-                    {explore?.user?.username}{" "}
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => handleNavigate(explore?.user?.id)}
+                    >
+                      {explore?.user?.username}
+                    </span>{" "}
                     <span className="font-light">{explore?.caption}</span>
                   </p>
                 </div>
@@ -87,34 +94,13 @@ const DetailPost = ({
 
               <div className="p-4 mt-10 mb-48 space-y-6 lg:mb-48">
                 {comments?.map((comment) => (
-                  <div
-                    className="flex flex-row justify-between"
+                  <ListComment
+                    comments={comment}
                     key={comment?.id}
-                  >
-                    <div className="flex flex-row gap-4">
-                      <img
-                        src={comment?.user?.profilePictureUrl}
-                        alt={comment?.user?.id}
-                        className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
-                      />
-                      <div>
-                        <p className="font-medium tracking-wide">
-                          {comment?.user?.username}
-                        </p>
-                        <p className="text-sm tracking-wider text-gray-800 text-wrap">
-                          {comment?.comment}
-                        </p>
-                      </div>
-                    </div>
-                    {comment?.user?.id === auth.user.id && (
-                      <div
-                        className="flex items-center justify-center w-8 h-8 p-2 border-2 border-gray-300 rounded-full cursor-pointer hover:bg-red-500"
-                        onClick={() => handleDeleteComment(comment?.id)}
-                      >
-                        <FaRegTrashAlt />
-                      </div>
-                    )}
-                  </div>
+                    auth={auth}
+                    handleNavigate={handleNavigate}
+                    handleDeleteComment={handleDeleteComment}
+                  />
                 ))}
               </div>
             </div>
