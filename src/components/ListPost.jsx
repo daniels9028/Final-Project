@@ -48,7 +48,7 @@ const ListPost = ({
     },
     closed: {
       opacity: 0,
-      y: "-100",
+      y: 0,
     },
   };
 
@@ -85,7 +85,7 @@ const ListPost = ({
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.5 }}
+        transition={{ duration: 0.5 }}
         className="flex flex-col w-full mb-8 overflow-hidden bg-white shadow-inner rounded-xl shadow-white lg:w-1/2"
       >
         <div className="relative flex flex-row items-center justify-between px-4 py-3 border-b-2">
@@ -147,6 +147,7 @@ const ListPost = ({
                   onClick={() => {
                     openModalCrudPost();
                     handleSelectPost(explore);
+                    toggleMenu();
                   }}
                 >
                   <MdEdit size={16} />
@@ -236,65 +237,6 @@ const ListPost = ({
         </div>
       </motion.div>
 
-      {/* <Modal isOpen={isModalPostOpen} onClose={closeModalPost} title="Post">
-        <div className="flex flex-col justify-center gap-4">
-          <div className="flex flex-row items-center gap-4 px-4 py-2">
-            <img
-              src={explore?.user?.profilePictureUrl}
-              onError={(e) => {
-                e.target.src = profileBlank;
-              }}
-              alt={explore?.user?.id}
-              className="object-cover border-2 border-gray-400 rounded-full w-14 h-14"
-            />
-            <div className="flex flex-row items-center gap-2">
-              <p className="text-lg font-semibold">{explore?.user?.username}</p>
-              <p>{explore?.caption}</p>
-            </div>
-          </div>
-          <div className="border-gray-200 shadow-lg border-y-2">
-            <img
-              src={explore?.imageUrl}
-              onError={(e) => {
-                e.target.src = alternativeImageUrlPost;
-              }}
-              alt={explore?.id}
-              className="w-full object-cover h-[300px] "
-            />
-          </div>
-          <div className="flex flex-col justify-center gap-4 px-4 py-2 border-gray-300 ">
-            {comments?.map((comment) => (
-              <div
-                className="flex flex-row items-center justify-between gap-4"
-                key={comment?.id}
-              >
-                <div className="flex flex-row items-center gap-4">
-                  <img
-                    src={comment?.user?.profilePictureUrl}
-                    alt={comment?.user?.id}
-                    className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
-                  />
-                  <p className="text-lg font-medium tracking-wide">
-                    {comment?.user?.username}
-                  </p>
-                  <p className="text-base tracking-wider text-gray-800">
-                    {comment?.comment}
-                  </p>
-                </div>
-                {comment?.user?.id === auth.user.id && (
-                  <div
-                    className="flex items-center justify-center w-10 h-10 bg-gray-400 rounded-full cursor-pointer hover:bg-gray-500"
-                    onClick={() => handleDeleteComment(comment?.id)}
-                  >
-                    <FaRegTrashAlt />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </Modal> */}
-
       <DetailPost
         isOpen={isModalPostOpen}
         onClose={closeModalPost}
@@ -307,6 +249,7 @@ const ListPost = ({
         handleKeyDown={handleKeyDown}
         handleAddComment={handleAddComment}
         handleDeleteComment={handleDeleteComment}
+        handleNavigate={handleNavigate}
       />
 
       <ModalCreateUpdatePost
