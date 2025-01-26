@@ -6,23 +6,25 @@ const UpdateProfileForm = ({
   handleUpdateProfile,
   formUpdateProfile,
   handleChangeUpdateProfile,
+  fileUpdateProfile,
+  previewFileUpdateProfile,
   handleFileChangeUpdateProfile,
   loadingUpdateProfile,
 }) => {
   return (
     <>
       <form className="p-4 space-y-4" onSubmit={handleUpdateProfile}>
-        {errorUpdateProfile.message && (
+        {/* {errorUpdateProfile.message && (
           <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
             {errorUpdateProfile.message}
           </p>
-        )}
+        )} */}
 
-        {successUpdateProfile && (
+        {/* {successUpdateProfile && (
           <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
             {successUpdateProfile}
           </p>
-        )}
+        )} */}
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
           <div className="w-full space-y-2 lg:w-1/2">
             <label
@@ -108,20 +110,33 @@ const UpdateProfileForm = ({
           </div>
         </div>
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
-          <div className="w-full space-y-2">
+          <div className="w-full">
             <label
               htmlFor="profilePicture"
-              className="block text-sm font-medium text-gray-700"
+              className="block mb-2 text-sm font-medium text-gray-700"
             >
               Profile Picture
             </label>
+
             <input
               type="file"
               name="profilePictureUrl"
-              className="block w-full px-4 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Input your website..."
+              className="flex items-center justify-center w-full px-4 py-2 mt-1 mb-6 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               onChange={handleFileChangeUpdateProfile}
             />
+            {previewFileUpdateProfile ? (
+              <div className="relative">
+                <img
+                  src={previewFileUpdateProfile}
+                  alt="Preview"
+                  className="object-cover w-full rounded-lg shadow-lg h-60"
+                />
+              </div>
+            ) : (
+              <p className="text-sm text-center text-gray-500">
+                No image selected
+              </p>
+            )}
             {errorUpdateProfile.profilePictureUrl && (
               <p className="text-sm text-red-500">
                 {errorUpdateProfile.profilePictureUrl}
