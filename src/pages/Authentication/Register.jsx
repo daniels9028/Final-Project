@@ -6,7 +6,6 @@ import useRegisterHooks from "../../hooks/useRegisterHooks";
 const Register = () => {
   const {
     error,
-    success,
     loading,
     handleRegister,
     handleChange,
@@ -45,17 +44,6 @@ const Register = () => {
           <p className="mb-6 text-center text-gray-600">
             Sign Up with your email
           </p>
-          {error.message && (
-            <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-              {error.message}
-            </p>
-          )}
-
-          {success && (
-            <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
-              {success}
-            </p>
-          )}
           <form className="space-y-4" onSubmit={handleRegister}>
             <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
               <div className="w-full space-y-2 lg:w-1/2">
@@ -73,7 +61,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
                 {error.name && (
-                  <p className="text-red-500 text-sm">{error.name}</p>
+                  <p className="text-sm text-red-500">{error.name}</p>
                 )}
               </div>
               <div className="w-full space-y-2 lg:w-1/2">
@@ -91,7 +79,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
                 {error.username && (
-                  <p className="text-red-500 text-sm">{error.username}</p>
+                  <p className="text-sm text-red-500">{error.username}</p>
                 )}
               </div>
             </div>
@@ -110,7 +98,7 @@ const Register = () => {
                 onChange={handleChange}
               />
               {error.email && (
-                <p className="text-red-500 text-sm">{error.email}</p>
+                <p className="text-sm text-red-500">{error.email}</p>
               )}
             </div>
             <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
@@ -138,7 +126,7 @@ const Register = () => {
                   </button>
                 </div>
                 {error.password && (
-                  <p className="text-red-500 text-sm">{error.password}</p>
+                  <p className="text-sm text-red-500">{error.password}</p>
                 )}
               </div>
               <div className="w-full space-y-2 lg:w-1/2">
@@ -165,7 +153,7 @@ const Register = () => {
                   </button>
                 </div>
                 {error.passwordRepeat && (
-                  <p className="text-red-500 text-sm">{error.passwordRepeat}</p>
+                  <p className="text-sm text-red-500">{error.passwordRepeat}</p>
                 )}
               </div>
             </div>
@@ -174,7 +162,7 @@ const Register = () => {
               className="w-full py-3 text-lg font-medium text-white rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90"
               disabled={loading}
             >
-              {loading ? "Loading..." : "Register"}
+              {loading ? "Loading..." : "SIGN UP"}
             </button>
           </form>
           <Link to="/login" className="flex items-center justify-center mt-4">

@@ -6,6 +6,8 @@ import { Logout } from "../services/Authentication";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { motion } from "framer-motion";
+import { useNavigateUser } from "../hooks";
+import Swal from "sweetalert2";
 
 const Navbar = ({ auth }) => {
   const { user } = auth;
@@ -13,6 +15,10 @@ const Navbar = ({ auth }) => {
   const navigate = useNavigate();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navigateNavbar = (userId) => {
+    window.open(`${window.location.origin}/profile/${userId}`, "_self");
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -41,6 +47,12 @@ const Navbar = ({ auth }) => {
 
       localStorage.clear();
 
+      Swal.fire({
+        title: "Sukses",
+        text: "Logout berhasil",
+        icon: "success",
+      });
+
       setTimeout(() => {
         navigate("/login");
       }, 1000);
@@ -59,12 +71,12 @@ const Navbar = ({ auth }) => {
           </Link>
         </div>
         <div className="flex-row items-center justify-center hidden gap-10 lg:flex">
-          <Link
+          <div
             className="flex flex-row items-center justify-center gap-2 cursor-pointer"
-            to={`/profile/${user.id}`}
+            onClick={() => navigateNavbar(user?.id)}
           >
             <img
-              src={user?.profilePictureUrl}
+              src={user?.profilePictureUrl || profile}
               alt={user?.id}
               onError={(e) => {
                 e.target.src = profile;
@@ -77,7 +89,7 @@ const Navbar = ({ auth }) => {
                 {user?.name}
               </p>
             </div>
-          </Link>
+          </div>
           <button
             className="p-3 transition-all bg-gray-400 rounded-full hover:bg-gray-500"
             onClick={handleLogout}
@@ -104,7 +116,7 @@ const Navbar = ({ auth }) => {
               onClick={toggleMenu}
             >
               <img
-                src={user?.profilePictureUrl}
+                src={user?.profilePictureUrl || profile}
                 alt={user?.id}
                 onError={(e) => {
                   e.target.src = profile;

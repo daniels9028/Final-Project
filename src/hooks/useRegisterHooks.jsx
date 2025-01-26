@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterRequest } from "../services/Authentication";
+import Swal from "sweetalert2";
 
 const useRegisterHooks = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState({});
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -69,14 +69,22 @@ const useRegisterHooks = () => {
 
       await RegisterRequest(form);
 
-      setSuccess("Register was successfully");
+      Swal.fire({
+        title: "Sukses",
+        text: "Register berhasil",
+        icon: "success",
+      });
 
       setTimeout(() => {
         navigate("/login");
       }, 1000);
     } catch (error) {
       console.log(error);
-      setError({ message: error.message });
+      Swal.fire({
+        title: "Peringatan",
+        text: error.message,
+        icon: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -84,7 +92,6 @@ const useRegisterHooks = () => {
 
   return {
     error,
-    success,
     loading,
     handleRegister,
     handleChange,

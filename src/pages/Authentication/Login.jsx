@@ -7,7 +7,6 @@ import useLoginHooks from "../../hooks/useLoginHooks";
 const Login = () => {
   const {
     error,
-    success,
     handleLogin,
     handleChange,
     showPassword,
@@ -39,24 +38,13 @@ const Login = () => {
         </div>
 
         {/* Right Side */}
-        <div className="w-full p-8 bg-white rounded-xl border border-slate-200 shadow-2xl md:w-1/2">
+        <div className="w-full p-8 bg-white border shadow-2xl rounded-xl border-slate-200 md:w-1/2">
           <h2 className="mb-4 text-3xl font-bold text-center text-gray-800">
             SIGN IN
           </h2>
           <p className="mb-6 text-center text-gray-600">
             Sign In with email address
           </p>
-          {error.message && (
-            <p className="px-4 py-2 mb-2 tracking-wide text-white bg-red-500 rounded-lg">
-              {error.message}
-            </p>
-          )}
-
-          {success && (
-            <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
-              {success}
-            </p>
-          )}
           <form className="space-y-6" onSubmit={handleLogin}>
             <div className="space-y-2">
               <label
@@ -73,7 +61,7 @@ const Login = () => {
                 onChange={handleChange}
               />
               {error.email && (
-                <p className="text-red-500 text-sm">{error.email}</p>
+                <p className="text-sm text-red-500">{error.email}</p>
               )}
             </div>
             <div className="space-y-2">
@@ -100,7 +88,7 @@ const Login = () => {
                 </button>
               </div>
               {error.password && (
-                <p className="text-red-500 text-sm">{error.password}</p>
+                <p className="text-sm text-red-500">{error.password}</p>
               )}
             </div>
             <button
