@@ -32,7 +32,7 @@ const DetailPost = ({
 
       <div className="w-full lg:max-w-3xl max-w-lg overflow-hidden bg-white h-[80vh] rounded-lg shadow-lg mx-4">
         <div className="flex flex-row w-full h-full">
-          <div className="hidden w-full lg:w-1/2 lg:flex">
+          <div className="hidden w-full border-r lg:w-1/2 lg:flex">
             <img
               src={explore?.imageUrl}
               onError={(e) => {

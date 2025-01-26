@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { LoginRequest } from "../services/Authentication";
 import { useNavigate } from "react-router-dom";
 import { getLoggedUser } from "../services/User";
+import Swal from "sweetalert2";
 
 const useLoginHooks = () => {
   const navigate = useNavigate();
@@ -10,7 +11,6 @@ const useLoginHooks = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState({});
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -64,18 +64,21 @@ const useLoginHooks = () => {
 
       setAuth({ ...auth, user: dataProfile.data, token: data.token });
 
-      setSuccess("Login was successfully");
+      Swal.fire({
+        title: "Sukses",
+        text: "Login berhasil",
+        icon: "success",
+      });
 
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      console.log(error);
-      setError(
-        error.message === "Wrong Password"
-          ? { message: "Username or password is wrong" }
-          : { message: error.message }
-      );
+      Swal.fire({
+        title: "Peringatan",
+        text: "Email atau password Anda salah!",
+        icon: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -83,7 +86,6 @@ const useLoginHooks = () => {
 
   return {
     error,
-    success,
     handleLogin,
     handleChange,
     showPassword,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoComment } from "react-icons/go";
-import { alternativeImageUrlPost, profileBlank } from "../assets";
+import { alternativeImageUrlPost, profile, profileBlank } from "../assets";
 
 import Like from "./Like";
 import { useComment, useNavigateUser, usePostById } from "../hooks";
@@ -140,10 +140,10 @@ const ListPost = ({
               <motion.div
                 animate={isMenuOpen ? "open" : "closed"}
                 variants={variants}
-                className="absolute z-40 flex flex-col justify-center h-40 gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
+                className="absolute z-40 flex flex-col justify-center gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
               >
                 <div
-                  className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
+                  className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
                   onClick={() => {
                     openModalCrudPost();
                     handleSelectPost(explore);
@@ -151,14 +151,12 @@ const ListPost = ({
                   }}
                 >
                   <MdEdit size={16} />
-                  Edit Postingan
                 </div>
                 <div
-                  className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
+                  className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
                   onClick={() => handleDeletePost(explore?.id)}
                 >
                   <LuTrash size={16} />
-                  Hapus Postingan
                 </div>
               </motion.div>
             </>
@@ -210,10 +208,10 @@ const ListPost = ({
 
         <div className="flex flex-row items-center w-full gap-3 px-4 pt-4 pb-8">
           <img
-            src={user?.profilePictureUrl}
+            src={user?.profilePictureUrl || profile}
             alt={user?.id}
             onError={(e) => {
-              e.target.src = profileBlank;
+              e.target.src = profile;
             }}
             className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
           />
