@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { getUserById, updateProfile } from "../services/User";
+import { getLoggedUser, getUserById, updateProfile } from "../services/User";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const useUpdateProfile = () => {
   const { auth, setAuth } = useAuth();
@@ -10,6 +11,8 @@ const useUpdateProfile = () => {
 
   const [formUpdateProfile, setFormUpdateProfile] = useState({});
   const [fileUpdateProfile, setFileUpdateProfile] = useState(null);
+  const [previewFileUpdateProfile, setPreviewFileUpdateProfile] =
+    useState(null);
 
   const [user, setUser] = useState({});
 
@@ -18,6 +21,8 @@ const useUpdateProfile = () => {
   const [loadingUpdateProfile, setLoadingUpdateProfile] = useState(false);
 
   const [isModalUpdateProfileOpen, setModalUpdateProfileOpen] = useState(false);
+
+  const [isUpdateProfile, setIsUpdateProfile] = useState(false);
 
   const openModalUpdateProfile = () => setModalUpdateProfileOpen(true);
   const closeModalUpdateProfile = () => setModalUpdateProfileOpen(false);
@@ -30,7 +35,13 @@ const useUpdateProfile = () => {
   };
 
   const handleFileChangeUpdateProfile = (e) => {
-    setFileUpdateProfile(e.target.files[0]);
+    const file = e.target.files[0];
+
+    if (file) {
+      const imagePreviewUrl = URL.createObjectURL(file);
+      setFileUpdateProfile(file);
+      setPreviewFileUpdateProfile(imagePreviewUrl);
+    }
   };
 
   const validate = () => {
@@ -78,24 +89,39 @@ const useUpdateProfile = () => {
     }
 
     try {
+      setIsUpdateProfile(false);
       setErrorUpdateProfile({});
       setSuccessUpdateProfile("");
       setLoadingUpdateProfile(true);
 
-      await updateProfile({ ...formUpdateProfile, file: fileUpdateProfile });
+      await updateProfile({
+        ...formUpdateProfile,
+        file: fileUpdateProfile,
+      });
 
-      setSuccessUpdateProfile("Update profile was successfully");
+      const dataProfile = await getLoggedUser(auth.token);
 
-      setAuth({ ...auth, token: "", user: "" });
+      localStorage.setItem("user", JSON.stringify(dataProfile.data));
 
-      localStorage.clear();
+      Swal.fire({
+        title: "Sukses",
+        text: "Update profil berhasil dilakukan",
+        icon: "success",
+      });
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1000);
+      setAuth({ ...auth, user: dataProfile.data });
+
+      closeModalUpdateProfile();
+
+      setIsUpdateProfile(true);
     } catch (error) {
       console.log(error);
-      setErrorUpdateProfile({ message: error.message });
+      // setErrorUpdateProfile({ message: error.message });
+      Swal.fire({
+        title: "Peringatan",
+        text: error.message,
+        icon: "error",
+      });
     } finally {
       setLoadingUpdateProfile(false);
     }
@@ -112,10 +138,12 @@ const useUpdateProfile = () => {
     loadingUpdateProfile,
     formUpdateProfile,
     fileUpdateProfile,
+    previewFileUpdateProfile,
     handleUpdateProfile,
     handleChangeUpdateProfile,
     handleFileChangeUpdateProfile,
     setFormUpdateProfile,
+    isUpdateProfile,
   };
 };
 

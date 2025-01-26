@@ -31,7 +31,8 @@ const MyProfile = () => {
 
   const { handleNavigate } = useNavigateUser();
 
-  const { handleFollow, handleUnFollow, follow } = useFollow();
+  const { handleFollow, handleUnFollow, follow, handleGetAllFollowing } =
+    useFollow(id);
 
   const {
     myPost,
@@ -72,11 +73,14 @@ const MyProfile = () => {
     setFormUpdateProfile,
     errorUpdateProfile,
     successUpdateProfile,
+    fileUpdateProfile,
+    previewFileUpdateProfile,
     handleUpdateProfile,
     formUpdateProfile,
     handleChangeUpdateProfile,
     handleFileChangeUpdateProfile,
     loadingUpdateProfile,
+    isUpdateProfile,
   } = useUpdateProfile();
 
   const {
@@ -119,12 +123,11 @@ const MyProfile = () => {
   }, [id]);
 
   useEffect(() => {
-    if (follow) {
-      handleGetUserById();
-      id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
-      id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
-    }
-  }, [follow]);
+    handleGetUserById();
+    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+    handleGetAllFollowing();
+  }, [follow, isUpdateProfile]);
 
   useEffect(() => {
     if (isDeletePost || isUpdatePost) {
@@ -221,6 +224,8 @@ const MyProfile = () => {
           successUpdateProfile={successUpdateProfile}
           handleUpdateProfile={handleUpdateProfile}
           formUpdateProfile={formUpdateProfile}
+          fileUpdateProfile={fileUpdateProfile}
+          previewFileUpdateProfile={previewFileUpdateProfile}
           handleChangeUpdateProfile={handleChangeUpdateProfile}
           handleFileChangeUpdateProfile={handleFileChangeUpdateProfile}
           loadingUpdateProfile={loadingUpdateProfile}
