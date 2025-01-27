@@ -12,6 +12,7 @@ const ProfileHeader = ({
   openModalFollowers,
   handleFollow,
   handleUnFollow,
+  totalPost,
 }) => {
   return (
     <section className="pb-8 mb-20 border-b-2 border-gray-200 -mt-28">
@@ -36,9 +37,7 @@ const ProfileHeader = ({
             </div>
             <div className="flex flex-row items-center justify-center gap-8">
               <div className="flex flex-col items-center justify-center transition-all cursor-default text-nowrap">
-                <p className="text-xl font-semibold text-black">
-                  {user?.totalFollowing}
-                </p>
+                <p className="text-xl font-semibold text-black">{totalPost}</p>
                 <p className="text-base font-medium text-gray-500">Postingan</p>
               </div>
               <div

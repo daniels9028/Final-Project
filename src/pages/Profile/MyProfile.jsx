@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getUserById } from "../../services/User";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { backgroundProfile } from "../../assets";
+import { backgroundProfile, alternativeImageUrlPost } from "../../assets";
 import {
   Posts,
   Navbar,
@@ -31,6 +31,8 @@ const MyProfile = () => {
 
   const { auth } = useAuth();
 
+  const [page, setPage] = useState("my-post");
+
   const { handleNavigate } = useNavigateUser();
 
   const { handleFollow, handleUnFollow, follow, handleGetAllFollowing } =
@@ -43,6 +45,7 @@ const MyProfile = () => {
     handleScrollMyPost,
     loadingMyPost,
     hasMoreMyPost,
+    totalPost,
   } = usePostByUserId(id);
 
   const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
@@ -117,8 +120,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     handleGetUserById();
-    // postByUserId();
-    // handleMyFollowingPost();
+    handleMyFollowingPost();
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
     id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
     // handleFollow(id);
@@ -168,11 +170,59 @@ const MyProfile = () => {
         openModalFollowers={openModalFollowers}
         handleFollow={handleFollow}
         handleUnFollow={handleUnFollow}
+        totalPost={totalPost}
       />
 
-      {/* <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
-        Postingan Anda
-      </p> */}
+      <div className="max-w-xl px-6 mx-auto">
+        <div className="flex gap-2 p-1 mb-10 bg-gray-100 border border-gray-200 rounded-lg">
+          <button
+            className={`flex-1 py-2 text-center text-black rounded-lg transition-all ${
+              page === "my-post" ? "bg-white font-medium" : "bg-none font-light"
+            }`}
+            onClick={() => setPage("my-post")}
+          >
+            My Post
+          </button>
+          <button
+            className={`flex-1 py-2 text-center text-black rounded-lg transition-all ${
+              page === "my-following-post"
+                ? "bg-white font-medium"
+                : "bg-none font-light"
+            }`}
+            onClick={() => setPage("my-following-post")}
+          >
+            My Following Post
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 mb-10 lg:grid-cols-3 place-items-center">
+          {page === "my-post" &&
+            myPost.map((post, index) => (
+              <img
+                key={`${post.id}-${index}`}
+                src={post.imageUrl || alternativeImageUrlPost}
+                alt={post.id}
+                className="border border-gray-200 cursor-pointer rounded-xl"
+                onError={(e) => {
+                  e.target.src = alternativeImageUrlPost;
+                }}
+              />
+            ))}
+
+          {page === "my-following-post" &&
+            myFollowingPost.map((post, index) => (
+              <img
+                key={`${post.id}-${index}`}
+                src={post.imageUrl || alternativeImageUrlPost}
+                alt={post.id}
+                className="border border-gray-200 cursor-pointer rounded-xl"
+                onError={(e) => {
+                  e.target.src = alternativeImageUrlPost;
+                }}
+              />
+            ))}
+        </div>
+      </div>
 
       {/* <Posts
         explorePost={myPost}

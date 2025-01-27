@@ -4,6 +4,8 @@ import { getPostByUserId } from "../services/Post";
 const usePostByUserId = (id) => {
   const [myPost, setMyPost] = useState([]);
 
+  const [totalPost, setTotalPost] = useState(0);
+
   const [myPostPage, setMyPostPage] = useState({
     currentPage: 1,
   });
@@ -24,6 +26,8 @@ const usePostByUserId = (id) => {
       } else {
         setMyPost((prev) => [...prev, ...data.posts]);
       }
+
+      setTotalPost(data.totalItems);
     } catch (error) {
       console.log(error);
     } finally {
@@ -52,6 +56,7 @@ const usePostByUserId = (id) => {
     handleScrollMyPost,
     loadingMyPost,
     hasMoreMyPost,
+    totalPost,
   };
 };
 
