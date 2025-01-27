@@ -48,8 +48,14 @@ const MyProfile = () => {
     totalPost,
   } = usePostByUserId(id);
 
-  const { myFollowingPost, myFollowingPostPage, handleMyFollowingPost } =
-    useFollowingPost();
+  const {
+    myFollowingPost,
+    myFollowingPostPage,
+    handleMyFollowingPost,
+    handleScrollMyFollowingPost,
+    loadingMyFollowingPost,
+    hasMoreMyFollowingPost,
+  } = useFollowingPost();
 
   const {
     isModalFollowersOpen,
@@ -120,18 +126,18 @@ const MyProfile = () => {
 
   useEffect(() => {
     handleGetUserById();
-    handleMyFollowingPost();
-    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
-    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
-    // handleFollow(id);
-  }, [id]);
 
-  useEffect(() => {
-    handleGetUserById();
-    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
-    handleGetAllFollowing();
-  }, [follow, isUpdateProfile]);
+    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+  }, [id, follow, isUpdateProfile]);
+
+  // useEffect(() => {
+  //   handleGetUserById();
+
+  //   id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+  //   id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+  //   handleGetAllFollowing();
+  // }, [follow, isUpdateProfile]);
 
   useEffect(() => {
     if (isDeletePost || isUpdatePost) {
@@ -144,10 +150,21 @@ const MyProfile = () => {
   }, [myPostPage.currentPage]);
 
   useEffect(() => {
+    handleMyFollowingPost();
+  }, [myFollowingPostPage.currentPage]);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScrollMyPost);
 
     return () => window.removeEventListener("scroll", handleScrollMyPost);
   }, [loadingMyPost, hasMoreMyPost]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollMyFollowingPost);
+
+    return () =>
+      window.removeEventListener("scroll", handleScrollMyFollowingPost);
+  }, [loadingMyFollowingPost, hasMoreMyFollowingPost]);
 
   return (
     <>

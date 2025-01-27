@@ -6,27 +6,54 @@ const useFollowingPost = () => {
 
   const [myFollowingPostPage, setMyFollowingPostPage] = useState({
     currentPage: 1,
-    totalItems: 0,
-    totalPages: 0,
   });
 
-  const handleMyFollowingPost = async () => {
-    try {
-      const { data } = await getMyFollowingPost({ size: 10, page: 1 });
+  const [loadingMyFollowingPost, setLoadingMyFollowingPost] = useState(false);
+  const [hasMoreMyFollowingPost, setHasMoreMyFollowingPost] = useState(true);
 
-      setMyFollowingPost(data.posts);
-      setMyFollowingPostPage({
-        ...myFollowingPost,
-        currentPage: data.currentPage,
-        totalItems: data.totalItems,
-        totalPages: data.totalPages,
+  const handleMyFollowingPost = async () => {
+    setLoadingMyFollowingPost(true);
+
+    try {
+      const { data } = await getMyFollowingPost({
+        size: 10,
+        page: myFollowingPostPage.currentPage,
       });
+
+      if (data.posts.length === 0) {
+        setHasMoreMyFollowingPost(false);
+      } else {
+        setMyFollowingPost((prev) => [...prev, ...data.posts]);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingMyFollowingPost(false);
     }
   };
 
-  return { myFollowingPost, myFollowingPostPage, handleMyFollowingPost };
+  const handleScrollMyFollowingPost = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 100 &&
+      hasMoreMyFollowingPost &&
+      !loadingMyFollowingPost
+    ) {
+      setMyFollowingPostPage((prev) => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
+    }
+  };
+
+  return {
+    myFollowingPost,
+    myFollowingPostPage,
+    handleMyFollowingPost,
+    handleScrollMyFollowingPost,
+    loadingMyFollowingPost,
+    hasMoreMyFollowingPost,
+  };
 };
 
 export default useFollowingPost;
