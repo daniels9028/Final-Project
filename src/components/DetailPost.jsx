@@ -3,6 +3,7 @@ import { alternativeImageUrlPost, profileBlank } from "../assets";
 import { GoComment } from "react-icons/go";
 import Like from "./Like";
 import ListComment from "./ListComment";
+import { FaRegComment } from "react-icons/fa";
 
 const DetailPost = ({
   isOpen,
@@ -111,7 +112,7 @@ const DetailPost = ({
                   <Like explore={explore} />
                 </div>
                 <div className="flex flex-row items-center gap-2 cursor-pointer">
-                  <GoComment size={28} />
+                  <FaRegComment size={28} />
                   {totalComment !== 0 && (
                     <p className="font-bold transition-all">{totalComment}</p>
                   )}

@@ -17,6 +17,7 @@ import DetailStory from "./DetailStory";
 import ModalFormStory from "./ModalFormStory";
 import DetailPost from "./DetailPost";
 import ListComment from "./ListComment";
+import Header from "./Header";
 
 export {
   Button,
@@ -38,4 +39,5 @@ export {
   ModalFormStory,
   DetailPost,
   ListComment,
+  Header,
 };

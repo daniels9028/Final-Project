@@ -42,7 +42,7 @@ const Register = () => {
             SIGN UP
           </h2>
           <p className="mb-6 text-center text-gray-600">
-            Sign Up with your email
+            Sign Up with your email address
           </p>
           <form className="space-y-4" onSubmit={handleRegister}>
             <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">

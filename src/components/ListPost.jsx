@@ -5,7 +5,8 @@ import { alternativeImageUrlPost, profile, profileBlank } from "../assets";
 import Like from "./Like";
 import { useComment, useNavigateUser, usePostById } from "../hooks";
 import { DetailPost, Modal, ModalCreateUpdatePost } from "../components";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
+
 import { MdEdit } from "react-icons/md";
 import { LuTrash } from "react-icons/lu";
 import { useAuth } from "../context/AuthContext";
@@ -86,9 +87,9 @@ const ListPost = ({
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col w-full mb-8 overflow-hidden bg-white shadow-inner rounded-xl shadow-white lg:w-1/2"
+        className="flex flex-col w-full mb-8 overflow-hidden lg:w-1/2"
       >
-        <div className="relative flex flex-row items-center justify-between px-4 py-3 border-b-2">
+        <div className="relative flex flex-row items-center justify-between py-3">
           <div
             className="flex flex-row items-center gap-4 cursor-pointer"
             onClick={() => handleNavigate(explore?.user?.id)}
@@ -101,47 +102,31 @@ const ListPost = ({
               }}
               className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
             />
-            <p className="font-semibold tracking-wider">
-              {explore?.user?.username}
-            </p>
+            <div>
+              <p className="font-semibold tracking-wider text-[15px]">
+                {explore?.user?.username}
+              </p>
+              <p className="text-[13px] font-semibold tracking-wider text-gray-500">
+                Pontianak, Indonesia
+              </p>
+            </div>
           </div>
 
-          {explore.user.id === auth.user.id && (
-            <>
-              <div className="flex flex-row items-center gap-2">
-                <BsThreeDots
-                  size={20}
-                  className="cursor-pointer"
-                  onClick={toggleMenu}
-                />
-              </div>
+          <div className="flex flex-row items-center gap-2">
+            <BsThreeDots
+              size={24}
+              className="cursor-pointer"
+              onClick={toggleMenu}
+            />
+          </div>
 
-              {/* {isMenuOpen && (
-                <div className="absolute z-40 flex flex-col justify-center h-40 gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14">
-                  <div
-                    className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
-                    onClick={() => {
-                      openModalCrudPost();
-                      handleSelectPost(explore);
-                    }}
-                  >
-                    <MdEdit size={16} />
-                    Edit Postingan
-                  </div>
-                  <div
-                    className="flex flex-row items-center gap-4 text-sm cursor-pointer text-nowrap"
-                    onClick={() => handleDeletePost(explore?.id)}
-                  >
-                    <LuTrash size={16} />
-                    Hapus Postingan
-                  </div>
-                </div>
-              )} */}
-              <motion.div
-                animate={isMenuOpen ? "open" : "closed"}
-                variants={variants}
-                className="absolute z-40 flex flex-col justify-center gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
-              >
+          <motion.div
+            animate={isMenuOpen ? "open" : "closed"}
+            variants={variants}
+            className="absolute z-40 flex flex-col justify-center gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
+          >
+            {explore.user.id === auth.user.id && (
+              <>
                 <div
                   className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
                   onClick={() => {
@@ -158,9 +143,9 @@ const ListPost = ({
                 >
                   <LuTrash size={16} />
                 </div>
-              </motion.div>
-            </>
-          )}
+              </>
+            )}
+          </motion.div>
         </div>
 
         <img
@@ -169,10 +154,10 @@ const ListPost = ({
           onError={(e) => {
             e.target.src = alternativeImageUrlPost;
           }}
-          className="object-cover w-full h-[300px]"
+          className="object-cover w-full h-[300px] rounded-xl border-2 border-slate-100"
         />
 
-        <div className="flex flex-row items-center gap-6 px-4 py-3">
+        <div className="flex flex-row items-center gap-6 py-3">
           <div className="flex flex-row items-center gap-2 cursor-pointer">
             <Like explore={explore} />
           </div>
@@ -180,14 +165,14 @@ const ListPost = ({
             className="flex flex-row items-center gap-2 cursor-pointer"
             onClick={openModalPost}
           >
-            <GoComment size={28} />
+            <FaRegComment size={28} />
             {totalComment !== 0 && (
               <p className="font-bold transition-all">{totalComment}</p>
             )}
           </div>
         </div>
 
-        <p className="px-4 py-2 tracking-wider">
+        <p className="py-2 tracking-wider">
           <span
             className="font-semibold tracking-widest cursor-pointer"
             onClick={() => handleNavigate(explore?.user?.id)}
@@ -199,14 +184,14 @@ const ListPost = ({
 
         {totalComment !== 0 && (
           <p
-            className="px-4 pb-2 text-sm font-medium tracking-wide transition-all cursor-pointer text-slate-500 hover:text-slate-600"
+            className="pb-2 text-sm font-medium tracking-wide transition-all cursor-pointer text-slate-500 hover:text-slate-600"
             onClick={openModalPost}
           >
             See all {totalComment} comments
           </p>
         )}
 
-        <div className="flex flex-row items-center w-full gap-3 px-4 pt-4 pb-8">
+        <div className="flex flex-row items-center w-full gap-3 pt-4 pb-8">
           <img
             src={user?.profilePictureUrl || profile}
             alt={user?.id}

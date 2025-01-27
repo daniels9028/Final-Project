@@ -5,7 +5,6 @@ import { profileBlank } from "../assets";
 const ListFollowers = ({ follower, handleNavigate, id }) => {
   const { auth } = useAuth();
 
-  console.log(follower.profilePictureUrl);
   return (
     <div
       key={follower.id}

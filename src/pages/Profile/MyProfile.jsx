@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { getUserById } from "../../services/User";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { backgroundProfile } from "../../assets";
 import {
   Posts,
   Navbar,
@@ -11,6 +12,7 @@ import {
   ListFollowing,
   UpdateProfileForm,
   ModalCreateUpdatePost,
+  Header,
 } from "../../components";
 
 import {
@@ -146,14 +148,15 @@ const MyProfile = () => {
   }, [loadingMyPost, hasMoreMyPost]);
 
   return (
-    <div
-      className="object-cover min-h-screen bg-center"
-      style={{
-        backgroundImage:
-          "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQHUlzTwr5iUkqUPitO1eTLPM7m8Np5GDgw&s')",
-      }}
-    >
-      <Navbar auth={auth} />
+    <>
+      <div
+        className="bg-center bg-cover h-60"
+        style={{
+          backgroundImage: `url(${backgroundProfile})`,
+        }}
+      >
+        <Header auth={auth} />
+      </div>
 
       <ProfileHeader
         user={user}
@@ -167,11 +170,11 @@ const MyProfile = () => {
         handleUnFollow={handleUnFollow}
       />
 
-      <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
+      {/* <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
         Postingan Anda
-      </p>
+      </p> */}
 
-      <Posts
+      {/* <Posts
         explorePost={myPost}
         explorePage={myPostPage}
         handleDeletePost={handleDeletePost}
@@ -188,7 +191,7 @@ const MyProfile = () => {
         closeModalCrudPost={closeModalCrudPost}
         selectedPost={selectedPost}
         handleSelectPost={handleSelectPost}
-      />
+      /> */}
 
       {/* {id === auth.user.id && (
         <>
@@ -203,7 +206,7 @@ const MyProfile = () => {
         </>
       )} */}
 
-      {loadingMyPost && (
+      {/* {loadingMyPost && (
         <p className="text-2xl font-bold tracking-wider text-center text-white">
           Loading...
         </p>
@@ -212,7 +215,7 @@ const MyProfile = () => {
         <p className="text-2xl font-bold tracking-wider text-center text-white">
           No more posts
         </p>
-      )}
+      )} */}
 
       <Modal
         isOpen={isModalUpdateProfileOpen}
@@ -262,7 +265,7 @@ const MyProfile = () => {
           />
         ))}
       </Modal>
-    </div>
+    </>
   );
 };
 
