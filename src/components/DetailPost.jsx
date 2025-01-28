@@ -68,7 +68,7 @@ const DetailPost = ({
                   e.target.src = alternativeImageUrlPost;
                 }}
                 alt={explore?.id}
-                className="block h-full p-0 bg-cover lg:hidden"
+                className="block h-[300px] w-full p-0 bg-cover lg:hidden"
               />
               <div className="flex flex-row items-center p-4 space-x-4">
                 <img

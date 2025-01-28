@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { getUserById } from "../../services/User";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { backgroundProfile, alternativeImageUrlPost } from "../../assets";
+import { backgroundProfile } from "../../assets";
+import { PiGridFourFill } from "react-icons/pi";
+import { FaCircleUser } from "react-icons/fa6";
+
 import {
   Posts,
   Navbar,
@@ -13,6 +16,7 @@ import {
   UpdateProfileForm,
   ModalCreateUpdatePost,
   Header,
+  ListMyPost,
 } from "../../components";
 
 import {
@@ -129,6 +133,7 @@ const MyProfile = () => {
 
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
     id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+    handleGetAllFollowing();
   }, [id, follow, isUpdateProfile]);
 
   // useEffect(() => {
@@ -193,96 +198,39 @@ const MyProfile = () => {
       <div className="max-w-xl px-6 mx-auto">
         <div className="flex gap-2 p-1 mb-10 bg-gray-100 border border-gray-200 rounded-lg">
           <button
-            className={`flex-1 py-2 text-center text-black rounded-lg transition-all ${
+            className={`flex-1 flex items-center justify-center py-2 text-center text-black rounded-lg transition-all ${
               page === "my-post" ? "bg-white font-medium" : "bg-none font-light"
             }`}
             onClick={() => setPage("my-post")}
           >
-            My Post
+            <PiGridFourFill size={26} />
           </button>
-          <button
-            className={`flex-1 py-2 text-center text-black rounded-lg transition-all ${
-              page === "my-following-post"
-                ? "bg-white font-medium"
-                : "bg-none font-light"
-            }`}
-            onClick={() => setPage("my-following-post")}
-          >
-            My Following Post
-          </button>
+          {id === auth.user.id && (
+            <button
+              className={`flex-1 flex items-center justify-center py-2 text-center text-black rounded-lg transition-all ${
+                page === "my-following-post"
+                  ? "bg-white font-medium"
+                  : "bg-none font-light"
+              }`}
+              onClick={() => setPage("my-following-post")}
+            >
+              <FaCircleUser size={26} />
+            </button>
+          )}
         </div>
 
-        <div className="grid grid-cols-2 gap-2 mb-10 lg:grid-cols-3 place-items-center">
+        <div className="grid grid-cols-1 gap-2 mb-10 lg:grid-cols-2 place-items-center">
           {page === "my-post" &&
             myPost.map((post, index) => (
-              <img
-                key={`${post.id}-${index}`}
-                src={post.imageUrl || alternativeImageUrlPost}
-                alt={post.id}
-                className="border border-gray-200 cursor-pointer rounded-xl"
-                onError={(e) => {
-                  e.target.src = alternativeImageUrlPost;
-                }}
-              />
+              <ListMyPost key={`${post.id}-${index}`} post={post} />
             ))}
 
           {page === "my-following-post" &&
             myFollowingPost.map((post, index) => (
-              <img
-                key={`${post.id}-${index}`}
-                src={post.imageUrl || alternativeImageUrlPost}
-                alt={post.id}
-                className="border border-gray-200 cursor-pointer rounded-xl"
-                onError={(e) => {
-                  e.target.src = alternativeImageUrlPost;
-                }}
-              />
+              <ListMyPost key={`${post.id}-${index}`} post={post} />
             ))}
         </div>
       </div>
-
-      {/* <Posts
-        explorePost={myPost}
-        explorePage={myPostPage}
-        handleDeletePost={handleDeletePost}
-        formCrudPost={formCrudPost}
-        handleChangeCrudPost={handleChangeCrudPost}
-        handleUpdatePost={handleUpdatePost}
-        errorCrudPost={errorCrudPost}
-        successCrudPost={successCrudPost}
-        loadingCrudPost={loadingCrudPost}
-        fileCrudPost={fileCrudPost}
-        handleFileChangeCrudPost={handleFileChangeCrudPost}
-        isModalCrudPostOpen={isModalCrudPostOpen}
-        openModalCrudPost={openModalCrudPost}
-        closeModalCrudPost={closeModalCrudPost}
-        selectedPost={selectedPost}
-        handleSelectPost={handleSelectPost}
-      /> */}
-
-      {/* {id === auth.user.id && (
-        <>
-          <p className="mb-10 text-2xl font-bold tracking-wider text-center text-white">
-            Postingan yang Anda ikuti
-          </p>
-          <Posts
-            explorePost={myFollowingPost}
-            explorePage={myFollowingPostPage}
-            handleDeletePost={handleDeletePost}
-          />
-        </>
-      )} */}
-
-      {/* {loadingMyPost && (
-        <p className="text-2xl font-bold tracking-wider text-center text-white">
-          Loading...
-        </p>
-      )}
-      {!hasMoreMyPost && (
-        <p className="text-2xl font-bold tracking-wider text-center text-white">
-          No more posts
-        </p>
-      )} */}
 
       <Modal
         isOpen={isModalUpdateProfileOpen}
