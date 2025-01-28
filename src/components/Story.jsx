@@ -64,7 +64,11 @@ const Story = ({
             {/* {allStories.map((stories) => (
               <DetailStory stories={stories} key={stories.id} />
             ))} */}
-            <CarouselContainer slides={allStories} />
+            <CarouselContainer
+              slides={allStories}
+              user={user}
+              openModalFormStory={openModalFormStory}
+            />
           </div>
         </div>
       </section>
@@ -87,29 +91,53 @@ const Story = ({
   );
 };
 
-const CarouselContainer = ({ slides }) => {
+const CarouselContainer = ({ slides, user, openModalFormStory }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const visibleSlides = 8; // Number of slides visible at a time
+  const visibleSlides = screen.width >= 1280 ? 6 : 2; // Number of slides visible at a time
+  const nextSlides = screen.width >= 1280 ? 4 : 2;
   const totalSlides = slides.length;
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - visibleSlides : prevIndex - 1
+      prevIndex === 0 ? totalSlides - visibleSlides : prevIndex - nextSlides
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex + visibleSlides >= totalSlides ? 0 : prevIndex + 1
+      prevIndex + visibleSlides >= totalSlides ? 0 : prevIndex + nextSlides
     );
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto overflow-hidden ">
-      {/* Slides */}
-      <div className="relative flex gap-4">
-        <AnimatePresence mode="wait">
+    <div className="relative flex items-center w-full max-w-3xl mx-auto overflow-hidden">
+      <button
+        onClick={handlePrev}
+        className="absolute left-0 w-8 h-8 p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100"
+        aria-label="Previous Slide"
+      >
+        <ChevronLeft size={24} />
+      </button>
+
+      <div className="flex items-center justify-center gap-2 mx-8">
+        <div className="flex flex-col items-center justify-center gap-2 cursor-pointer">
+          <div
+            className="bg-cover bg-center w-[90px] h-[90px] border-2 border-blue-400 rounded-full bg-white flex flex-col items-center justify-center"
+            style={{
+              backgroundImage: `url(${user?.profilePictureUrl})`,
+            }}
+          >
+            <button
+              className="flex items-center justify-center w-6 h-6 p-2 text-white transition-all bg-blue-500 rounded-full shadow-xl hover:bg-blue-600"
+              onClick={openModalFormStory}
+            >
+              <FaPlus />
+            </button>
+          </div>
+          <p className="text-sm tracking-wider text-black">Add Story</p>
+        </div>
+        <AnimatePresence>
           {slides
             .slice(currentIndex, currentIndex + visibleSlides)
             .map((slide, index) => (
@@ -119,7 +147,7 @@ const CarouselContainer = ({ slides }) => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5 }}
-                className="w-1/8"
+                className="w-full"
               >
                 <DetailStory stories={slide} key={slide.id} />
               </motion.div>
@@ -127,26 +155,9 @@ const CarouselContainer = ({ slides }) => {
         </AnimatePresence>
       </div>
 
-      {/* Controls */}
-      <CarouselControls onPrev={handlePrev} onNext={handleNext} />
-    </div>
-  );
-};
-
-// Controls Component
-const CarouselControls = ({ onPrev, onNext }) => {
-  return (
-    <div className="absolute inset-0 flex items-center justify-between">
       <button
-        onClick={onPrev}
-        className="p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100"
-        aria-label="Previous Slide"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={onNext}
-        className="p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100"
+        onClick={handleNext}
+        className="absolute right-0 w-8 h-8 p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100"
         aria-label="Next Slide"
       >
         <ChevronRight size={24} />
