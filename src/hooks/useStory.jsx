@@ -6,6 +6,12 @@ import {
 } from "../services/Story";
 
 const useStory = () => {
+  const [allStories, setAllStories] = useState([]);
+
+  const [allStoriesPage, setAllStoriesPage] = useState({
+    currentPage: 1,
+  });
+
   const [myStory, setMyStory] = useState([]);
 
   const [myStoryPage, setMyStoryPage] = useState({
@@ -28,7 +34,7 @@ const useStory = () => {
 
   const [isModalFormStoryOpen, setModalFormStoryOpen] = useState(false);
 
-  // When create or update story reload page
+  // When create reload page
   const [isFormStory, setIsFormStory] = useState(false);
 
   const [selectedStory, setSelectedStory] = useState(null);
@@ -85,6 +91,7 @@ const useStory = () => {
       return;
     }
 
+    setIsFormStory(false);
     try {
       setErrorFormStory({});
       setSuccessFormStory("");
@@ -99,7 +106,7 @@ const useStory = () => {
       }, 1000);
 
       setFormStory({ caption: "", file: null });
-      setIsFormStory((prev) => !prev);
+      setIsFormStory(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -111,6 +118,7 @@ const useStory = () => {
     try {
       const { data } = await getMyStories({ size: 10, page: 1 });
 
+      console.log("mystories", data.stories);
       setMyStory(data.stories);
       setMyStoryPage({
         ...myStory,
@@ -127,6 +135,7 @@ const useStory = () => {
     try {
       const { data } = await getMyFollowingStories({ size: 10, page: 1 });
 
+      console.log("myfollowingstories", data.stories);
       setMyFollowingStories(data.stories);
       setMyFollowingStoriesPage({
         ...myFollowingStories,
@@ -134,6 +143,31 @@ const useStory = () => {
         totalItems: data.totalItems,
         totalPages: data.totalPages,
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGetAllStories = async () => {
+    try {
+      const { data: myStories } = await getMyStories({
+        size: 10,
+        page: allStoriesPage.currentPage,
+      });
+
+      const { data: myFollowingStories } = await getMyFollowingStories({
+        size: 10,
+        page: allStoriesPage.currentPage,
+      });
+
+      // console.log("mystories", myStories.stories);
+      // console.log("myfollowingstories", myFollowingStories.stories);
+
+      setAllStories((prev) => [
+        ...prev,
+        ...myStories.stories,
+        ...myFollowingStories.stories,
+      ]);
     } catch (error) {
       console.log(error);
     }
@@ -156,6 +190,8 @@ const useStory = () => {
     openModalFormStory,
     closeModalFormStory,
     handleCreateStory,
+    allStories,
+    handleGetAllStories,
   };
 };
 

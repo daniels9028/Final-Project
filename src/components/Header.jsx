@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { useNavigateUser } from "../hooks";
 import Swal from "sweetalert2";
 
-const Header = ({ auth }) => {
+const Header = ({ auth, color }) => {
   const { user } = auth;
 
   const navigate = useNavigate();
@@ -68,7 +68,9 @@ const Header = ({ auth }) => {
       <div className="z-50 flex flex-row items-center justify-center">
         <img src={vista} className="object-cover w-14 h-14" />
         <Link
-          className="text-2xl italic font-semibold tracking-widest text-white"
+          className={`text-2xl italic font-semibold tracking-widest ${
+            color === "dark" ? "text-black" : "text-white"
+          }`}
           to="/"
         >
           Vista

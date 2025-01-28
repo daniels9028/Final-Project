@@ -1,6 +1,9 @@
 import React from "react";
 import { profileBlank } from "../assets";
 import { useFollow } from "../hooks";
+import { Logout } from "../services/Authentication";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const ProfileHeader = ({
   user,
@@ -14,6 +17,28 @@ const ProfileHeader = ({
   handleUnFollow,
   totalPost,
 }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await Logout(auth.token);
+
+      localStorage.clear();
+
+      Swal.fire({
+        title: "Sukses",
+        text: "Logout berhasil",
+        icon: "success",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="pb-8 mb-20 border-b-2 border-gray-200 -mt-28">
       <div className="flex flex-col items-center justify-center w-full max-w-5xl px-6 mx-auto lg:px-12">
@@ -69,14 +94,24 @@ const ProfileHeader = ({
                 {user?.website || "-"}
               </a>
             </div>
-            <button
-              className={`bg-slate-300 hover:bg-slate-500 transition-colors py-2 px-4 rounded-lg font-semibold text-nowrap ${
-                id !== auth.user.id && "hidden"
-              }`}
-              onClick={openModalUpdateProfile}
-            >
-              Edit Profil
-            </button>
+            <div className="flex flex-row items-center justify-center gap-4">
+              <button
+                className={`bg-slate-300 hover:bg-slate-500 transition-colors py-2 px-4 rounded-lg font-semibold text-nowrap ${
+                  id !== auth.user.id && "hidden"
+                }`}
+                onClick={openModalUpdateProfile}
+              >
+                Edit Profil
+              </button>
+              <button
+                className={`bg-red-500 hover:bg-red-600 text-white transition-colors py-2 px-4 rounded-lg font-semibold text-nowrap ${
+                  id !== auth.user.id && "hidden"
+                }`}
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
             <button
               className={`transition-all py-2 px-4 rounded-lg font-semibold ${
                 id === auth.user.id && "hidden"

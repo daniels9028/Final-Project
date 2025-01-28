@@ -35,7 +35,7 @@ const DetailPost = ({
         <div className="flex flex-row w-full h-full">
           <div className="hidden w-full border-r lg:w-1/2 lg:flex">
             <img
-              src={explore?.imageUrl}
+              src={explore?.imageUrl || alternativeImageUrlPost}
               onError={(e) => {
                 e.target.src = alternativeImageUrlPost;
               }}
@@ -47,7 +47,7 @@ const DetailPost = ({
           <div className="relative w-full h-full lg:w-1/2">
             <div className="flex flex-row items-center p-4 space-x-4 border-b">
               <img
-                src={explore?.user?.profilePictureUrl}
+                src={explore?.user?.profilePictureUrl || profileBlank}
                 onError={(e) => {
                   e.target.src = profileBlank;
                 }}
@@ -63,7 +63,7 @@ const DetailPost = ({
 
             <div className="h-full overflow-y-auto no-scrollbar">
               <img
-                src={explore?.imageUrl}
+                src={explore?.imageUrl || alternativeImageUrlPost}
                 onError={(e) => {
                   e.target.src = alternativeImageUrlPost;
                 }}
@@ -72,7 +72,7 @@ const DetailPost = ({
               />
               <div className="flex flex-row items-center p-4 space-x-4">
                 <img
-                  src={explore?.user?.profilePictureUrl}
+                  src={explore?.user?.profilePictureUrl || profileBlank}
                   onError={(e) => {
                     e.target.src = profileBlank;
                   }}
