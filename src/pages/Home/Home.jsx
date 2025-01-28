@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-import { AddPost, Navbar, Posts, Story } from "../../components/index";
+import { AddPost, Header, Navbar, Posts, Story } from "../../components/index";
 import useExplorePost from "../../hooks/useExplorePost";
 import { useCrudPost, useStory } from "../../hooks";
 
@@ -48,12 +48,15 @@ const Home = () => {
     openModalFormStory,
     closeModalFormStory,
     handleCreateStory,
+    allStories,
+    handleGetAllStories,
   } = useStory();
 
   useEffect(() => {
     // handleExplorePost();
-    handleGetMyStories();
+    // handleGetMyStories();
     // handleGetMyFollowingStories();
+    handleGetAllStories();
     document.title = "Home | Vista";
   }, []);
 
@@ -62,7 +65,9 @@ const Home = () => {
   // }, [isCreatePost]);
 
   useEffect(() => {
-    handleGetMyStories();
+    if (isFormStory) {
+      // handleGetMyStories();
+    }
   }, [isFormStory]);
 
   useEffect(() => {
@@ -83,10 +88,11 @@ const Home = () => {
     //     "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJQHUlzTwr5iUkqUPitO1eTLPM7m8Np5GDgw&s')",
     // }}
     >
-      <Navbar auth={auth} />
+      <Header auth={auth} color="dark" />
 
       <Story
         auth={auth}
+        allStories={allStories}
         myStory={myStory}
         myFollowingStories={myFollowingStories}
         formStory={formStory}

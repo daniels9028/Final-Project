@@ -21,8 +21,8 @@ const AddPost = ({
   return (
     <>
       <section className="my-10">
-        <div className="flex items-center justify-center w-full px-6 mx-auto lg:px-12 max-w-7xl">
-          <div className="w-full p-4 overflow-hidden bg-white border shadow-xl rounded-xl lg:w-1/2">
+        <div className="flex items-center justify-center w-full px-6 mx-auto max-w-7xl lg:px-12">
+          <div className="w-full p-4 overflow-hidden bg-white border shadow-xl lg:w-1/2 rounded-xl">
             <div className="flex flex-row items-center justify-center gap-4">
               <img
                 src={user?.profilePictureUrl || profile}
