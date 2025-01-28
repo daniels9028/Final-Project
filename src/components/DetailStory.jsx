@@ -7,9 +7,9 @@ const DetailStory = ({ stories }) => {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-2">
-        <div className="w-[100px] h-[100px] border-2 border-blue-400 rounded-full bg-white flex items-center justify-center cursor-pointer overflow-hidden">
+        <div className="w-[90px] h-[90px] border-2 border-blue-400 rounded-full bg-white flex items-center justify-center cursor-pointer overflow-hidden">
           <img
-            src={imageUrl}
+            src={imageUrl || alternativeImageUrlPost}
             onError={(e) => {
               e.target.src = alternativeImageUrlPost;
             }}

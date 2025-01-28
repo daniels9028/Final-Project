@@ -96,7 +96,7 @@ const ProfileHeader = ({
             </div>
             <div className="flex flex-row items-center justify-center gap-4">
               <button
-                className={`bg-slate-300 hover:bg-slate-500 transition-colors py-2 px-4 rounded-lg font-semibold text-nowrap ${
+                className={`bg-blue-500 hover:bg-blue-600 text-white transition-colors py-2 px-4 rounded-lg font-semibold text-nowrap ${
                   id !== auth.user.id && "hidden"
                 }`}
                 onClick={openModalUpdateProfile}
