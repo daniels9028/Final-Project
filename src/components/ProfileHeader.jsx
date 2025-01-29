@@ -11,6 +11,7 @@ const ProfileHeader = ({
   auth,
   openModalUpdateProfile,
   follow,
+  isFollowing,
   openModalFollowing,
   openModalFollowers,
   handleFollow,
@@ -116,13 +117,15 @@ const ProfileHeader = ({
               className={`transition-all py-2 px-4 rounded-lg font-semibold ${
                 id === auth.user.id && "hidden"
               } ${
-                follow
+                isFollowing
                   ? "bg-red-500 text-white hover:bg-red-600"
                   : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
-              onClick={() => (follow ? handleUnFollow(id) : handleFollow(id))}
+              onClick={() =>
+                isFollowing ? handleUnFollow(id) : handleFollow(id)
+              }
             >
-              {follow ? "Unfollow" : "Follow"}
+              {isFollowing ? "Unfollow" : "Follow"}
             </button>
           </div>
         </div>

@@ -4,6 +4,8 @@ import { followUser, getMyFollowing, unfollowUser } from "../services/Follow";
 const useFollow = (id) => {
   const [follow, setFollow] = useState(false);
 
+  const [isFollowing, setIsFollowing] = useState(false);
+
   let listFollowing = [];
 
   const handleFollow = async (userId) => {
@@ -13,6 +15,8 @@ const useFollow = (id) => {
       });
 
       await handleGetAllFollowing();
+
+      setFollow((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -23,6 +27,8 @@ const useFollow = (id) => {
       await unfollowUser(userId);
 
       await handleGetAllFollowing();
+
+      setFollow((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -35,9 +41,9 @@ const useFollow = (id) => {
       data.users.forEach((user) => listFollowing.push(user.id));
 
       if (listFollowing.includes(id)) {
-        setFollow(true);
+        setIsFollowing(true);
       } else {
-        setFollow(false);
+        setIsFollowing(false);
       }
     } catch (error) {
       console.log(error);
@@ -48,6 +54,7 @@ const useFollow = (id) => {
     handleFollow,
     handleUnFollow,
     follow,
+    isFollowing,
     handleGetAllFollowing,
   };
 };

@@ -39,8 +39,13 @@ const MyProfile = () => {
 
   const { handleNavigate } = useNavigateUser();
 
-  const { handleFollow, handleUnFollow, follow, handleGetAllFollowing } =
-    useFollow(id);
+  const {
+    handleFollow,
+    handleUnFollow,
+    follow,
+    handleGetAllFollowing,
+    isFollowing,
+  } = useFollow(id);
 
   const {
     myPost,
@@ -188,6 +193,7 @@ const MyProfile = () => {
         auth={auth}
         openModalUpdateProfile={openModalUpdateProfile}
         follow={follow}
+        isFollowing={isFollowing}
         openModalFollowing={openModalFollowing}
         openModalFollowers={openModalFollowers}
         handleFollow={handleFollow}
@@ -253,7 +259,7 @@ const MyProfile = () => {
       <Modal
         isOpen={isModalFollowersOpen}
         onClose={closeModalFollowers}
-        title="Followers"
+        // title="Followers"
       >
         {followers.map((follower) => (
           <ListFollowers
@@ -268,7 +274,7 @@ const MyProfile = () => {
       <Modal
         isOpen={isModalFollowingOpen}
         onClose={closeModalFollowing}
-        title="Following"
+        // title="Following"
       >
         {following.map((follow) => (
           <ListFollowing

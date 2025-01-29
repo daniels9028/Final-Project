@@ -5,10 +5,12 @@ import { profileBlank } from "../assets";
 const ListFollowers = ({ follower, handleNavigate, id }) => {
   const { auth } = useAuth();
 
+  console.log(follower);
+
   return (
     <div
       key={follower.id}
-      className="flex flex-row items-center justify-between px-4 py-2 mb-4"
+      className="flex flex-row items-center justify-between px-2 py-3 mb-4 bg-white shadow-lg rounded-xl"
     >
       <div className="flex flex-row items-center gap-4">
         <img
@@ -17,7 +19,7 @@ const ListFollowers = ({ follower, handleNavigate, id }) => {
           onError={(e) => {
             e.target.src = profileBlank;
           }}
-          className="object-cover w-12 h-12 border-2 rounded-full cursor-pointer"
+          className="object-cover w-12 h-12 border-2 border-white cursor-pointer rounded-xl"
           onClick={() => handleNavigate(follower?.id)}
         />
         <div className="flex flex-col justify-center">
@@ -27,16 +29,15 @@ const ListFollowers = ({ follower, handleNavigate, id }) => {
           >
             {follower?.username}
           </p>
-          <p className="font-semibold tracking-wide text-slate-500">
-            {follower?.email}
-          </p>
+          <p className="tracking-wide text-gray-500">{follower?.email}</p>
         </div>
       </div>
-      {id === auth.user.id && (
-        <button className="px-4 py-2 font-semibold transition-all bg-gray-200 rounded-lg hover:bg-gray-400">
-          Diikuti
-        </button>
-      )}
+      <button
+        className="px-4 py-1 tracking-wide text-white transition-all bg-black rounded-lg"
+        onClick={() => handleNavigate(follower?.id)}
+      >
+        Lihat Profil
+      </button>
     </div>
   );
 };
