@@ -45,7 +45,7 @@ const ListMyPost = ({ post }) => {
       <img
         src={post.imageUrl || alternativeImageUrlPost}
         alt={post.id}
-        className="object-cover transition-all rounded-lg shadow-lg cursor-pointer hover:opacity-70"
+        className="object-cover transition-all h-[200px] w-full rounded-lg shadow-xl border cursor-pointer hover:opacity-70"
         onError={(e) => {
           e.target.src = alternativeImageUrlPost;
         }}

@@ -120,7 +120,7 @@ const CarouselContainer = ({ slides, user, openModalFormStory }) => {
         <ChevronLeft size={24} />
       </button>
 
-      <div className="flex items-center justify-center gap-2 mx-8">
+      <div className="flex items-center justify-center gap-2 mx-6 lg:mx-10">
         <div className="flex flex-col items-center justify-center gap-2 cursor-pointer">
           <div
             className="bg-cover bg-center w-[90px] h-[90px] border-2 border-blue-400 rounded-full bg-white flex flex-col items-center justify-center"

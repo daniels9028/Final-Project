@@ -9,13 +9,13 @@ const ListFollowing = ({ follow, handleNavigate, id, handleUnFollow }) => {
   return (
     <div
       key={follow.id}
-      className="flex flex-row items-center justify-between px-4 py-2 mb-4"
+      className="flex flex-row items-center justify-between px-2 py-3 mb-4 bg-white shadow-lg rounded-xl"
     >
       <div className="flex flex-row items-center gap-4">
         <img
           src={follow?.profilePictureUrl || profileBlank}
           alt={follow?.id}
-          className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
+          className="object-cover w-12 h-12 border-2 border-white cursor-pointer rounded-xl"
           onClick={() => handleNavigate(follow?.id)}
           onError={(e) => {
             e.target.src = profileBlank;
@@ -28,14 +28,14 @@ const ListFollowing = ({ follow, handleNavigate, id, handleUnFollow }) => {
           >
             {follow?.username}
           </p>
-          <p className="font-semibold tracking-wide text-slate-500">
+          <p className="font-semibold tracking-wide text-gray-500">
             {follow?.email}
           </p>
         </div>
       </div>
       {id === auth.user.id && (
         <button
-          className="px-4 py-2 font-semibold bg-gray-200 rounded-lg"
+          className="px-4 py-1 tracking-wide text-white transition-all bg-black rounded-lg"
           onClick={() => handleUnFollow(follow.id)}
         >
           Hapus
