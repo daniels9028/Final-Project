@@ -23,7 +23,7 @@ const ListComment = ({
           className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
           onClick={() => handleNavigate(id)}
         />
-        <div>
+        <div className="flex-1">
           <p
             className="font-medium tracking-wide cursor-pointer"
             onClick={() => handleNavigate(id)}
