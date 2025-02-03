@@ -50,19 +50,21 @@ const Home = () => {
     handleCreateStory,
     allStories,
     handleGetAllStories,
+    allStoriesPage,
+    setAllStoriesPage,
   } = useStory();
 
   useEffect(() => {
     // handleExplorePost();
     // handleGetMyStories();
     // handleGetMyFollowingStories();
-    handleGetAllStories();
+    // handleGetAllStories();
     document.title = "Home | Vista";
   }, []);
 
-  // useEffect(() => {
-  //   handleExplorePost();
-  // }, [isCreatePost]);
+  useEffect(() => {
+    handleGetAllStories();
+  }, [allStoriesPage.currentPage]);
 
   useEffect(() => {
     if (isFormStory) {
@@ -106,6 +108,7 @@ const Home = () => {
         openModalFormStory={openModalFormStory}
         closeModalFormStory={closeModalFormStory}
         handleCreateStory={handleCreateStory}
+        setAllStoriesPage={setAllStoriesPage}
       />
 
       <AddPost

@@ -185,9 +185,6 @@ const useStory = () => {
         page: allStoriesPage.currentPage,
       });
 
-      // console.log("mystories", myStories.stories);
-      // console.log("myfollowingstories", myFollowingStories.stories);
-
       setAllStories((prev) => [
         ...prev,
         ...myStories.stories,
@@ -217,6 +214,8 @@ const useStory = () => {
     handleCreateStory,
     allStories,
     handleGetAllStories,
+    allStoriesPage,
+    setAllStoriesPage,
   };
 };
 
