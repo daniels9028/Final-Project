@@ -27,6 +27,9 @@ const AddPost = ({
               <img
                 src={user?.profilePictureUrl || profile}
                 alt={user?.id}
+                onError={(e) => {
+                  e.target.src = profile;
+                }}
                 className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
               />
               <button

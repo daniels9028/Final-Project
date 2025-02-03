@@ -25,20 +25,6 @@ const Story = ({
 }) => {
   const { user } = auth;
 
-  const slides = [
-    "Slide 1 Content",
-    "Slide 2 Content",
-    "Slide 3 Content",
-    "Slide 4 Content",
-    "Slide 5 Content",
-    "Slide 6 Content",
-    "Slide 6 Content",
-    "Slide 6 Content",
-    "Slide 6 Content",
-    "Slide 6 Content",
-    "Slide 6 Content",
-  ];
-
   return (
     <>
       <section className="">
