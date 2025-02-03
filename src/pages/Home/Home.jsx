@@ -23,12 +23,12 @@ const Home = () => {
     handleChangeCrudPost,
     handleCreatePost,
     errorCrudPost,
-    successCrudPost,
     isModalCrudPostOpen,
     openModalCrudPost,
     closeModalCrudPost,
     loadingCrudPost,
     isCreatePost,
+    fileCrudPost,
   } = useCrudPost();
 
   const {
@@ -117,9 +117,10 @@ const Home = () => {
         handleFileChangeCrudPost={handleFileChangeCrudPost}
         handleChangeCrudPost={handleChangeCrudPost}
         handleCreatePost={handleCreatePost}
-        successCrudPost={successCrudPost}
         errorCrudPost={errorCrudPost}
         loadingCrudPost={loadingCrudPost}
+        fileCrudPost={fileCrudPost}
+        title="Tambah Postingan"
       />
 
       <Posts explorePost={explorePost} />

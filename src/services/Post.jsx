@@ -6,14 +6,10 @@ export const createPost = async (dataPost) => {
   const token = getToken();
 
   try {
-    const { url } = await uploadImage(dataPost.file);
-
-    const { file, ...data } = dataPost;
-
     const create = await axios({
       url: "api/v1/create-post",
       method: "POST",
-      data: { ...data, imageUrl: url },
+      data: dataPost,
       headers: {
         Authorization: `Bearer ${token}`,
       },

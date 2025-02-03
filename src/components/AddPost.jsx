@@ -1,6 +1,5 @@
 import React from "react";
 import { profile } from "../assets";
-import Modal from "./Modal";
 import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
 
 const AddPost = ({
@@ -13,8 +12,9 @@ const AddPost = ({
   handleFileChangeCrudPost,
   handleChangeCrudPost,
   errorCrudPost,
-  successCrudPost,
   loadingCrudPost,
+  fileCrudPost,
+  title,
 }) => {
   const { user } = auth;
 
@@ -30,10 +30,10 @@ const AddPost = ({
                 onError={(e) => {
                   e.target.src = profile;
                 }}
-                className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
+                className="object-cover w-12 h-12 border-2 border-blue-400 rounded-full"
               />
               <button
-                className="w-full h-12 px-4 text-xs text-left text-gray-500 transition-all rounded-full bg-slate-200 hover:bg-slate-300 lg:text-base"
+                className="flex-1 h-12 px-4 text-[11px] text-left text-gray-500 transition-all rounded-full bg-slate-200 hover:bg-slate-300 lg:text-base"
                 onClick={openModalCrudPost}
               >
                 Apa yang Anda pikirkan, {user?.username}?
@@ -48,13 +48,13 @@ const AddPost = ({
         closeModalCrudPost={closeModalCrudPost}
         handleCreatePost={handleCreatePost}
         errorCrudPost={errorCrudPost}
-        successCrudPost={successCrudPost}
         user={user}
         formCrudPost={formCrudPost}
         handleChangeCrudPost={handleChangeCrudPost}
         handleFileChangeCrudPost={handleFileChangeCrudPost}
         loadingCrudPost={loadingCrudPost}
-        title="Buat Postingan"
+        fileCrudPost={fileCrudPost}
+        title={title}
       />
     </>
   );
