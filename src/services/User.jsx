@@ -20,14 +20,10 @@ export const updateProfile = async (dataProfile) => {
   const token = localStorage.getItem("token");
 
   try {
-    const { url } = await uploadImage(dataProfile.file);
-
-    const { file, ...data } = dataProfile;
-
     const update = await axios({
       url: "api/v1/update-profile",
       method: "POST",
-      data: { ...data, profilePictureUrl: url },
+      data: dataProfile,
       headers: {
         Authorization: `Bearer ${token}`,
       },
