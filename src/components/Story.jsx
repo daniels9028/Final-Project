@@ -22,6 +22,7 @@ const Story = ({
   openModalFormStory,
   closeModalFormStory,
   handleCreateStory,
+  setAllStoriesPage,
 }) => {
   const { user } = auth;
 
@@ -30,30 +31,11 @@ const Story = ({
       <section className="">
         <div className="flex items-center justify-center max-w-5xl px-6 mx-auto lg:px-12">
           <div className="flex flex-row items-center w-full">
-            {/* <div className="flex flex-col items-center justify-center gap-2">
-              <div
-                className="bg-cover bg-center min-w-[100px] min-h-[100px] border-2 border-blue-400 rounded-full bg-white flex flex-col items-center justify-center"
-                style={{
-                  backgroundImage: `url(${user?.profilePictureUrl})`,
-                }}
-              >
-                <button
-                  className="flex items-center justify-center w-8 h-8 p-2 text-white transition-all bg-blue-500 rounded-full shadow-xl hover:bg-blue-600"
-                  onClick={openModalFormStory}
-                >
-                  <FaPlus />
-                </button>
-              </div>
-              <p className="text-sm tracking-wider text-black">Add Story</p>
-            </div> */}
-
-            {/* {allStories.map((stories) => (
-              <DetailStory stories={stories} key={stories.id} />
-            ))} */}
             <CarouselContainer
               slides={allStories}
               user={user}
               openModalFormStory={openModalFormStory}
+              setAllStoriesPage={setAllStoriesPage}
             />
           </div>
         </div>
@@ -77,7 +59,12 @@ const Story = ({
   );
 };
 
-const CarouselContainer = ({ slides, user, openModalFormStory }) => {
+const CarouselContainer = ({
+  slides,
+  user,
+  openModalFormStory,
+  setAllStoriesPage,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const visibleSlides = screen.width >= 1280 ? 6 : 2; // Number of slides visible at a time
@@ -85,22 +72,30 @@ const CarouselContainer = ({ slides, user, openModalFormStory }) => {
   const totalSlides = slides.length;
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - visibleSlides : prevIndex - nextSlides
-    );
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => Math.max(0, prevIndex - nextSlides));
+    }
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + visibleSlides >= totalSlides ? 0 : prevIndex + nextSlides
-    );
+    if (currentIndex + visibleSlides < totalSlides) {
+      setCurrentIndex((prevIndex) =>
+        Math.min(totalSlides - visibleSlides, prevIndex + nextSlides)
+      );
+    } else if (currentIndex + visibleSlides >= totalSlides) {
+      setAllStoriesPage((prev) => ({
+        ...prev,
+        currentPage: prev.currentPage + 1,
+      }));
+    }
   };
 
   return (
     <div className="relative flex items-center w-full max-w-3xl mx-auto overflow-hidden">
       <button
         onClick={handlePrev}
-        className="absolute left-0 w-8 h-8 p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100"
+        disabled={currentIndex === 0}
+        className="absolute left-0 w-8 h-8 p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100 disabled:cursor-not-allowed"
         aria-label="Previous Slide"
       >
         <ChevronLeft size={24} />
@@ -143,7 +138,8 @@ const CarouselContainer = ({ slides, user, openModalFormStory }) => {
 
       <button
         onClick={handleNext}
-        className="absolute right-0 w-8 h-8 p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100"
+        // disabled={currentIndex + visibleSlides >= totalSlides}
+        className="absolute right-0 w-8 h-8 p-1 text-gray-600 bg-white rounded-full shadow hover:bg-gray-100 disabled:cursor-not-allowed"
         aria-label="Next Slide"
       >
         <ChevronRight size={24} />
