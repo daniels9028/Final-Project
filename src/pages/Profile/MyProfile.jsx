@@ -94,7 +94,6 @@ const MyProfile = () => {
     errorUpdateProfile,
     successUpdateProfile,
     fileUpdateProfile,
-    previewFileUpdateProfile,
     handleUpdateProfile,
     formUpdateProfile,
     handleChangeUpdateProfile,
@@ -241,7 +240,6 @@ const MyProfile = () => {
       <Modal
         isOpen={isModalUpdateProfileOpen}
         onClose={closeModalUpdateProfile}
-        title="Edit Profile"
       >
         <UpdateProfileForm
           errorUpdateProfile={errorUpdateProfile}
@@ -249,7 +247,6 @@ const MyProfile = () => {
           handleUpdateProfile={handleUpdateProfile}
           formUpdateProfile={formUpdateProfile}
           fileUpdateProfile={fileUpdateProfile}
-          previewFileUpdateProfile={previewFileUpdateProfile}
           handleChangeUpdateProfile={handleChangeUpdateProfile}
           handleFileChangeUpdateProfile={handleFileChangeUpdateProfile}
           loadingUpdateProfile={loadingUpdateProfile}

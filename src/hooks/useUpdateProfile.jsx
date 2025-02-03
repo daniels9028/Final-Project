@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { getLoggedUser, getUserById, updateProfile } from "../services/User";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { uploadImage } from "../services/Upload";
 
 const useUpdateProfile = () => {
   const { auth, setAuth } = useAuth();
 
-  const navigate = useNavigate();
-
   const [formUpdateProfile, setFormUpdateProfile] = useState({});
   const [fileUpdateProfile, setFileUpdateProfile] = useState(null);
-  const [previewFileUpdateProfile, setPreviewFileUpdateProfile] =
-    useState(null);
 
   const [user, setUser] = useState({});
 
@@ -34,13 +30,15 @@ const useUpdateProfile = () => {
     });
   };
 
-  const handleFileChangeUpdateProfile = (e) => {
+  const handleFileChangeUpdateProfile = async (e) => {
     const file = e.target.files[0];
 
-    if (file) {
-      const imagePreviewUrl = URL.createObjectURL(file);
-      setFileUpdateProfile(file);
-      setPreviewFileUpdateProfile(imagePreviewUrl);
+    try {
+      const { url } = await uploadImage(file);
+
+      setFileUpdateProfile(url);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -96,7 +94,7 @@ const useUpdateProfile = () => {
 
       await updateProfile({
         ...formUpdateProfile,
-        file: fileUpdateProfile,
+        profilePictureUrl: fileUpdateProfile,
       });
 
       const dataProfile = await getLoggedUser(auth.token);
@@ -116,7 +114,6 @@ const useUpdateProfile = () => {
       setIsUpdateProfile(true);
     } catch (error) {
       console.log(error);
-      // setErrorUpdateProfile({ message: error.message });
       Swal.fire({
         title: "Peringatan",
         text: error.message,
@@ -138,7 +135,6 @@ const useUpdateProfile = () => {
     loadingUpdateProfile,
     formUpdateProfile,
     fileUpdateProfile,
-    previewFileUpdateProfile,
     handleUpdateProfile,
     handleChangeUpdateProfile,
     handleFileChangeUpdateProfile,

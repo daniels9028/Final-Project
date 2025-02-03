@@ -7,24 +7,15 @@ const UpdateProfileForm = ({
   formUpdateProfile,
   handleChangeUpdateProfile,
   fileUpdateProfile,
-  previewFileUpdateProfile,
   handleFileChangeUpdateProfile,
   loadingUpdateProfile,
 }) => {
   return (
     <>
-      <form className="p-4 space-y-4" onSubmit={handleUpdateProfile}>
-        {/* {errorUpdateProfile.message && (
-          <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-red-500 rounded-lg">
-            {errorUpdateProfile.message}
-          </p>
-        )} */}
-
-        {/* {successUpdateProfile && (
-          <p className="px-4 py-2 mb-2 tracking-wide text-white capitalize bg-green-500 rounded-lg">
-            {successUpdateProfile}
-          </p>
-        )} */}
+      <form
+        className="p-4 space-y-4 bg-white rounded-lg shadow-lg border"
+        onSubmit={handleUpdateProfile}
+      >
         <div className="flex flex-col space-y-4 lg:space-x-4 lg:space-y-0 lg:flex-row">
           <div className="w-full space-y-2 lg:w-1/2">
             <label
@@ -124,10 +115,10 @@ const UpdateProfileForm = ({
               className="flex items-center justify-center w-full px-4 py-2 mt-1 mb-6 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               onChange={handleFileChangeUpdateProfile}
             />
-            {previewFileUpdateProfile ? (
+            {fileUpdateProfile ? (
               <div className="relative">
                 <img
-                  src={previewFileUpdateProfile}
+                  src={fileUpdateProfile}
                   alt="Preview"
                   className="object-cover w-full rounded-lg shadow-lg h-60"
                 />
@@ -193,10 +184,10 @@ const UpdateProfileForm = ({
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="w-32 py-2 text-lg font-medium text-white bg-orange-500 rounded-md hover:bg-orange-700"
+            className="w-32 py-2 font-medium text-white bg-orange-500 rounded-md hover:bg-orange-700"
             disabled={loadingUpdateProfile}
           >
-            {loadingUpdateProfile ? "loading..." : "Update"}
+            {loadingUpdateProfile ? "Loading..." : "Update"}
           </button>
         </div>
       </form>
