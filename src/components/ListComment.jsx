@@ -1,5 +1,6 @@
 import React from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { alternativeProfile } from "../assets";
 
 const ListComment = ({
   comments,
@@ -14,8 +15,11 @@ const ListComment = ({
     <div className="flex flex-row justify-between">
       <div className="flex flex-row gap-4">
         <img
-          src={profilePictureUrl}
+          src={profilePictureUrl || alternativeProfile}
           alt={id}
+          onError={(e) => {
+            e.target.src = alternativeProfile;
+          }}
           className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
           onClick={() => handleNavigate(id)}
         />

@@ -42,14 +42,14 @@ export const createStory = async (dataStory) => {
   const token = getToken();
 
   try {
-    const { url } = await uploadImage(dataStory.file);
+    // const { url } = await uploadImage(dataStory.file);
 
-    const { file, ...data } = dataStory;
+    // const { file, ...data } = dataStory;
 
     const create = await axios({
       url: "api/v1/create-story",
       method: "POST",
-      data: { ...data, imageUrl: url },
+      data: dataStory,
       headers: {
         Authorization: `Bearer ${token}`,
       },

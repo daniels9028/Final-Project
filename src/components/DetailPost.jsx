@@ -80,7 +80,7 @@ const DetailPost = ({
                   onClick={() => handleNavigate(explore?.user?.id)}
                   className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
                 />
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-1 flex-col justify-center">
                   <p className="font-medium tracking-wider text-wrap">
                     <span
                       className="cursor-pointer"
@@ -127,7 +127,7 @@ const DetailPost = ({
                   }}
                   className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
                 />
-                <div className="flex flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
+                <div className="flex flex-1 flex-nowrap flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
                   <input
                     type="text"
                     className="w-full h-10 px-2 text-sm bg-gray-200 border-2 rounded-full outline-none"

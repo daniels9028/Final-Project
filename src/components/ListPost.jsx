@@ -200,7 +200,7 @@ const ListPost = ({
             }}
             className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
           />
-          <div className="flex flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
+          <div className="flex flex-nowrap flex-1 flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
             <input
               type="text"
               className="w-full h-10 px-2 text-sm bg-gray-200 border-2 rounded-full outline-none"
