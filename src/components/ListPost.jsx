@@ -87,7 +87,7 @@ const ListPost = ({
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col w-full mb-8 overflow-hidden lg:w-1/2"
+        className="flex flex-col w-full px-4 mb-8 overflow-hidden bg-white border shadow-lg lg:w-1/2 rounded-xl"
       >
         <div className="relative flex flex-row items-center justify-between py-3">
           <div
@@ -200,7 +200,7 @@ const ListPost = ({
             }}
             className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
           />
-          <div className="flex flex-nowrap flex-1 flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
+          <div className="flex flex-row justify-between flex-1 w-full px-2 bg-gray-200 border-2 rounded-full outline-none flex-nowrap focus:border-blue-500">
             <input
               type="text"
               className="w-full h-10 px-2 text-sm bg-gray-200 border-2 rounded-full outline-none"

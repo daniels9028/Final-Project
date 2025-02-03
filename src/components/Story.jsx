@@ -91,7 +91,15 @@ const CarouselContainer = ({
     }
   };
 
+  // const [showStory, setShowStory] = useState(false);
+
   const [showStory, setShowStory] = useState(false);
+  const [selectedStoryId, setSelectedStoryId] = useState(null);
+
+  const handleOpenStory = (storyId) => {
+    setSelectedStoryId(storyId);
+    setShowStory(true);
+  };
 
   return (
     <div className="relative flex items-center w-full max-w-3xl mx-auto overflow-hidden">
@@ -132,7 +140,10 @@ const CarouselContainer = ({
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5 }}
                 className="w-full"
-                onClick={() => setShowStory(true)}
+                onClick={() => {
+                  setShowStory(true);
+                  handleOpenStory(slide.id);
+                }}
               >
                 <DetailStory stories={slide} key={slide.id} />
               </motion.div>
@@ -140,7 +151,11 @@ const CarouselContainer = ({
         </AnimatePresence>
 
         {showStory && (
-          <StoryViewer stories={slides} onClose={() => setShowStory(false)} />
+          <StoryViewer
+            stories={slides}
+            selectedStoryId={selectedStoryId}
+            onClose={() => setShowStory(false)}
+          />
         )}
       </div>
 
@@ -156,8 +171,13 @@ const CarouselContainer = ({
   );
 };
 
-const StoryViewer = ({ stories, onClose }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
+  const initialIndex = stories.findIndex(
+    (story) => story.id === selectedStoryId
+  );
+  const [currentIndex, setCurrentIndex] = useState(
+    initialIndex !== -1 ? initialIndex : 0
+  );
 
   const [progress, setProgress] = useState(0);
 
@@ -183,14 +203,14 @@ const StoryViewer = ({ stories, onClose }) => {
   }, [currentIndex, onClose]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
       <div className="relative w-[400px] h-screen flex items-center justify-center">
         {/* Progress Bar */}
-        <div className="absolute top-2 left-2 right-2 flex space-x-1">
+        <div className="absolute flex space-x-1 top-2 left-2 right-2">
           {stories.map((_, index) => (
             <motion.div
               key={index}
-              className="h-1 bg-gray-500 flex-1 rounded overflow-hidden"
+              className="flex-1 h-1 overflow-hidden bg-gray-500 rounded"
             >
               {index === currentIndex && (
                 <motion.div
@@ -217,21 +237,21 @@ const StoryViewer = ({ stories, onClose }) => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           />
-          <p className="p-1 mix-blend-normal text-xs text-white">
+          <p className="p-1 text-xs text-white mix-blend-normal">
             {stories[currentIndex].totalViews} kali dilihat
           </p>
         </div>
 
         {/* Controls */}
         <button
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2 bg-white bg-opacity-80 rounded-full"
+          className="absolute left-0 p-2 transform -translate-y-1/2 bg-white rounded-full top-1/2 bg-opacity-80"
           onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
         >
           ◀
         </button>
 
         <button
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 bg-white bg-opacity-80 rounded-full"
+          className="absolute right-0 p-2 transform -translate-y-1/2 bg-white rounded-full top-1/2 bg-opacity-80"
           onClick={() => {
             if (currentIndex < stories.length - 1) {
               setCurrentIndex(currentIndex + 1);
@@ -245,7 +265,7 @@ const StoryViewer = ({ stories, onClose }) => {
 
         {/* Close Button */}
         <button
-          className="absolute top-6 right-2 text-white text-xl"
+          className="absolute text-xl text-white top-6 right-2"
           onClick={onClose}
         >
           ✖
