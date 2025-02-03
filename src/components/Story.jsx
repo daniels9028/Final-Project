@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import DetailStory from "./DetailStory";
 import ModalFormStory from "./ModalFormStory";
+import { alternativeImageUrlPost } from "../assets";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -90,6 +91,16 @@ const CarouselContainer = ({
     }
   };
 
+  // const [showStory, setShowStory] = useState(false);
+
+  const [showStory, setShowStory] = useState(false);
+  const [selectedStoryId, setSelectedStoryId] = useState(null);
+
+  const handleOpenStory = (storyId) => {
+    setSelectedStoryId(storyId);
+    setShowStory(true);
+  };
+
   return (
     <div className="relative flex items-center w-full max-w-3xl mx-auto overflow-hidden">
       <button
@@ -129,11 +140,23 @@ const CarouselContainer = ({
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5 }}
                 className="w-full"
+                onClick={() => {
+                  setShowStory(true);
+                  handleOpenStory(slide.id);
+                }}
               >
                 <DetailStory stories={slide} key={slide.id} />
               </motion.div>
             ))}
         </AnimatePresence>
+
+        {showStory && (
+          <StoryViewer
+            stories={slides}
+            selectedStoryId={selectedStoryId}
+            onClose={() => setShowStory(false)}
+          />
+        )}
       </div>
 
       <button
@@ -144,6 +167,110 @@ const CarouselContainer = ({
       >
         <ChevronRight size={24} />
       </button>
+    </div>
+  );
+};
+
+const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
+  const initialIndex = stories.findIndex(
+    (story) => story.id === selectedStoryId
+  );
+  const [currentIndex, setCurrentIndex] = useState(
+    initialIndex !== -1 ? initialIndex : 0
+  );
+
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setProgress(0);
+
+    const interval = setInterval(() => {
+      setProgress((prev) => prev + 1);
+    }, 30); // Update progress every 30ms
+
+    const timer = setTimeout(() => {
+      if (currentIndex < stories.length - 1) {
+        setCurrentIndex((prev) => prev + 1);
+      } else {
+        onClose();
+      }
+    }, 5000); // Auto-next story in 3 seconds
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [currentIndex, onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+      <div className="relative w-[400px] h-screen flex items-center justify-center">
+        {/* Progress Bar */}
+        <div className="absolute flex space-x-1 top-2 left-2 right-2">
+          {stories.map((_, index) => (
+            <motion.div
+              key={index}
+              className="flex-1 h-1 overflow-hidden bg-gray-500 rounded"
+            >
+              {index === currentIndex && (
+                <motion.div
+                  className="h-full bg-white"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 3, ease: "linear" }}
+                />
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Story Image */}
+        <div className="flex flex-col justify-center">
+          <motion.img
+            key={stories[currentIndex].id}
+            src={stories[currentIndex].imageUrl || alternativeImageUrlPost}
+            onError={(e) => {
+              e.target.src = alternativeImageUrlPost;
+            }}
+            className="w-[330px] h-[300px] object-cover rounded-lg"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          />
+          <p className="p-1 text-xs text-white mix-blend-normal">
+            {stories[currentIndex].totalViews} kali dilihat
+          </p>
+        </div>
+
+        {/* Controls */}
+        <button
+          className="absolute left-0 p-2 transform -translate-y-1/2 bg-white rounded-full top-1/2 bg-opacity-80"
+          onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
+        >
+          ◀
+        </button>
+
+        <button
+          className="absolute right-0 p-2 transform -translate-y-1/2 bg-white rounded-full top-1/2 bg-opacity-80"
+          onClick={() => {
+            if (currentIndex < stories.length - 1) {
+              setCurrentIndex(currentIndex + 1);
+            } else {
+              onClose();
+            }
+          }}
+        >
+          ▶
+        </button>
+
+        {/* Close Button */}
+        <button
+          className="absolute text-xl text-white top-6 right-2"
+          onClick={onClose}
+        >
+          ✖
+        </button>
+      </div>
     </div>
   );
 };
