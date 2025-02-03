@@ -4,6 +4,7 @@ import { GoComment } from "react-icons/go";
 import Like from "./Like";
 import ListComment from "./ListComment";
 import { FaRegComment } from "react-icons/fa";
+import { BsThreeDots } from "react-icons/bs";
 
 const DetailPost = ({
   isOpen,
@@ -45,20 +46,29 @@ const DetailPost = ({
           </div>
 
           <div className="relative w-full h-full lg:w-1/2">
-            <div className="flex flex-row items-center p-4 space-x-4 border-b">
-              <img
-                src={explore?.user?.profilePictureUrl || profileBlank}
-                onError={(e) => {
-                  e.target.src = profileBlank;
-                }}
-                alt={explore?.user?.id}
-                className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
-              />
-              <div className="flex flex-col justify-center">
+            <div className="flex flex-row items-center justify-between p-4 space-x-4 border-b">
+              <div className="flex flex-row items-center gap-2">
+                <img
+                  src={explore?.user?.profilePictureUrl || profileBlank}
+                  onError={(e) => {
+                    e.target.src = profileBlank;
+                  }}
+                  alt={explore?.user?.id}
+                  className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full"
+                />
                 <p className="font-medium tracking-wider">
                   {explore?.user?.username}
                 </p>
               </div>
+              {explore?.user?.id === user?.id && (
+                <div className="flex flex-row items-center gap-2">
+                  <BsThreeDots
+                    size={24}
+                    className="cursor-pointer"
+                    // onClick={toggleMenu}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="h-full overflow-y-auto no-scrollbar">
@@ -80,7 +90,7 @@ const DetailPost = ({
                   onClick={() => handleNavigate(explore?.user?.id)}
                   className="object-cover w-12 h-12 border-2 border-gray-400 rounded-full cursor-pointer"
                 />
-                <div className="flex flex-1 flex-col justify-center">
+                <div className="flex flex-col justify-center flex-1">
                   <p className="font-medium tracking-wider text-wrap">
                     <span
                       className="cursor-pointer"
@@ -127,7 +137,7 @@ const DetailPost = ({
                   }}
                   className="object-cover w-10 h-10 border-2 border-gray-400 rounded-full"
                 />
-                <div className="flex flex-1 flex-nowrap flex-row justify-between w-full px-2 bg-gray-200 border-2 rounded-full outline-none focus:border-blue-500">
+                <div className="flex flex-row justify-between flex-1 w-full px-2 bg-gray-200 border-2 rounded-full outline-none flex-nowrap focus:border-blue-500">
                   <input
                     type="text"
                     className="w-full h-10 px-2 text-sm bg-gray-200 border-2 rounded-full outline-none"

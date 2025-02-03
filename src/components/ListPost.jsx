@@ -112,39 +112,37 @@ const ListPost = ({
             </div>
           </div>
 
-          <div className="flex flex-row items-center gap-2">
-            <BsThreeDots
-              size={24}
-              className="cursor-pointer"
-              onClick={toggleMenu}
-            />
-          </div>
+          {explore.user.id === auth.user.id && (
+            <div className="flex flex-row items-center gap-2">
+              <BsThreeDots
+                size={24}
+                className="cursor-pointer"
+                onClick={toggleMenu}
+              />
+            </div>
+          )}
 
           <motion.div
             animate={isMenuOpen ? "open" : "closed"}
             variants={variants}
             className="absolute z-40 flex flex-col justify-center gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
           >
-            {explore.user.id === auth.user.id && (
-              <>
-                <div
-                  className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
-                  onClick={() => {
-                    openModalCrudPost();
-                    handleSelectPost(explore);
-                    toggleMenu();
-                  }}
-                >
-                  <MdEdit size={16} />
-                </div>
-                <div
-                  className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
-                  onClick={() => handleDeletePost(explore?.id)}
-                >
-                  <LuTrash size={16} />
-                </div>
-              </>
-            )}
+            <div
+              className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
+              onClick={() => {
+                openModalCrudPost();
+                handleSelectPost(explore);
+                toggleMenu();
+              }}
+            >
+              <MdEdit size={16} />
+            </div>
+            <div
+              className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-gray-200 rounded-full cursor-pointer text-nowrap hover:bg-gray-400"
+              onClick={() => handleDeletePost(explore?.id)}
+            >
+              <LuTrash size={16} />
+            </div>
           </motion.div>
         </div>
 
