@@ -4,6 +4,8 @@ import {
   getMyFollowingStories,
   createStory,
 } from "../services/Story";
+import { uploadImage } from "../services/Upload";
+import Swal from "sweetalert2";
 
 const useStory = () => {
   const [allStories, setAllStories] = useState([]);
@@ -59,12 +61,29 @@ const useStory = () => {
     file: null,
   });
 
-  const handleChangeFormStory = (e) => {
-    setFormStory({
-      ...formStory,
-      [e.target.name]:
-        e.target.name == "caption" ? e.target.value : e.target.files[0],
-    });
+  const handleChangeFormStory = async (e) => {
+    if (e.target.name === "file") {
+      try {
+        const { url } = await uploadImage(e.target.files[0]);
+
+        setFormStory({
+          ...formStory,
+          file: url,
+        });
+      } catch (error) {
+        Swal.fire({
+          title: "Peringatan",
+          text:
+            error.code === "ERR_NETWORK" ? "File terlalu besar" : error.message,
+          icon: "error",
+        });
+      }
+    } else {
+      setFormStory({
+        ...formStory,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const validate = () => {
@@ -97,9 +116,13 @@ const useStory = () => {
       setSuccessFormStory("");
       setLoadingFormStory(true);
 
-      await createStory({ ...formStory });
+      await createStory({ ...formStory, imageUrl: formStory.file });
 
-      setSuccessFormStory("Post created was successfully");
+      Swal.fire({
+        title: "Berhasil",
+        text: "Story berhasil ditambahkan!",
+        icon: "success",
+      });
 
       setTimeout(() => {
         closeModalFormStory();
@@ -108,7 +131,11 @@ const useStory = () => {
       setFormStory({ caption: "", file: null });
       setIsFormStory(true);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        title: "Peringatan",
+        text: error.message,
+        icon: "error",
+      });
     } finally {
       setLoadingFormStory(false);
     }
@@ -118,7 +145,6 @@ const useStory = () => {
     try {
       const { data } = await getMyStories({ size: 10, page: 1 });
 
-      console.log("mystories", data.stories);
       setMyStory(data.stories);
       setMyStoryPage({
         ...myStory,
@@ -135,7 +161,6 @@ const useStory = () => {
     try {
       const { data } = await getMyFollowingStories({ size: 10, page: 1 });
 
-      console.log("myfollowingstories", data.stories);
       setMyFollowingStories(data.stories);
       setMyFollowingStoriesPage({
         ...myFollowingStories,

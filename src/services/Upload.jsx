@@ -19,6 +19,6 @@ export const uploadImage = async (image) => {
 
     return upload.data;
   } catch (error) {
-    throw error.response.data;
+    throw error;
   }
 };
