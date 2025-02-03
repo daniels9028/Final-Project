@@ -2,7 +2,6 @@ import React from "react";
 
 const UpdateProfileForm = ({
   errorUpdateProfile,
-  successUpdateProfile,
   handleUpdateProfile,
   formUpdateProfile,
   handleChangeUpdateProfile,

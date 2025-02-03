@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { createPost, deletePost, updatePost } from "../services/Post";
+import { uploadImage } from "../services/Upload";
+import Swal from "sweetalert2";
 
 const useCrudPost = () => {
   const [errorCrudPost, setErrorCrudPost] = useState({});
@@ -44,8 +46,16 @@ const useCrudPost = () => {
     });
   };
 
-  const handleFileChangeCrudPost = (e) => {
-    setFileCrudPost(e.target.files[0]);
+  const handleFileChangeCrudPost = async (e) => {
+    const file = e.target.files[0];
+
+    try {
+      const { url } = await uploadImage(file);
+
+      setFileCrudPost(url);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validate = () => {
@@ -64,7 +74,6 @@ const useCrudPost = () => {
 
   const handleCreatePost = async (e) => {
     e.preventDefault();
-
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
@@ -74,12 +83,15 @@ const useCrudPost = () => {
 
     try {
       setErrorCrudPost({});
-      setSuccessCrudPost("");
       setLoadingCrudPost(true);
 
-      await createPost({ ...formCrudPost, file: fileCrudPost });
+      await createPost({ ...formCrudPost, imageUrl: fileCrudPost });
 
-      setSuccessCrudPost("Post created was successfully");
+      Swal.fire({
+        title: "Sukses",
+        text: "Post berhasil ditambahkan",
+        icon: "success",
+      });
 
       setTimeout(() => {
         closeModalCrudPost();
@@ -89,7 +101,11 @@ const useCrudPost = () => {
       setFileCrudPost(null);
       setIsCreatePost((prev) => !prev);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        title: "Peringatan",
+        text: error.message,
+        icon: "error",
+      });
     } finally {
       setLoadingCrudPost(false);
     }
