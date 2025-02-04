@@ -6,6 +6,7 @@ import { alternativeImageUrlPost } from "../assets";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getStoryById, getStoryViewsByStoryId } from "../services/Story";
 
 const Story = ({
   auth,
@@ -181,6 +182,9 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
 
   const [progress, setProgress] = useState(0);
 
+  const [storyInfo, setStoryInfo] = useState([]);
+  const [storyViews, setStoryViews] = useState([]);
+
   useEffect(() => {
     setProgress(0);
 
@@ -201,6 +205,32 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
       clearInterval(interval);
     };
   }, [currentIndex, onClose]);
+
+  const handleGetStoryById = async (storyId) => {
+    try {
+      const { data: storyById } = await getStoryById(storyId);
+
+      setStoryInfo(storyById);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGetStoryViewsById = async (storyId) => {
+    try {
+      const { data: storyViewsById } = await getStoryViewsByStoryId(storyId);
+
+      setStoryViews(storyViewsById);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // LOAD STORY VIEW AND GET STORY BY ID
+  useEffect(() => {
+    handleGetStoryById(stories[currentIndex].id);
+    handleGetStoryViewsById(stories[currentIndex].id);
+  }, [currentIndex]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
@@ -227,8 +257,8 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
         {/* Story Image */}
         <div className="flex flex-col justify-center">
           <motion.img
-            key={stories[currentIndex].id}
-            src={stories[currentIndex].imageUrl || alternativeImageUrlPost}
+            key={storyInfo?.id}
+            src={storyInfo?.imageUrl || alternativeImageUrlPost}
             onError={(e) => {
               e.target.src = alternativeImageUrlPost;
             }}
@@ -237,9 +267,22 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           />
-          <p className="p-1 text-xs text-white mix-blend-normal">
-            {stories[currentIndex].totalViews} kali dilihat
-          </p>
+
+          <div className="flex flex-row items-center justify-between mt-2">
+            <div className="flex flex-row items-center gap-2">
+              <div className="flex flex-row items-center gap-1">
+                {storyViews.map((storyView, index) => (
+                  <img
+                    src={storyView?.user?.profilePictureUrl}
+                    alt={storyView?.id}
+                    key={storyView?.id}
+                    className="w-6 h-6 border rounded-full"
+                  />
+                ))}
+              </div>
+              <p className="text-xs text-white">{storyViews.length} dilihat</p>
+            </div>
+          </div>
         </div>
 
         {/* Controls */}
