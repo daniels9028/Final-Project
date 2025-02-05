@@ -126,9 +126,13 @@ const useCrudPost = () => {
       setSuccessCrudPost("");
       setLoadingCrudPost(true);
 
-      await updatePost({ ...formCrudPost, file: fileCrudPost }, postId);
+      await updatePost({ ...formCrudPost, imageUrl: fileCrudPost }, postId);
 
-      setSuccessCrudPost("Post updated was successfully");
+      Swal.fire({
+        title: "Sukses",
+        text: "Post berhasil diperbaharui",
+        icon: "success",
+      });
 
       setTimeout(() => {
         closeModalCrudPost();
@@ -136,9 +140,14 @@ const useCrudPost = () => {
         setFormCrudPost({ ...formCrudPost, caption: "" });
         setFileCrudPost(null);
         setIsUpdatePost((prev) => !prev);
+        window.location.reload();
       }, 1000);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        title: "Peringatan",
+        text: error.message,
+        icon: "error",
+      });
     } finally {
       setLoadingCrudPost(false);
     }
@@ -149,8 +158,22 @@ const useCrudPost = () => {
       await deletePost(postId);
 
       setIsDeletePost((prev) => !prev);
+
+      Swal.fire({
+        title: "Sukses",
+        text: "Post berhasil dihapus",
+        icon: "success",
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        title: "Gagal",
+        text: error.message,
+        icon: "warning",
+      });
     }
   };
 

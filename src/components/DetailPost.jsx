@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { alternativeImageUrlPost, profileBlank } from "../assets";
 import { GoComment } from "react-icons/go";
 import Like from "./Like";
 import ListComment from "./ListComment";
 import { FaRegComment } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
+import { motion } from "framer-motion";
+import { MdEdit } from "react-icons/md";
+import { LuTrash } from "react-icons/lu";
 
 const DetailPost = ({
   isOpen,
@@ -19,10 +22,28 @@ const DetailPost = ({
   handleAddComment,
   handleDeleteComment,
   handleNavigate,
+  openModalCrudPost,
+  handleSelectPost,
+  handleDeletePost,
 }) => {
   if (!isOpen) return null;
 
   const { user } = auth;
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const variants = {
+    open: {
+      opacity: 1,
+    },
+    closed: {
+      opacity: 0,
+    },
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -41,7 +62,7 @@ const DetailPost = ({
                 e.target.src = alternativeImageUrlPost;
               }}
               alt={explore?.id}
-              className="h-full bg-cover"
+              className="h-full object-cover w-full"
             />
           </div>
 
@@ -61,13 +82,43 @@ const DetailPost = ({
                 </p>
               </div>
               {explore?.user?.id === user?.id && (
-                <div className="flex flex-row items-center gap-2">
-                  <BsThreeDots
-                    size={24}
-                    className="cursor-pointer"
-                    // onClick={toggleMenu}
-                  />
-                </div>
+                <>
+                  <div className="flex flex-row items-center gap-2">
+                    <BsThreeDots
+                      size={24}
+                      className="cursor-pointer"
+                      onClick={() => {
+                        toggleMenu();
+                      }}
+                    />
+                  </div>
+                  <motion.div
+                    animate={isMenuOpen ? "open" : "closed"}
+                    variants={variants}
+                    className="absolute z-40 flex flex-col justify-center gap-4 p-4 text-black transition-all duration-300 bg-white border border-gray-400 rounded-xl right-4 top-14"
+                  >
+                    <div
+                      className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-orange-500 rounded-full cursor-pointer text-nowrap hover:bg-orange-700"
+                      onClick={() => {
+                        onClose();
+                        openModalCrudPost();
+                        handleSelectPost(explore);
+                        toggleMenu();
+                      }}
+                    >
+                      <MdEdit size={16} color="white" />
+                    </div>
+                    <div
+                      className="flex flex-row items-center gap-4 p-2 text-sm transition-all bg-red-500 rounded-full cursor-pointer text-nowrap hover:bg-red-700"
+                      onClick={() => {
+                        handleDeletePost(explore?.id);
+                        onClose();
+                      }}
+                    >
+                      <LuTrash size={16} color="white" />
+                    </div>
+                  </motion.div>
+                </>
               )}
             </div>
 
@@ -78,7 +129,7 @@ const DetailPost = ({
                   e.target.src = alternativeImageUrlPost;
                 }}
                 alt={explore?.id}
-                className="block h-[300px] w-full p-0 bg-cover lg:hidden"
+                className="block h-[300px] w-full p-0 object-cover lg:hidden"
               />
               <div className="flex flex-row items-center p-4 space-x-4">
                 <img

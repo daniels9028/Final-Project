@@ -227,7 +227,24 @@ const MyProfile = () => {
         <div className="grid grid-cols-1 gap-2 mb-10 lg:grid-cols-2 place-items-center">
           {page === "my-post" &&
             myPost.map((post, index) => (
-              <ListMyPost key={`${post.id}-${index}`} post={post} />
+              <ListMyPost
+                key={`${post.id}-${index}`}
+                post={post}
+                selectedPost={selectedPost}
+                handleSelectPost={handleSelectPost}
+                isModalCrudPostOpen={isModalCrudPostOpen}
+                closeModalCrudPost={closeModalCrudPost}
+                handleUpdatePost={handleUpdatePost}
+                errorCrudPost={errorCrudPost}
+                successCrudPost={successCrudPost}
+                formCrudPost={formCrudPost}
+                handleChangeCrudPost={handleChangeCrudPost}
+                handleFileChangeCrudPost={handleFileChangeCrudPost}
+                loadingCrudPost={loadingCrudPost}
+                fileCrudPost={fileCrudPost}
+                openModalCrudPost={openModalCrudPost}
+                handleDeletePost={handleDeletePost}
+              />
             ))}
 
           {page === "my-following-post" &&

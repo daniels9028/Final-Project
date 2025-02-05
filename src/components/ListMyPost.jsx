@@ -3,8 +3,25 @@ import { alternativeImageUrlPost } from "../assets";
 import DetailPost from "./DetailPost";
 import { useComment, useNavigateUser, usePostById } from "../hooks";
 import { useAuth } from "../context/AuthContext";
+import ModalCreateUpdatePost from "./ModalCreateUpdatePost";
 
-const ListMyPost = ({ post }) => {
+const ListMyPost = ({
+  post,
+  selectedPost,
+  handleSelectPost,
+  isModalCrudPostOpen,
+  closeModalCrudPost,
+  handleUpdatePost,
+  errorCrudPost,
+  successCrudPost,
+  formCrudPost,
+  handleChangeCrudPost,
+  handleFileChangeCrudPost,
+  loadingCrudPost,
+  fileCrudPost,
+  openModalCrudPost,
+  handleDeletePost,
+}) => {
   const explore = post;
 
   const { handleNavigate } = useNavigateUser();
@@ -65,6 +82,25 @@ const ListMyPost = ({ post }) => {
         handleAddComment={handleAddComment}
         handleDeleteComment={handleDeleteComment}
         handleNavigate={handleNavigate}
+        openModalCrudPost={openModalCrudPost}
+        handleSelectPost={handleSelectPost}
+        handleDeletePost={handleDeletePost}
+      />
+
+      <ModalCreateUpdatePost
+        isModalCrudPostOpen={isModalCrudPostOpen}
+        closeModalCrudPost={closeModalCrudPost}
+        handleUpdatePost={handleUpdatePost}
+        errorCrudPost={errorCrudPost}
+        successCrudPost={successCrudPost}
+        user={user}
+        formCrudPost={formCrudPost}
+        handleChangeCrudPost={handleChangeCrudPost}
+        handleFileChangeCrudPost={handleFileChangeCrudPost}
+        loadingCrudPost={loadingCrudPost}
+        fileCrudPost={fileCrudPost}
+        selectedPost={selectedPost}
+        title="Edit Postingan"
       />
     </>
   );
