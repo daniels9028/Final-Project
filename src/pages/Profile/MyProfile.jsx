@@ -119,6 +119,7 @@ const MyProfile = () => {
     closeModalCrudPost,
     selectedPost,
     handleSelectPost,
+    setIsUpdatePost,
   } = useCrudPost();
 
   const handleGetUserById = async () => {
@@ -138,21 +139,27 @@ const MyProfile = () => {
     id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
     id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
     handleGetAllFollowing();
-  }, [id, follow, isUpdateProfile]);
-
-  // useEffect(() => {
-  //   handleGetUserById();
-
-  //   id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
-  //   id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
-  //   handleGetAllFollowing();
-  // }, [follow, isUpdateProfile]);
+  }, [id, follow]);
 
   useEffect(() => {
-    if (isDeletePost || isUpdatePost) {
+    if (isUpdateProfile) {
+      handleGetUserById();
+
+      id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+      id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+      handleGetAllFollowing();
+
       postByUserId();
+      handleMyFollowingPost();
     }
-  }, [isDeletePost, isUpdatePost]);
+  }, [isUpdateProfile]);
+
+  useEffect(() => {
+    if (isUpdatePost) {
+      postByUserId();
+      setIsUpdatePost(false);
+    }
+  }, [isUpdatePost]);
 
   useEffect(() => {
     postByUserId();

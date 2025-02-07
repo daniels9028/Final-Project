@@ -23,7 +23,15 @@ const useFollowingPost = () => {
       if (data.posts.length === 0) {
         setHasMoreMyFollowingPost(false);
       } else {
-        setMyFollowingPost((prev) => [...prev, ...data.posts]);
+        // setMyFollowingPost((prev) => [...prev, ...data.posts]);
+        setMyFollowingPost((prevPosts) => {
+          // Filter out posts that already exist
+          const filteredNewPosts = data.posts.filter(
+            (newPost) => !prevPosts.some((post) => post.id === newPost.id)
+          );
+
+          return [...prevPosts, ...filteredNewPosts];
+        });
       }
     } catch (error) {
       console.log(error);

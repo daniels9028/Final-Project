@@ -24,7 +24,15 @@ const usePostByUserId = (id) => {
       if (data.posts.length === 0) {
         setHasMoreMyPost(false);
       } else {
-        setMyPost((prev) => [...prev, ...data.posts]);
+        // setMyPost((prev) => [...prev, ...data.posts]);
+        setMyPost((prevPosts) => {
+          // Filter out posts that already exist
+          const filteredNewPosts = data.posts.filter(
+            (newPost) => !prevPosts.some((post) => post.id === newPost.id)
+          );
+
+          return [...prevPosts, ...filteredNewPosts];
+        });
       }
 
       setTotalPost(data.totalItems);

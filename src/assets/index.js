@@ -5,6 +5,7 @@ import alternativeProfile from "../assets/alternativeProfile.jpeg";
 import profileBlank from "../assets/profileBlank.webp";
 import vista from "../assets/vista.png";
 import backgroundProfile from "../assets/backgroundProfile.jpg";
+import backgroundHome from "../assets/backgroundHome.jpg";
 
 export {
   loginBackground,
@@ -14,4 +15,5 @@ export {
   profileBlank,
   vista,
   backgroundProfile,
+  backgroundHome,
 };
