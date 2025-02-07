@@ -21,7 +21,9 @@ const useFollowing = (id) => {
     try {
       const { data } = await getMyFollowing({ size: 10, page: followingPage });
 
-      setFollowing((prev) => [...prev, ...data.users]);
+      setFollowing((prev) =>
+        followingPage === 1 ? data.users : [...prev, ...data.users]
+      );
       setHasMore(data.users.length > 0);
     } catch (error) {
       console.log(error);
@@ -41,7 +43,9 @@ const useFollowing = (id) => {
         id
       );
 
-      setFollowing((prev) => [...prev, ...data.users]);
+      setFollowing((prev) =>
+        followingPage === 1 ? data.users : [...prev, ...data.users]
+      );
       setHasMore(data.users.length > 0);
     } catch (error) {
       console.log(error);
@@ -57,6 +61,14 @@ const useFollowing = (id) => {
     }
   };
 
+  const refreshFollowing = () => {
+    setFollowing([]); // Clear list
+    setFollowingPage(1); // Reset pagination
+    setHasMore(true); // Allow more data to load
+    handleMyFollowing(); // Fetch fresh data
+    handleFollowingByUserId(); // Fetch fresh data
+  };
+
   return {
     isModalFollowingOpen,
     handleMyFollowing,
@@ -66,6 +78,7 @@ const useFollowing = (id) => {
     following,
     followingPage,
     handleScroll,
+    refreshFollowing,
   };
 };
 

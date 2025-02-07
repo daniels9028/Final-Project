@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { followUser, getMyFollowing, unfollowUser } from "../services/Follow";
 
-const useFollow = (id) => {
+const useFollow = (id, refreshFollowing) => {
   const [follow, setFollow] = useState(false);
 
   const [isFollowing, setIsFollowing] = useState(false);
@@ -29,6 +29,8 @@ const useFollow = (id) => {
       await handleGetAllFollowing();
 
       setFollow((prev) => !prev);
+
+      refreshFollowing();
     } catch (error) {
       console.log(error);
     }
