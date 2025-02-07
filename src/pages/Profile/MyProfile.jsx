@@ -75,6 +75,8 @@ const MyProfile = () => {
     openModalFollowers,
     closeModalFollowers,
     followers,
+    followersPage,
+    handleScrollFollowers,
   } = useFollowers(id);
 
   const {
@@ -84,6 +86,8 @@ const MyProfile = () => {
     openModalFollowing,
     closeModalFollowing,
     following,
+    followingPage,
+    handleScroll,
   } = useFollowing(id);
 
   const {
@@ -121,8 +125,6 @@ const MyProfile = () => {
     closeModalCrudPost,
     selectedPost,
     handleSelectPost,
-    setIsUpdatePost,
-    setIsDeletePost,
   } = useCrudPost(updateSinglePost, removeDeletedPost);
 
   const handleGetUserById = async () => {
@@ -138,38 +140,18 @@ const MyProfile = () => {
 
   useEffect(() => {
     handleGetUserById();
-
-    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
-    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
     handleGetAllFollowing();
   }, [id, follow]);
 
   useEffect(() => {
     if (isUpdateProfile) {
       handleGetUserById();
-
-      id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
-      id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
       handleGetAllFollowing();
 
       postByUserId();
       handleMyFollowingPost();
     }
   }, [isUpdateProfile]);
-
-  // useEffect(() => {
-  //   if (isUpdatePost) {
-  //     postByUserId();
-  //     setIsUpdatePost(false);
-  //   }
-  // }, [isUpdatePost]);
-
-  // useEffect(() => {
-  //   if (isDeletePost) {
-  //     postByUserId();
-  //     setIsDeletePost(false);
-  //   }
-  // }, [isDeletePost]);
 
   useEffect(() => {
     postByUserId();
@@ -178,6 +160,14 @@ const MyProfile = () => {
   useEffect(() => {
     handleMyFollowingPost();
   }, [myFollowingPostPage.currentPage]);
+
+  useEffect(() => {
+    id === auth.user.id ? handleMyFollowing() : handleFollowingByUserId();
+  }, [followingPage]);
+
+  useEffect(() => {
+    id === auth.user.id ? handleMyFollowers() : handleFollowersByUserId();
+  }, [followersPage]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScrollMyPost);
@@ -291,6 +281,7 @@ const MyProfile = () => {
         isOpen={isModalFollowersOpen}
         onClose={closeModalFollowers}
         // title="Followers"
+        onScroll={handleScrollFollowers}
       >
         {followers.map((follower) => (
           <ListFollowers
@@ -306,6 +297,7 @@ const MyProfile = () => {
         isOpen={isModalFollowingOpen}
         onClose={closeModalFollowing}
         // title="Following"
+        onScroll={handleScroll}
       >
         {following.map((follow) => (
           <ListFollowing

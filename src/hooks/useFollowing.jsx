@@ -9,41 +9,51 @@ const useFollowing = (id) => {
 
   const [following, setFollowing] = useState([]);
 
-  const [followingPage, setFollowingPage] = useState({
-    currentPage: 1,
-    totalItems: 0,
-    totalPages: 0,
-  });
+  const [followingPage, setFollowingPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleMyFollowing = async () => {
-    try {
-      const { data } = await getMyFollowing({ size: 10, page: 1 });
+    if (loading || !hasMore) return;
 
-      setFollowing(data.users);
-      setFollowingPage({
-        ...following,
-        currentPage: data.currentPage,
-        totalItems: data.totalItems,
-        totalPages: data.totalPages,
-      });
+    setLoading(true);
+
+    try {
+      const { data } = await getMyFollowing({ size: 10, page: followingPage });
+
+      setFollowing((prev) => [...prev, ...data.users]);
+      setHasMore(data.users.length > 0);
     } catch (error) {
       console.log(error);
     }
+
+    setLoading(false);
   };
 
   const handleFollowingByUserId = async () => {
-    try {
-      const { data } = await getFollowingByUserId({ size: 10, page: 1 }, id);
+    if (loading || !hasMore) return;
 
-      setFollowing(data.users);
-      setFollowingPage({
-        ...following,
-        currentPage: data.currentPage,
-        totalItems: data.totalItems,
-        totalPages: data.totalPages,
-      });
+    setLoading(true);
+
+    try {
+      const { data } = await getFollowingByUserId(
+        { size: 10, page: followingPage },
+        id
+      );
+
+      setFollowing((prev) => [...prev, ...data.users]);
+      setHasMore(data.users.length > 0);
     } catch (error) {
       console.log(error);
+    }
+
+    setLoading(false);
+  };
+
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    if (scrollTop + clientHeight >= scrollHeight - 10 && hasMore && !loading) {
+      setFollowingPage((prev) => prev + 1);
     }
   };
 
@@ -54,6 +64,8 @@ const useFollowing = (id) => {
     openModalFollowing,
     closeModalFollowing,
     following,
+    followingPage,
+    handleScroll,
   };
 };
 
