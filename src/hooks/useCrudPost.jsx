@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { createPost, deletePost, updatePost } from "../services/Post";
+import {
+  createPost,
+  deletePost,
+  getPostById,
+  updatePost,
+} from "../services/Post";
 import { uploadImage } from "../services/Upload";
 import Swal from "sweetalert2";
 
-const useCrudPost = () => {
+const useCrudPost = (updateSinglePost) => {
   const [errorCrudPost, setErrorCrudPost] = useState({});
   const [successCrudPost, setSuccessCrudPost] = useState("");
   const [loadingCrudPost, setLoadingCrudPost] = useState(false);
@@ -128,6 +133,10 @@ const useCrudPost = () => {
 
       await updatePost({ ...formCrudPost, imageUrl: fileCrudPost }, postId);
 
+      const { data } = await getPostById(postId);
+
+      updateSinglePost(data);
+
       Swal.fire({
         title: "Sukses",
         text: "Post berhasil diperbaharui",
@@ -139,8 +148,8 @@ const useCrudPost = () => {
 
         setFormCrudPost({ ...formCrudPost, caption: "" });
         setFileCrudPost(null);
-        setIsUpdatePost((prev) => !prev);
-        window.location.reload();
+        setIsUpdatePost(true);
+        // window.location.reload();
       }, 1000);
     } catch (error) {
       Swal.fire({
@@ -196,6 +205,7 @@ const useCrudPost = () => {
     isCreatePost,
     selectedPost,
     handleSelectPost,
+    setIsUpdatePost,
   };
 };
 

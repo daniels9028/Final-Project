@@ -43,6 +43,12 @@ const usePostByUserId = (id) => {
     }
   };
 
+  const updateSinglePost = (updatedPost) => {
+    setMyPost((prev) =>
+      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post))
+    );
+  };
+
   const handleScrollMyPost = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
@@ -65,6 +71,7 @@ const usePostByUserId = (id) => {
     loadingMyPost,
     hasMoreMyPost,
     totalPost,
+    updateSinglePost,
   };
 };
 
