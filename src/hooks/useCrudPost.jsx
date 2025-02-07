@@ -8,7 +8,7 @@ import {
 import { uploadImage } from "../services/Upload";
 import Swal from "sweetalert2";
 
-const useCrudPost = (updateSinglePost) => {
+const useCrudPost = (updateSinglePost, removeDeletedPost) => {
   const [errorCrudPost, setErrorCrudPost] = useState({});
   const [successCrudPost, setSuccessCrudPost] = useState("");
   const [loadingCrudPost, setLoadingCrudPost] = useState(false);
@@ -168,15 +168,15 @@ const useCrudPost = (updateSinglePost) => {
 
       setIsDeletePost((prev) => !prev);
 
+      removeDeletedPost(postId);
+
       Swal.fire({
         title: "Sukses",
         text: "Post berhasil dihapus",
         icon: "success",
       });
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      setIsDeletePost(true);
     } catch (error) {
       Swal.fire({
         title: "Gagal",
@@ -206,6 +206,7 @@ const useCrudPost = (updateSinglePost) => {
     selectedPost,
     handleSelectPost,
     setIsUpdatePost,
+    setIsDeletePost,
   };
 };
 

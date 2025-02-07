@@ -56,6 +56,7 @@ const MyProfile = () => {
     hasMoreMyPost,
     totalPost,
     updateSinglePost,
+    removeDeletedPost,
   } = usePostByUserId(id);
 
   const {
@@ -121,7 +122,8 @@ const MyProfile = () => {
     selectedPost,
     handleSelectPost,
     setIsUpdatePost,
-  } = useCrudPost(updateSinglePost);
+    setIsDeletePost,
+  } = useCrudPost(updateSinglePost, removeDeletedPost);
 
   const handleGetUserById = async () => {
     try {
@@ -155,12 +157,19 @@ const MyProfile = () => {
     }
   }, [isUpdateProfile]);
 
-  useEffect(() => {
-    if (isUpdatePost) {
-      postByUserId();
-      setIsUpdatePost(false);
-    }
-  }, [isUpdatePost]);
+  // useEffect(() => {
+  //   if (isUpdatePost) {
+  //     postByUserId();
+  //     setIsUpdatePost(false);
+  //   }
+  // }, [isUpdatePost]);
+
+  // useEffect(() => {
+  //   if (isDeletePost) {
+  //     postByUserId();
+  //     setIsDeletePost(false);
+  //   }
+  // }, [isDeletePost]);
 
   useEffect(() => {
     postByUserId();

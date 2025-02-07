@@ -49,6 +49,10 @@ const usePostByUserId = (id) => {
     );
   };
 
+  const removeDeletedPost = (deletedPostId) => {
+    setMyPost((prev) => prev.filter((post) => post.id !== deletedPostId));
+  };
+
   const handleScrollMyPost = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop >=
@@ -72,6 +76,7 @@ const usePostByUserId = (id) => {
     hasMoreMyPost,
     totalPost,
     updateSinglePost,
+    removeDeletedPost,
   };
 };
 
