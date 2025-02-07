@@ -216,6 +216,7 @@ const useStory = () => {
     handleGetAllStories,
     allStoriesPage,
     setAllStoriesPage,
+    setAllStories,
   };
 };
 

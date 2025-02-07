@@ -49,6 +49,7 @@ const Home = () => {
     closeModalFormStory,
     handleCreateStory,
     allStories,
+    setAllStories,
     handleGetAllStories,
     allStoriesPage,
     setAllStoriesPage,
@@ -95,6 +96,7 @@ const Home = () => {
       <Story
         auth={auth}
         allStories={allStories}
+        setAllStories={setAllStories}
         myStory={myStory}
         myFollowingStories={myFollowingStories}
         formStory={formStory}
