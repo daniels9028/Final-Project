@@ -3,14 +3,20 @@ import { FaPlus } from "react-icons/fa";
 import DetailStory from "./DetailStory";
 import ModalFormStory from "./ModalFormStory";
 import { alternativeImageUrlPost } from "../assets";
+import { PauseCircle, PlayCircle } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getStoryById, getStoryViewsByStoryId } from "../services/Story";
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import {
+  deleteStory,
+  getStoryById,
+  getStoryViewsByStoryId,
+} from "../services/Story";
 
 const Story = ({
   auth,
   allStories,
+  setAllStories,
   myStory,
   myFollowingStories,
   formStory,
@@ -35,6 +41,7 @@ const Story = ({
           <div className="flex flex-row items-center w-full">
             <CarouselContainer
               slides={allStories}
+              setStories={setAllStories}
               user={user}
               openModalFormStory={openModalFormStory}
               setAllStoriesPage={setAllStoriesPage}
@@ -63,6 +70,7 @@ const Story = ({
 
 const CarouselContainer = ({
   slides,
+  setStories,
   user,
   openModalFormStory,
   setAllStoriesPage,
@@ -154,6 +162,8 @@ const CarouselContainer = ({
         {showStory && (
           <StoryViewer
             stories={slides}
+            user={user}
+            setStories={setStories}
             selectedStoryId={selectedStoryId}
             onClose={() => setShowStory(false)}
           />
@@ -172,7 +182,13 @@ const CarouselContainer = ({
   );
 };
 
-const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
+const StoryViewer = ({
+  stories,
+  selectedStoryId,
+  onClose,
+  setStories,
+  user,
+}) => {
   const initialIndex = stories.findIndex(
     (story) => story.id === selectedStoryId
   );
@@ -180,29 +196,58 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
     initialIndex !== -1 ? initialIndex : 0
   );
 
+  const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [intervalId, setIntervalId] = useState(null);
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const [storyInfo, setStoryInfo] = useState([]);
   const [storyViews, setStoryViews] = useState([]);
 
-  useEffect(() => {
+  const startProgress = () => {
     setProgress(0);
 
-    const interval = setInterval(() => {
+    const newIntervalId = setInterval(() => {
       setProgress((prev) => prev + 1);
-    }, 30); // Update progress every 30ms
+    }, 30);
 
-    const timer = setTimeout(() => {
+    const newTimeoutId = setTimeout(() => {
       if (currentIndex < stories.length - 1) {
         setCurrentIndex((prev) => prev + 1);
       } else {
         onClose();
       }
-    }, 5000); // Auto-next story in 3 seconds
+    }, 3000);
+
+    setIntervalId(newIntervalId);
+    setTimeoutId(newTimeoutId);
+  };
+
+  const pauseProgress = () => {
+    clearInterval(intervalId);
+    clearTimeout(timeoutId);
+  };
+
+  const handleImageClick = () => {
+    console.log(isPaused);
+    setIsPaused((prev) => {
+      if (prev) {
+        startProgress(); // Resume progress
+      } else {
+        pauseProgress(); // Pause progress
+      }
+      return !prev;
+    });
+  };
+
+  useEffect(() => {
+    if (!isPaused) {
+      startProgress();
+    }
 
     return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
     };
   }, [currentIndex, onClose]);
 
@@ -226,6 +271,26 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
     }
   };
 
+  const handleDeleteStory = async (storyId) => {
+    try {
+      await deleteStory(storyId); // API call to delete story
+
+      // Remove deleted story from state
+      setStories((prevStories) =>
+        prevStories.filter((story) => story.id !== storyId)
+      );
+
+      // If the deleted story was open, close the viewer or move to next
+      if (stories.length === 1) {
+        onClose();
+      } else {
+        setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
+      }
+    } catch (error) {
+      console.error("Failed to delete story", error);
+    }
+  };
+
   // LOAD STORY VIEW AND GET STORY BY ID
   useEffect(() => {
     handleGetStoryById(stories[currentIndex].id);
@@ -234,6 +299,12 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+      <button
+        className="absolute text-xl text-white top-6 right-6"
+        onClick={onClose}
+      >
+        ✖
+      </button>
       <div className="relative w-[400px] h-screen flex items-center justify-center">
         {/* Progress Bar */}
         <div className="absolute flex space-x-1 top-2 left-2 right-2">
@@ -255,7 +326,7 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
         </div>
 
         {/* Story Image */}
-        <div className="flex flex-col justify-center">
+        <div className="flex relative flex-col justify-center">
           <motion.img
             key={storyInfo?.id}
             src={storyInfo?.imageUrl || alternativeImageUrlPost}
@@ -266,10 +337,30 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
+            onClick={handleImageClick}
           />
 
+          <AnimatePresence>
+            {isPaused && (
+              <motion.div
+                className="absolute flex items-center justify-center bg-black bg-opacity-40 rounded-full"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  top: "40%",
+                  left: "40%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <PauseCircle size={60} className="text-white opacity-80" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div className="flex flex-row items-center justify-between mt-2">
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row items-center justify-between gap-2">
               <div className="flex flex-row items-center gap-1">
                 {storyViews.map((storyView, index) => (
                   <img
@@ -307,12 +398,14 @@ const StoryViewer = ({ stories, selectedStoryId, onClose }) => {
         </button>
 
         {/* Close Button */}
-        <button
-          className="absolute text-xl text-white top-6 right-2"
-          onClick={onClose}
-        >
-          ✖
-        </button>
+        {stories[currentIndex].user.id === user.id && (
+          <button
+            className="absolute top-6 right-6 text-white bg-red-500 rounded-full p-1"
+            onClick={() => handleDeleteStory(stories[currentIndex].id)}
+          >
+            <Trash2 size={20} />
+          </button>
+        )}
       </div>
     </div>
   );
