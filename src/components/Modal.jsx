@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ isOpen, onClose, children, title }) => {
+const Modal = ({ isOpen, onClose, children, title, onScroll }) => {
   if (!isOpen) return null;
 
   return (
@@ -11,7 +11,10 @@ const Modal = ({ isOpen, onClose, children, title }) => {
         </button>
       </div>
       <div className="w-full max-w-lg mx-4 overflow-hidden bg-gray-100 shadow-lg rounded-xl sm:mx-auto">
-        <div className="p-4 overflow-y-auto max-h-96 no-scrollbar">
+        <div
+          className="p-4 overflow-y-auto max-h-96 no-scrollbar"
+          onScroll={onScroll}
+        >
           {children}
         </div>
       </div>

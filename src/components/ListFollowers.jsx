@@ -5,8 +5,6 @@ import { profileBlank } from "../assets";
 const ListFollowers = ({ follower, handleNavigate, id }) => {
   const { auth } = useAuth();
 
-  console.log(follower);
-
   return (
     <div
       key={follower.id}
