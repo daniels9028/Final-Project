@@ -55,6 +55,7 @@ const MyProfile = () => {
     loadingMyPost,
     hasMoreMyPost,
     totalPost,
+    updateSinglePost,
   } = usePostByUserId(id);
 
   const {
@@ -120,7 +121,7 @@ const MyProfile = () => {
     selectedPost,
     handleSelectPost,
     setIsUpdatePost,
-  } = useCrudPost();
+  } = useCrudPost(updateSinglePost);
 
   const handleGetUserById = async () => {
     try {
