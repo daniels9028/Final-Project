@@ -40,14 +40,6 @@ const MyProfile = () => {
   const { handleNavigate } = useNavigateUser();
 
   const {
-    handleFollow,
-    handleUnFollow,
-    follow,
-    handleGetAllFollowing,
-    isFollowing,
-  } = useFollow(id);
-
-  const {
     myPost,
     myPostPage,
     postByUserId,
@@ -88,6 +80,7 @@ const MyProfile = () => {
     following,
     followingPage,
     handleScroll,
+    refreshFollowing,
   } = useFollowing(id);
 
   const {
@@ -126,6 +119,14 @@ const MyProfile = () => {
     selectedPost,
     handleSelectPost,
   } = useCrudPost(updateSinglePost, removeDeletedPost);
+
+  const {
+    handleFollow,
+    handleUnFollow,
+    follow,
+    handleGetAllFollowing,
+    isFollowing,
+  } = useFollow(id, refreshFollowing);
 
   const handleGetUserById = async () => {
     try {
