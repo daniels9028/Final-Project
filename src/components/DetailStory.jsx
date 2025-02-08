@@ -17,7 +17,7 @@ const DetailStory = ({ stories }) => {
             className="object-cover w-full h-full"
           />
         </div>
-        <p className="text-sm tracking-wider text-black">{user.username}</p>
+        <p className="text-sm tracking-wider text-black">{user?.username}</p>
       </div>
     </>
   );

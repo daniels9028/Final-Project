@@ -128,6 +128,8 @@ const useStory = () => {
         closeModalFormStory();
       }, 1000);
 
+      handleGetAllStories(true);
+
       setFormStory({ caption: "", file: null });
       setIsFormStory(true);
     } catch (error) {
@@ -173,23 +175,40 @@ const useStory = () => {
     }
   };
 
-  const handleGetAllStories = async () => {
+  const handleGetAllStories = async (resetPage = false) => {
     try {
+      if (resetPage) {
+        setAllStories([]); // Clear old stories
+        setAllStoriesPage({ currentPage: 1 }); // Reset page to 1
+      }
+
       const { data: myStories } = await getMyStories({
         size: 10,
-        page: allStoriesPage.currentPage,
+        page: resetPage ? 1 : allStoriesPage.currentPage,
       });
 
       const { data: myFollowingStories } = await getMyFollowingStories({
         size: 10,
-        page: allStoriesPage.currentPage,
+        page: resetPage ? 1 : allStoriesPage.currentPage,
       });
 
-      setAllStories((prev) => [
-        ...prev,
-        ...myStories.stories,
-        ...myFollowingStories.stories,
-      ]);
+      setAllStories((prev) => {
+        const combinedStories = [
+          ...(resetPage ? [] : prev), // Clear old stories if resetting
+          ...myStories.stories,
+          ...myFollowingStories.stories,
+        ];
+
+        // ✅ Remove duplicate stories by ID
+        const uniqueStories = combinedStories.reduce((acc, current) => {
+          if (!acc.some((story) => story.id === current.id)) {
+            acc.push(current);
+          }
+          return acc;
+        }, []);
+
+        return uniqueStories;
+      });
     } catch (error) {
       console.log(error);
     }
