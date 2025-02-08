@@ -69,7 +69,7 @@ const Home = () => {
 
   useEffect(() => {
     if (isFormStory) {
-      // handleGetMyStories();
+      handleGetAllStories();
     }
   }, [isFormStory]);
 
